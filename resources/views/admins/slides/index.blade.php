@@ -81,7 +81,10 @@
                     dataType: "JSON",
                     url: "{{ route('slide.updateStatus') }}",
                     success: function(data) {
-                        console.log(data.success)
+                        alert(data.success)
+                    },
+                    error: function(data) {
+                        alert(data.error)
                     }
                 })
             })

@@ -157,5 +157,9 @@ class SlideController extends Controller
         $slide = $this->slideRepository->findById($request->id);
         $slide->status = $request->status;
         $slide->save();
+
+        return response()->json([
+            'success' => 'Update status thành công'
+        ]);
     }
 }
