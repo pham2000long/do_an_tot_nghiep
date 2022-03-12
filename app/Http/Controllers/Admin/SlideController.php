@@ -134,7 +134,6 @@ class SlideController extends Controller
             ]);
         } catch (\Exception $exception) {
             \Log::error($exception);
-            dd($exception);
             return back()->with('error', 'Đã xảy ra lỗi hệ thống không sửa slide');
         }
 
