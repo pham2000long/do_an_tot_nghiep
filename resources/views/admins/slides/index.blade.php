@@ -43,7 +43,7 @@
                             <div class="table-action-buttons">
                                 {{-- <a class="view button button-box button-xs button-primary" href="invoice-details.html"><i class="zmdi zmdi-more"></i></a> --}}
                                 <a class="edit button button-box button-xs button-info" href="{{ route('slides.edit', $slide->id) }}"><i class="zmdi zmdi-edit"></i></a>
-                                <button data-id="{{ $slide->id }}" class="delete button button-box button-xs button-danger sweetalert sweetalert-basic"><i class="zmdi zmdi-delete"></i></button>
+                                <button data-url="{{ route('slides.destroy', $slide->id) }}" class="delete button button-box button-xs button-danger sweetalert sweetalert-basic"><i class="zmdi zmdi-delete"></i></button>
                             </div>
                         </td>
                     </tr>
