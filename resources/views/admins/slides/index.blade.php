@@ -43,7 +43,7 @@
                             <div class="table-action-buttons">
                                 {{-- <a class="view button button-box button-xs button-primary" href="invoice-details.html"><i class="zmdi zmdi-more"></i></a> --}}
                                 <a class="edit button button-box button-xs button-info" href="{{ route('slides.edit', $slide->id) }}"><i class="zmdi zmdi-edit"></i></a>
-                                <button data-url="{{ route('slides.destroy', $slide->id) }}" class="delete button button-box button-xs button-danger sweetalert sweetalert-basic"><i class="zmdi zmdi-delete"></i></button>
+                                <button data-url="{{ route('slides.destroy', $slide->id) }}" class="delete button button-box button-xs button-danger sweetalert sweetalert-delete"><i class="zmdi zmdi-delete"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -58,6 +58,7 @@
 <!-- Plugins & Activation JS For Only This Page -->
 <script src="{{ asset('backend/assets/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('backend/assets/js/plugins/sweetalert/sweetalert.active.js') }}"></script>
+<script src="{{ asset('backend/admin/main.js') }}"></script>
     <script>
         $(document).ready(function() {
             $("#slide_table").DataTable();
@@ -89,39 +90,5 @@
                 })
             })
         })
-    </script>
-    <script>
-        $('.sweetalert-basic').on('click', function(){
-            swal({
-                title: "Bạn có chắc muốn xóa?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    var slide_id = $(this).data('id');
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        type: "DELETE",
-                        dataType: "JSON",
-                        url: "{{ route('slides.index')}}/" + slide_id,
-                        success: function(data) {
-                            console.log(data.success)
-                        }
-                    });
-                    swal("Bạn đã xóa slide thành công!", {
-                        icon: "success",
-                    });
-                    location.reload();
-                } else {
-                    swal("Slide của bạn vẫn được an toàn");
-                }
-            });
-        });
     </script>
 @endsection

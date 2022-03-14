@@ -53,39 +53,5 @@
 <script src="{{ asset('backend/assets/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('backend/assets/js/plugins/sweetalert/sweetalert.active.js') }}"></script>
 <script src="{{ asset('backend/admin/main.js') }}"></script>
-    <script>
-        $('.sweetalert-basic').on('click', function(){
-            swal({
-                title: "Bạn có chắc muốn xóa?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    var productType_id = $(this).data('id');
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        type: "DELETE",
-                        dataType: "JSON",
-                        url: "{{ route('productTypes.index')}}/" + productType_id,
-                        success: function(data) {
-                            console.log(data.success)
-                        }
-                    });
-                    swal("Bạn đã xóa ProductType thành công!", {
-                        icon: "success",
-                    });
-                    location.reload();
-                } else {
-                    swal("ProductType của bạn vẫn được an toàn");
-                }
-            });
-        });
-    </script>
 @endsection
 
