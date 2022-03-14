@@ -35,7 +35,7 @@
                             <div class="table-action-buttons">
                                 {{-- <a class="view button button-box button-xs button-primary" href="invoice-details.html"><i class="zmdi zmdi-more"></i></a> --}}
                                 <a class="edit button button-box button-xs button-info" href="{{ route('categories.edit', $category->id) }}"><i class="zmdi zmdi-edit"></i></a>
-                                <button data-id="{{ $category->id }}" class="delete button button-box button-xs button-danger sweetalert sweetalert-basic"><i class="zmdi zmdi-delete"></i></button>
+                                <button data-url="{{ route('categories.destroy', $category->id) }}" class="delete button button-box button-xs button-danger sweetalert sweetalert-delete"><i class="zmdi zmdi-delete"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -50,39 +50,6 @@
 <!-- Plugins & Activation JS For Only This Page -->
 <script src="{{ asset('backend/assets/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('backend/assets/js/plugins/sweetalert/sweetalert.active.js') }}"></script>
-    <script>
-        $('.sweetalert-basic').on('click', function(){
-            swal({
-                title: "Bạn có chắc muốn xóa?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    var category_id = $(this).data('id');
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        type: "DELETE",
-                        dataType: "JSON",
-                        url: "{{ route('categories.index')}}/" + category_id,
-                        success: function(data) {
-                            console.log(data.success)
-                        }
-                    });
-                    swal("Bạn đã xóa category thành công!", {
-                        icon: "success",
-                    });
-                    location.reload();
-                } else {
-                    swal("category của bạn vẫn được an toàn");
-                }
-            });
-        });
-    </script>
+<script src="{{ asset('backend/admin/main.js') }}"></script>
 @endsection
 
