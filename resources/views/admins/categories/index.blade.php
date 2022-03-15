@@ -10,15 +10,15 @@
             <div class="card-header">
                 <a href="{{ route('categories.create') }}" class="btn btn-primary">Thêm mới</a>
             </div>
-            <table class="table table-bordered mb-0" id="category_table">
+            <table class="table table-bordered mb-0" id="data_table">
 
                 <!-- Table Head Start -->
                 <thead>
                     <tr>
                         <th>#STT</th>
-                        <th>Loại nội thất</th>
-                        <th>Tên danh mục</th>
+                        <th>Tên</th>
                         <th>Mô tả</th>
+                        <th>Icon</th>
                         <th>Hành động</th>
                     </tr>
                 </thead><!-- Table Head End -->
@@ -28,9 +28,11 @@
                     @foreach ($categories as $key => $category)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $category->productType->name }}</td>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->description }}</td>
+                        <td>
+                            <i class="{{ $category->icon }}" style="font-size:150px;"></i>
+                        </td>
                         <td>
                             <div class="table-action-buttons">
                                 {{-- <a class="view button button-box button-xs button-primary" href="invoice-details.html"><i class="zmdi zmdi-more"></i></a> --}}

@@ -16,9 +16,9 @@ class ProductType extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'category_id',
         'name',
-        'description',
-        'icon'
+        'description'
     ];
 
     /**
@@ -33,12 +33,12 @@ class ProductType extends Model
     ];
 
     /**
-     * Relationship hasMany with Categories
+     * Relationship belongsTo with Categories
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
      */
-    public function categories()
+    public function category()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsTo(Category::class);
     }
 }

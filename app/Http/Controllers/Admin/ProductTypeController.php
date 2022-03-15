@@ -5,16 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductTypeCreateRequest;
 use App\Http\Requests\Admin\ProductTypeUpdateRequest;
+use App\Repositories\CategoryContract;
 use App\Repositories\ProductTypeContract;
 use Illuminate\Http\Request;
 
 class ProductTypeController extends Controller
 {
     protected $productTypeRepository;
+    protected $categoryRepository;
 
-    public function __construct(ProductTypeContract $productTypeRepository)
-    {
+    public function __construct(
+        ProductTypeContract $productTypeRepository,
+        CategoryContract $categoryRepository
+    ) {
         $this->productTypeRepository = $productTypeRepository;
+        $this->categoryRepository = $categoryRepository;
     }
     /**
      * Display a listing of the resource.
@@ -25,7 +30,7 @@ class ProductTypeController extends Controller
     {
         $productTypes = $this->productTypeRepository->all();
         return view('admins.product_types.index', [
-            'title' => 'Product Type'
+            'title' => 'Loại sản phẩm'
         ], compact('productTypes'));
     }
 
@@ -36,8 +41,9 @@ class ProductTypeController extends Controller
      */
     public function create()
     {
-        return view('admins.product_types.create', [
-            'title' => 'Product Type'
+        $categories = $this->categoryRepository->all();
+        return view('admins.product_types.create', compact('categories'), [
+            'title' => 'Loại sản phẩm'
         ]);
     }
 
@@ -53,10 +59,10 @@ class ProductTypeController extends Controller
             $this->productTypeRepository->create($request->validated());
         } catch (\Exception $exception) {
             \Log::error($exception);
-            return redirect()->route('productTypes.create')->with('error', 'Đã xảy ra lỗi hệ thống không thể tạo Product type');
+            return redirect()->route('productTypes.create')->with('error', 'Đã xảy ra lỗi hệ thống không thể tạo loại sản phẩm');
         }
 
-        return redirect()->route('productTypes.index')->with('success', 'Thêm mới Product type thành công!');
+        return redirect()->route('productTypes.index')->with('success', 'Thêm mới loại sản phẩm thành công!');
     }
 
     /**
@@ -79,9 +85,9 @@ class ProductTypeController extends Controller
     public function edit($id)
     {
         $productType = $this->productTypeRepository->findById($id);
-
-        return view('admins.product_types.edit', compact('productType'), [
-            'title' => 'Product Type'
+        $categories = $this->categoryRepository->all();
+        return view('admins.product_types.edit', compact('productType', 'categories'), [
+            'title' => 'Loại sản phẩm'
         ]);
     }
 
@@ -98,17 +104,17 @@ class ProductTypeController extends Controller
 
         try {
             $this->productTypeRepository->update($productType, [
+                'category_id' => $request->category_id,
                 'name' => $request->name,
                 'description' => $request->description,
-                'icon' => $request->icon
             ]);
         } catch (\Exception $exception) {
             \Log::error($exception);
 
-            return back()->with('error', 'Đã xảy ra lỗi hệ thống không sửa product type');
+            return back()->with('error', 'Đã xảy ra lỗi hệ thống không sửa loại sản phẩm');
         }
 
-        return redirect()->route('productTypes.index')->with('success', 'Sửa product type thành công!');
+        return redirect()->route('productTypes.index')->with('success', 'Sửa sản phẩm thành công!');
     }
 
     /**

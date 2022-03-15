@@ -16,9 +16,9 @@ class Category extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'product_type_id',
         'name',
-        'description'
+        'description',
+        'icon'
     ];
 
     /**
@@ -33,10 +33,12 @@ class Category extends Model
     ];
 
     /**
-     * Relationship belongsTo with ProductType
+     * Relationship hasMany with ProductTypes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function productType()
+    public function productTypes()
     {
-        return $this->belongsTo(ProductType::class);
+        return $this->hasMany(ProductType::class);
     }
 }

@@ -41,9 +41,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $productTypes = $this->productTypeRepository->all();
-        return view('admins.categories.create', compact('productTypes'), [
-            'title' => 'Category'
+        return view('admins.categories.create', [
+            'title' => 'Danh mục'
         ]);
     }
 
@@ -85,10 +84,9 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = $this->categoryRepository->findById($id);
-        $productTypes = $this->productTypeRepository->all();
 
-        return view('admins.categories.edit', compact('category', 'productTypes'), [
-            'title' => 'Category'
+        return view('admins.categories.edit', compact('category'), [
+            'title' => 'Danh mục'
         ]);
     }
 
@@ -105,9 +103,9 @@ class CategoryController extends Controller
 
         try {
             $this->categoryRepository->update($category, [
-                'product_type_id' => $request->product_type_id,
                 'name' => $request->name,
-                'description' => $request->description
+                'description' => $request->description,
+                'icon' => $request->icon
             ]);
         } catch (\Exception $exception) {
             \Log::error($exception);
@@ -125,6 +123,17 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->categoryRepository->destroy($id);
+
+        $producTypes = $this->productTypeRepository->findByCategoryId($id);
+        if (!empty($producTypes)) {
+            return redirect()->route('categories.index')->with('error', 'Không thể xóa danh mục vì còn tồn tại loại sản phẩm thuộc danh mục!');
+        }
+
+        try {
+            $this->categoryRepository->destroy($id);
+        } catch (\Exception $exception) {
+            \Log::error($exception);
+            return back()->with('error', 'Đã xảy ra lỗi hệ thống không thể xóa danh mục');
+        }
     }
 }

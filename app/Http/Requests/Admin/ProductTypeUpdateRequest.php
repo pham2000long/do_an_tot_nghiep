@@ -24,9 +24,9 @@ class ProductTypeUpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'category_id' => 'required',
             'name' => 'required',
             'description' => 'nullable',
-            'icon' => 'required',
         ];
     }
 }

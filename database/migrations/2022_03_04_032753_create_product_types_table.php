@@ -15,9 +15,10 @@ class CreateProductTypesTable extends Migration
     {
         Schema::create('product_types', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('category_id');
+            $table->foreign('category_id', 'FK_product_types_1')->references('id')->on('categories');
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('icon');
+            $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
