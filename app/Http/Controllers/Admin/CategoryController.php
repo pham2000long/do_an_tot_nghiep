@@ -123,7 +123,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-
         $producTypes = $this->productTypeRepository->findByCategoryId($id);
         if (!empty($producTypes)) {
             return redirect()->route('categories.index')->with('error', 'Không thể xóa danh mục vì còn tồn tại loại sản phẩm thuộc danh mục!');

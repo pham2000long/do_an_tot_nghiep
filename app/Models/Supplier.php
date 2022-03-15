@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Supplier extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,9 +17,9 @@ class Category extends Model
      */
     protected $fillable = [
         'name',
-        'description',
-        'icon',
-        'status',
+        'address',
+        'phone',
+        'email',
     ];
 
     /**
@@ -32,14 +32,4 @@ class Category extends Model
         'updated_at',
         'deleted_at',
     ];
-
-    /**
-     * Relationship hasMany with ProductTypes
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function productTypes()
-    {
-        return $this->hasMany(ProductType::class);
-    }
 }
