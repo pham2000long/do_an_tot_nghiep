@@ -24,6 +24,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/slides/updateStatus', [Admin\SlideController::class, 'updateStatus'])->name('slide.updateStatus');
         Route::resource('productTypes', Admin\ProductTypeController::class);
         Route::resource('categories', Admin\CategoryController::class);
+        Route::resource('suppliers', Admin\SupplierController::class);
     });
 });
 

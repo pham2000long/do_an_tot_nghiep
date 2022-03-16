@@ -30,7 +30,7 @@ class CategoryController extends Controller
     {
         $categories = $this->categoryRepository->all();
         return view('admins.categories.index', [
-            'title' => 'Category'
+            'title' => 'Danh mục'
         ], compact('categories'));
     }
 

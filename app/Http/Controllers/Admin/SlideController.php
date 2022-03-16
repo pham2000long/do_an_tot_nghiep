@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 class SlideController extends Controller
 {
     protected $slideRepository;
-    protected $userRepository;
 
     public function __construct(SlideContract $slideRepository)
     {

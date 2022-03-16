@@ -16,7 +16,7 @@
                 <li><a href="{{ route('slides.index') }}"><i class="fa fa-file-image-o"></i> <span>Slides</span></a></li>
                 <li><a href="{{ route('categories.index') }}"><i class="zmdi zmdi-assignment"></i> <span>Danh mục sản phẩm</span></a></li>
                 <li><a href="{{ route('productTypes.index') }}"><i class="ti-package"></i> <span>Loại sản phẩm</span></a></li>
-                <li><a href="{{ route('productTypes.index') }}"><i class="ti-truck"></i> <span>Nhà cung cấp</span></a></li>
+                <li><a href="{{ route('suppliers.index') }}"><i class="ti-truck"></i> <span>Nhà cung cấp</span></a></li>
                 <li class="has-sub-menu"><a href="#"><i class="ti-home"></i> <span>Dashboard</span></a>
                     <ul class="side-header-sub-menu">
                         <li><a href="index.html"><span>E-commerce (Default)</span></a></li>
