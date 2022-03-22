@@ -33,12 +33,22 @@ class ProductType extends Model
     ];
 
     /**
-     * Relationship belongsTo with Categories
+     * Relationship belongsTo with Category
      *
      * @return \Illuminate\Database\Eloquent\Relations\belongsTo
      */
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Relationship hasMany with Products
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 }

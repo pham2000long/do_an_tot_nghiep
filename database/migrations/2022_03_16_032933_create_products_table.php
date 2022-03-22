@@ -21,8 +21,17 @@ class CreateProductsTable extends Migration
             $table->foreign('product_type_id', 'FK_products_2')->references('id')->on('product_types');
             $table->unsignedInteger('supplier_id');
             $table->foreign('supplier_id', 'FK_products_3')->references('id')->on('suppliers');
-
+            $table->string('name');
+            $table->string('feture_image_path')->nullable();
+            $table->string('sku_code');
+            $table->string('slug')->nullable();
+            $table->string('size')->nullable();
+            $table->text('description')->nullable();
+            $table->string('insurance')->nullable();
+            $table->string('transport')->nullable();
+            $table->double('rate')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

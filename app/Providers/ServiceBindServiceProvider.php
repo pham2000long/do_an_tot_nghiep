@@ -61,5 +61,10 @@ class ServiceBindServiceProvider extends ServiceProvider
             \App\Repositories\SupplierContract::class,
             \App\Repositories\SupplierRepository::class
         );
+
+        $this->app->singleton(
+            \App\Repositories\ProductContract::class,
+            \App\Repositories\ProductRepository::class
+        );
     }
 }

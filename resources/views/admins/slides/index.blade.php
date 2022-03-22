@@ -7,8 +7,7 @@
             <div class="card-header">
                 <a href="{{ route('slides.create') }}" class="btn btn-primary">Thêm mới</a>
             </div>
-            <table class="table table-bordered mb-0" id="slider_table">
-
+            <table class="table table-bordered mb-0" id="data_table">
                 <!-- Table Head Start -->
                 <thead>
                     <tr>
@@ -49,8 +48,10 @@
                     </tr>
                     @endforeach
                 </tbody><!-- Table Body End -->
-
             </table>
+            <div class="card-footer">
+               {!! $slides->links() !!}
+            </div>
         </div>
     </div><!-- Invoice List End -->
 @endsection
@@ -59,37 +60,5 @@
 <script src="{{ asset('backend/assets/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('backend/assets/js/plugins/sweetalert/sweetalert.active.js') }}"></script>
 <script src="{{ asset('backend/admin/main.js') }}"></script>
-{{-- <script>
-    $(document).ready(function() {
-        $("#data_table").DataTable();
-    });
-
-    $(function() {
-        $('.switch-status').change(function() {
-            var status = $(this).prop('checked') == true ? 1 : 0;
-            var slide_id = $(this).data('id');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: "POST",
-                data: {
-                    'id': slide_id,
-                    'status': status
-                },
-                dataType: "JSON",
-                url: "{{ route('slide.updateStatus') }}",
-                success: function(data) {
-                    alert(data.success)
-                },
-                error: function(data) {
-                    alert(data.error)
-                }
-            })
-        })
-    });
-</script> --}}
 <script src="{{ asset('backend/admin/changeStatus.js') }}"></script>
 @endsection

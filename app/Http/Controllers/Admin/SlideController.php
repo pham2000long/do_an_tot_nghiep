@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SlideCreateRequest;
+use App\Http\Requests\Admin\SlideIndexRequest;
 use App\Http\Requests\Admin\SlideUpdateRequest;
 use App\Models\Slide;
 use App\Repositories\SlideContract;
@@ -23,9 +24,11 @@ class SlideController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(SlideIndexRequest $request)
     {
-        $slides = $this->slideRepository->all();
+        // $slides = $this->slideRepository->paginateSlides($request->all());
+        $slides = Slide::latest()->paginate(5);
+        // dd($slides);
         return view('admins.slides.index', [
             'title' => 'Slide'
         ], compact('slides'));

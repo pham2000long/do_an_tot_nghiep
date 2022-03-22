@@ -4,10 +4,10 @@
     Version: 1.0
 
 -----------------------------------------------------------------------------------
-    
+
     CSS INDEX
     ===================
-	
+
     01. Template default CSS
     02. Elements CSS
         Baisc ---------
@@ -7180,7 +7180,7 @@ table.data-table.collapsed tbody tr.child td.child ul li .dtr-title {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 1099;
+  z-index: 3;
   -webkit-box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.1);
           box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.1);
 }
@@ -9050,7 +9050,7 @@ body.header-top-green .header-notification-area > li > a .user .name {
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
-  z-index: 1100;
+  z-index: 2;
   padding: 30px 0;
   -webkit-box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
           box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
@@ -14501,7 +14501,8 @@ body.skin-dark .cus-radio.light .icon::before {
     padding-right: 0 !important;
   }
   [dir="rtl"] .header-notification-area > li:last-child {
-    padding-left: 0 !important;
+    padding-left: 0
+ !important;
     padding-right: 10px !important;
   }
 }

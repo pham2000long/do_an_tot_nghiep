@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Category;
-use App\Models\ProductType;
 
 class CategoryRepository extends BaseRepository implements CategoryContract
 {

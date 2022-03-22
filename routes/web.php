@@ -25,6 +25,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('productTypes', Admin\ProductTypeController::class);
         Route::resource('categories', Admin\CategoryController::class);
         Route::resource('suppliers', Admin\SupplierController::class);
+        Route::prefix('products')->group(function() {
+            Route::get('/', [Admin\ProductController::class, 'index'])->name('products.index');
+            Route::get('/create', [Admin\ProductController::class, 'create'])->name('products.create');
+            Route::post('/store', [Admin\ProductController::class, 'store'])->name('products.store');
+        });
     });
 });
 
