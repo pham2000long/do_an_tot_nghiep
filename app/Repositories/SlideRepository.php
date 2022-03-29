@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Slide;
 
-class SlideRepostitory extends BaseRepository implements SlideContract
+class SlideRepository extends BaseRepository implements SlideContract
 {
     protected $model;
 

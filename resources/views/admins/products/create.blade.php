@@ -40,7 +40,8 @@
                 </div>
                 <!--Default Uploader End-->
                 <div class="col-12 mb-30">
-                    <textarea name="description" class="form-control @error('description') border border-danger @enderror" placeholder="Product Description*"></textarea>
+                    <h6 class="mb-15">Mô tả</h6>
+                    <textarea name="description" class="summernote form-control @error('description') border border-danger @enderror" placeholder="Product Description*"></textarea>
                     @error('description')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -86,6 +87,10 @@
     <script src="{{ asset('backend/upload_file/js/locales/es.js') }}" type="text/javascript"></script>
     <script src="{{ asset('backend/upload_file/themes/fas/theme.js') }}" type="text/javascript"></script>
     <script src="{{ asset('backend/upload_file/themes/explorer-fas/theme.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('backend/assets/js/plugins/summernote/summernote-bs4.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/summernote/summernote.active.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/quill/quill.active.js') }}"></script>
     <script type="text/javascript">
         $("#file-0a").fileinput({
             required: true,
