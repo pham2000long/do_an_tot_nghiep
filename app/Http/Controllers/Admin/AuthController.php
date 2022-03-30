@@ -39,8 +39,6 @@ class AuthController extends Controller
 
     public function logout(){
         Auth::logout();
-        return view('admins.login', [
-            'title' => 'Đăng nhập hệ thống'
-        ]);
+        return redirect()->route('auth.login.index');
     }
 }

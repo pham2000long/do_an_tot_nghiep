@@ -7,16 +7,16 @@ use App\Http\Requests\Admin\SlideCreateRequest;
 use App\Http\Requests\Admin\SlideIndexRequest;
 use App\Http\Requests\Admin\SlideUpdateRequest;
 use App\Models\Slide;
-use App\Repositories\SlideContract;
+use App\Services\SlideServiceInterface;
 use Illuminate\Http\Request;
 
 class SlideController extends Controller
 {
-    protected $slideRepository;
+    protected $slideService;
 
-    public function __construct(SlideContract $slideRepository)
+    public function __construct(SlideServiceInterface $slideService)
     {
-        $this->slideRepository = $slideRepository;
+        $this->slideService = $slideService;
     }
 
     /**
@@ -26,9 +26,8 @@ class SlideController extends Controller
      */
     public function index(SlideIndexRequest $request)
     {
-        // $slides = $this->slideRepository->paginateSlides($request->all());
-        $slides = Slide::latest()->paginate(5);
-        // dd($slides);
+        $slides = $this->slideService->paginateSlides($request->all());
+
         return view('admins.slides.index', [
             'title' => 'Slide'
         ], compact('slides'));
@@ -54,40 +53,10 @@ class SlideController extends Controller
      */
     public function store(SlideCreateRequest $request)
     {
-        if ($request->hasFile('image')) {
-            $completeFileName = $request->file('image')->getClientOriginalName();
-            $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $compPic = str_replace(' ', '_', $fileNameOnly).'-'. rand() .'_'.time().'.'.$extension;
-            $path = $request->file('image')->storeAs('public/uploads/slides', $compPic);
-            $image = $compPic;
-        }
+        $success = $this->slideService->create($request);
 
-        try {
-            $this->slideRepository->create([
-                'name' => $request->name,
-                'link' => $request->link,
-                'image' => $image,
-                'description' => $request->description,
-                'status' => $request->status
-            ]);
-        } catch (\Exception $exception) {
-            \Log::error($exception);
-            return redirect()->route('slides.create')->with('error', 'Đã xảy ra lỗi hệ thống không thể tạo slide');
-        }
-
-        return redirect()->route('slides.index')->with('success', 'Thêm mới slide thành công!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return $success ? redirect()->route('slides.index')->with('success', 'Thêm mới slide thành công!')
+            : redirect()->route('slides.create')->with('error', 'Đã xảy ra lỗi hệ thống không thể tạo slide');
     }
 
     /**
@@ -98,8 +67,11 @@ class SlideController extends Controller
      */
     public function edit($id)
     {
-        $slide = $this->slideRepository->findById($id);
+        $slide = $this->slideService->findSlideById($id);
 
+        if (!$slide) {
+            return back()->with('error', 'Không tồn tại slide');
+        }
         return view('admins.slides.edit', compact('slide'), [
             'title' => 'Slide'
         ]);
@@ -114,32 +86,9 @@ class SlideController extends Controller
      */
     public function update(SlideUpdateRequest $request, $id)
     {
-
-        $slide = $this->slideRepository->findById($id);
-
-        if ($request->hasFile('image')) {
-            $completeFileName = $request->file('image')->getClientOriginalName();
-            $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $compPic = str_replace(' ', '_', $fileNameOnly).'-'. rand() .'_'.time().'.'.$extension;
-            $path = $request->file('image')->storeAs('public/uploads/slides', $compPic);
-            $image = $compPic;
-        }
-
-        try {
-            $this->slideRepository->update($slide, [
-                'name' => $request->name,
-                'link' => $request->link,
-                'image' => isset($image) ? $image : $slide->image,
-                'description' => $request->description,
-                'status' => $request->status
-            ]);
-        } catch (\Exception $exception) {
-            \Log::error($exception);
-            return back()->with('error', 'Đã xảy ra lỗi hệ thống không sửa slide');
-        }
-
-        return redirect()->route('slides.index')->with('success', 'Sửa slide thành công!');
+        list($message, $success) = $this->slideService->update($request, $id);
+        return $success ? redirect()->route('slides.index')->with('success', $message)
+            : back()->with('error', $message);
     }
 
     /**
@@ -150,7 +99,10 @@ class SlideController extends Controller
      */
     public function destroy($id)
     {
-        $this->slideRepository->destroy($id);
+        list($message, $success) = $this->slideService->delete($id);
+
+        return $success ? redirect()->route('slides.index')->with('success', $message)
+            : back()->with('error', $message);
     }
 
     public function updateStatus(Request $request)

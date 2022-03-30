@@ -26,7 +26,7 @@ class SlideUpdateRequest extends FormRequest
         return [
             'name' => 'required',
             'link' => 'required',
-            'image' => 'required',
+            'image' => 'nullable',
             'description' => 'nullable',
             'status' => 'required|boolean'
         ];
