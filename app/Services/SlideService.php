@@ -108,4 +108,22 @@ class SlideService implements SlideServiceInterface
 
         return ['Xóa slide thành công!', true];
     }
+
+    public function updateStatus(array $params)
+    {
+        $slide = $this->slideRepository->findById($params['id']);
+
+        if (empty($slide)) {
+            return ['Slide không tồn tại!', false];
+        }
+        try {
+            $slide->status = $params['status'];
+            $slide->save();
+        } catch (\Exception $exception) {
+            \Log::error($exception);
+            return ['Đã xảy ra lỗi hệ thống không thể sửa slide', false];
+        }
+
+        return ['Sửa trạng thái thành công', true];
+    }
 }

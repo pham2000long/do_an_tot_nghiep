@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SlideCreateRequest;
 use App\Http\Requests\Admin\SlideIndexRequest;
 use App\Http\Requests\Admin\SlideUpdateRequest;
-use App\Models\Slide;
 use App\Services\SlideServiceInterface;
 use Illuminate\Http\Request;
 
@@ -107,12 +106,12 @@ class SlideController extends Controller
 
     public function updateStatus(Request $request)
     {
-        $slide = $this->slideRepository->findById($request->id);
-        $slide->status = $request->status;
-        $slide->save();
+        list($message, $success) = $this->slideService->updateStatus($request->all());
 
-        return response()->json([
-            'success' => 'Update status thành công'
+        return $success ? response()->json([
+            'success' => $message
+        ]) : response()->json([
+            'error' => $message
         ]);
     }
 }

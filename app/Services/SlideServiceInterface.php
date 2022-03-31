@@ -13,4 +13,6 @@ interface SlideServiceInterface
     public function update($request, int $id);
 
     public function delete(int $id);
+
+    public function updateStatus(array $params);
 }
