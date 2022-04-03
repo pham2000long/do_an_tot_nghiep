@@ -4,31 +4,26 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryCreateRequest;
+use App\Http\Requests\Admin\CategoryIndexRequest;
 use App\Http\Requests\Admin\CategoryUpdateRequest;
-use App\Repositories\CategoryContract;
-use App\Repositories\ProductTypeContract;
-use Illuminate\Http\Request;
+use App\Services\CategoryServiceInterface;
 
 class CategoryController extends Controller
 {
-    protected $categoryRepository;
-    protected $productTypeRepository;
+    protected $categoryService;
 
-    public function __construct(
-        CategoryContract $categoryRepository,
-        ProductTypeContract $productTypeRepository
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->productTypeRepository = $productTypeRepository;
+    public function __construct(CategoryServiceInterface $categoryService)
+    {
+        $this->categoryService = $categoryService;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CategoryIndexRequest $request)
     {
-        $categories = $this->categoryRepository->all();
+        $categories = $this->categoryService->paginateCategories($request->all());
         return view('admins.categories.index', [
             'title' => 'Danh mục'
         ], compact('categories'));
@@ -54,25 +49,10 @@ class CategoryController extends Controller
      */
     public function store(CategoryCreateRequest $request)
     {
-        try {
-            $this->categoryRepository->create($request->validated());
-        } catch (\Exception $exception) {
-            \Log::error($exception);
-            return redirect()->route('categories.create')->with('error', 'Đã xảy ra lỗi hệ thống không thể tạo danh mục');
-        }
+        list($message, $success) = $this->categoryService->create($request->all());
 
-        return redirect()->route('categories.index')->with('success', 'Thêm mới danh mục thành công!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return $success ? redirect()->route('categories.index')->with('success', $message)
+            : back()->with('error', $message);
     }
 
     /**
@@ -83,11 +63,10 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = $this->categoryRepository->findById($id);
+        list($success, $category) = $this->categoryService->findById($id);
 
-        return view('admins.categories.edit', compact('category'), [
-            'title' => 'Danh mục'
-        ]);
+        return $success ? view('admins.categories.edit', compact('category'), ['title' => 'Danh mục'])
+            : back()->with('error', 'Danh mục không tồn tại');
     }
 
     /**
@@ -99,20 +78,10 @@ class CategoryController extends Controller
      */
     public function update(CategoryUpdateRequest $request, $id)
     {
-        $category = $this->categoryRepository->findById($id);
+        list($message, $success) = $this->categoryService->update($id, $request->all());
 
-        try {
-            $this->categoryRepository->update($category, [
-                'name' => $request->name,
-                'description' => $request->description,
-                'icon' => $request->icon
-            ]);
-        } catch (\Exception $exception) {
-            \Log::error($exception);
-            return back()->with('error', 'Đã xảy ra lỗi hệ thống không sửa danh mục');
-        }
-
-        return redirect()->route('categories.index')->with('success', 'Sửa danh mục thành công!');
+        return $success ? redirect()->route('categories.index')->with('success', $message)
+            : back()->with('error', $message);
     }
 
     /**
@@ -123,16 +92,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $producTypes = $this->productTypeRepository->findByCategoryId($id);
-        if (!empty($producTypes)) {
-            return redirect()->route('categories.index')->with('error', 'Không thể xóa danh mục vì còn tồn tại loại sản phẩm thuộc danh mục!');
-        }
-
-        try {
-            $this->categoryRepository->destroy($id);
-        } catch (\Exception $exception) {
-            \Log::error($exception);
-            return back()->with('error', 'Đã xảy ra lỗi hệ thống không thể xóa danh mục');
-        }
+        list($message, $success) = $this->categoryService->delete($id);
+        return $success ? redirect()->route('categories.index')->with('success', $message)
+            : back()->with('error', $message);
     }
 }

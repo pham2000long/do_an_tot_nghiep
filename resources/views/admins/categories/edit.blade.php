@@ -8,6 +8,7 @@
         <form method="POST" action="{{ route('categories.update', $category->id) }}">
             <h4 class="title">Sửa danh mục</h4>
             @csrf
+            @method('PUT')
             <div class="row">
                 <div class="col-lg-6 col-12 mb-30">
                     <input name="name" class="form-control @error('name') border border-danger @enderror" type="text"

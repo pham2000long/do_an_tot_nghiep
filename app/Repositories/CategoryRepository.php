@@ -16,4 +16,15 @@ class CategoryRepository extends BaseRepository implements CategoryContract
     {
         $this->model = $model;
     }
+
+    public function paginateCategories(array $params)
+    {
+        $query = $this->model;
+
+        if (!empty($params['name'])) {
+            $query->where('name', 'LIKE', '%' . $params['name'] . '%');
+        }
+
+        return $query->latest()->paginate(5);
+    }
 }

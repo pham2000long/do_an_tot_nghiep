@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SupplierCreateRequest;
 use App\Http\Requests\Admin\SupplierUpdateRequest;
 use App\Repositories\SupplierContract;
-use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
