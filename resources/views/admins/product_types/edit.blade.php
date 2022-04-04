@@ -20,7 +20,7 @@
                     @enderror
                 </div>
                 <div class="col-lg-6 col-12 mb-30">
-                    <h6 class="mb-15">Loại sản phẩm</h6>
+                    <h6 class="mb-15">Tên danh mục</h6>
                     <select name="category_id" class="form-control select2 @error('category_id') border border-danger @enderror">
                         @if ($categories)
                             @foreach ($categories as $category)

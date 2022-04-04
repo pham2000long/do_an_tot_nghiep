@@ -16,8 +16,8 @@
                 <thead>
                     <tr>
                         <th>#STT</th>
-                        <th>Loại nội thất</th>
                         <th>Tên danh mục</th>
+                        <th>Loại sản phẩm</th>
                         <th>Mô tả</th>
                         <th>Hành động</th>
                     </tr>

@@ -31,7 +31,7 @@
                 <div class="col-12 mb-30">
                     <h6 class="mb-15">Image</h6>
                     <div class="file-loading">
-                        <input id="file-0a" name="images[]" class="file" type="file" multiple data-theme="fas">
+                        <input id="file-0a" name="images[]" class="file" type="file" multiple  accept="image" data-theme="fas">
                     </div>
                     {{-- <input name="imageFiles[]" class="dropify @error('image') border border-danger @enderror" type="file" name="image" multiple>
                     @error('image')
@@ -75,10 +75,6 @@
 
 @section('js')
     <!-- Plugins & Activation JS For Only This Page -->
-    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond-plugin-image-exif-orientation.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond-plugin-image-preview.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond.active.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.active.js') }}"></script>
     <script src="{{ asset('backend/upload_file/js/plugins/piexif.js') }}" type="text/javascript"></script>
