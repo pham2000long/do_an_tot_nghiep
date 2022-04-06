@@ -2,75 +2,175 @@
 
 @section('css')
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
-    <link href="{{ asset('backend/upload_file/css/fileinput.css') }}" media="all" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('backend/upload_file/themes/explorer-fas/theme.css') }}" media="all" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('backend/upload_file/css/fileinput.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/upload_file/themes/explorer-fas/theme.css') }}" media="all" rel="stylesheet"
+        type="text/css" />
 @endsection
 
 @section('content')
- <!-- Add or Edit Product Start -->
- <div class="add-edit-product-wrap col-12">
+    <div class="col-12 mb-30">
+        <div class="box">
+            <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="box-head">
+                    <h3 class="title">Thêm sản phẩm</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row mbn-20">
+                        <!--Form Field-->
+                        <div class="col-lg-4 col-12 mb-20">
 
-    <div class="add-edit-product-form">
-        <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
-            <h4 class="title">Thêm sản phẩm</h4>
-            @csrf
-            <div class="row">
-                <div class="col-lg-6 col-12 mb-30">
-                    <input name="name" class="form-control @error('name') border border-danger @enderror" type="text" placeholder="Tên sản phẩm">
-                    @error('name')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="col-lg-6 col-12 mb-30">
-                    <input name="link" class="form-control @error('link') border border-danger @enderror" type="text" placeholder="Slide Link">
-                    @error('name')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <!--Default Uploader Start-->
-                <div class="col-12 mb-30">
-                    <h6 class="mb-15">Image</h6>
-                    <div class="file-loading">
-                        <input id="file-0a" name="images[]" class="file" type="file" multiple  accept="image" data-theme="fas">
+                            <h6 class="mb-15">Ảnh sản phẩm</h6>
+
+                            <div class="row mbn-15">
+                                <div class="col-12 mb-15">
+                                    <input name="feture_image_path"
+                                        class="dropify @error('feture_image_path') border border-danger @enderror"
+                                        type="file">
+                                    @error('feture_image_path')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <!--Form Field-->
+
+                        <!--Readonly Field-->
+                        <div class="col-lg-8 col-12 mb-20">
+
+                            <h6 class="mb-15">Thông tin sản phẩm</h6>
+
+                            <div class="row mbn-15">
+                                <div class="col-6 mb-15">
+                                    <select name="category_id"
+                                        class="form-control select2 @error('category_id') border border-danger @enderror">
+                                        <option value="">-- Chọn danh mục --</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('category_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-6 mb-15">
+                                    <select name="product_type_id"
+                                        class="form-control select2 @error('product_type_id') border border-danger @enderror">
+                                        <option value="">-- Chọn loại sản phẩm --</option>
+                                        @foreach ($productTypes as $productType)
+                                            <option value="{{ $productType->id }}">{{ $productType->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('product_type_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-6 mb-15">
+                                    <select name="supplier_id"
+                                        class="form-control select2 @error('supplier_id') border border-danger @enderror">
+                                        <option value="">-- Chọn nhà cung cấp --</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('supplier_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-6 mb-15">
+                                    <input name="name" class="form-control @error('name') border border-danger @enderror"
+                                        type="text" placeholder="Tên sản phẩm">
+                                    @error('name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-6 mb-15">
+                                    <input name="sku_code"
+                                        class="form-control @error('sku_code') border border-danger @enderror" type="text"
+                                        placeholder="Mã sku">
+                                    @error('sku_code')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-6 mb-15">
+                                    <input name="size" class="form-control @error('size') border border-danger @enderror"
+                                        type="text" placeholder="Size">
+                                    @error('size')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-6 mb-15">
+                                    <select name="status"
+                                        class="form-control select2 @error('status') border border-danger @enderror">
+                                        <option value="">-- Chọn trạng thái--</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                    @error('status')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    {{-- <input name="imageFiles[]" class="dropify @error('image') border border-danger @enderror" type="file" name="image" multiple>
-                    @error('image')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror --}}
+                    <hr>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+                                aria-expanded="false" aria-controls="collapseExample">
+                                Thông tin chi tiết sản phẩm
+                            </button>
+                        </div>
+                        <div class="collapse" id="collapseExample">
+                            <div class="box-body card-body table-border-style">
+                                <div id="product_details"></div>
+                                <div class="text-center box-footer mt-5">
+                                    <button class="add btn btn-success">
+                                        <i class="fa fa-plus" aria-hidden="true"></i> Thêm Màu Sắc Sản Phẩm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <ul class="nav nav-tabs mb-15">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Mô tả</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#profile">Bảo
+                                    hành</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="home">
+                                <textarea name="description" class="summernote form-control @error('description') border border-danger @enderror"
+                                    placeholder="Product Description*"></textarea>
+                                @error('description')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="tab-pane fade" id="profile">
+                                <textarea name="description" class="summernote form-control @error('description') border border-danger @enderror"
+                                    placeholder="Product Description*"></textarea>
+                                @error('description')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!--Default Uploader End-->
-                <div class="col-12 mb-30">
-                    <h6 class="mb-15">Mô tả</h6>
-                    <textarea name="description" class="summernote form-control @error('description') border border-danger @enderror" placeholder="Product Description*"></textarea>
-                    @error('description')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                <div class="box-foot">
+                    <div class="row">
+                        <div class="d-flex flex-wrap justify-content-end col mbn-10">
+                            <button type="submit"
+                                class="button button-outline button-primary mb-10 ml-10 mr-0">Save</button>
+                        </div>
+                    </div><!-- Button Group End -->
                 </div>
-                <div class="col-lg-6 col-12 mb-30">
-                    <h6 class="mb-15">Status</h6>
-                    <select name="status" class="form-control select2 @error('status') border border-danger @enderror">
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
-                    </select>
-                    @error('status')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
-            <!-- Button Group Start -->
-            <div class="row">
-                <div class="d-flex flex-wrap justify-content-end col mbn-10">
-                    <button type="submit" class="button button-outline button-primary mb-10 ml-10 mr-0" >Save</button>
-                </div>
-            </div><!-- Button Group End -->
-
-        </form>
+            </form>
+        </div>
     </div>
-
-</div><!-- Add or Edit Product End -->
-
-
+    <!--Form controls End-->
 @endsection
 
 @section('js')
@@ -87,18 +187,53 @@
     <script src="{{ asset('backend/assets/js/plugins/summernote/summernote.active.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/quill/quill.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/quill/quill.active.js') }}"></script>
-    <script type="text/javascript">
-        $("#file-0a").fileinput({
-            required: true,
-            showUpload: false,
-            showCaption: false,
-            showClose: false,
-            maxFileCount: 8,
-            allowedFileExtensions: ['jpg', 'png', 'gif'],
-            initialPreviewAsData: true,
-            maxFileSize: 1000,
-            overwriteInitial: false,
-            removeFromPreviewOnError: true,
-        });
-    </script>
+    <script src="{{ asset('backend/assets/js/jquery.repeatable.js') }}"></script>
+
+    <script type="text/template" id="product-detail">
+        <div class="field-control">
+                <div class="box box-solid box-default" style="margin-bottom: 5px;">
+                    <div class="box-header">
+                        <h3 class="box-title"><span class="name"></span><span class="color"></span></h3>
+                        <div class="box-tools">
+                            <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"></button>
+                        </div>
+                    </div>
+                    <div class="box-body card-body table-border-style">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-control">
+                                    <label for="color_{?}">Màu Sắc <span class="text-red">*</span></label>
+                                    <input type="text" name="product_details[{?}][color]" class="form-control color" id="color_{?}" placeholder="Màu sắc" required autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-control">
+                                    <label for="quantity_{?}">Số Lượng <span class="text-red">*</span></label>
+                                    <input type="number" min="1" name="product_details[{?}][quantity]" class="form-control" id="quantity_{?}" placeholder="Số lượng" required autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-control">
+                                    <label for="import_price_{?}">Giá Nhập (VNĐ) <span class="text-red">*</span></label>
+                                    <input type="number" name="product_details[{?}][import_price]" class="form-control currency" id="import_price_{?}" placeholder="Giá nhập" required autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-control">
+                                    <label for="sale_price_{?}">Giá Bán (VNĐ) <span class="text-red">*</span></label>
+                                    <input type="number" name="product_details[{?}][sale_price]" class="form-control currency" id="sale_price_{?}" placeholder="Giá bán" required autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            <label>Hình Ảnh Chi Tiết <span class="text-red">*</span></label>
+                            <input type="file" name="product_details[{?}][images][]" class="product-detail-images" multiple data-theme="fas">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+    <script type="text/javascript" src="{{ asset('backend/admin/product/add.js') }}"></script>
 @endsection

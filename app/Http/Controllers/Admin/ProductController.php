@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\ProductType;
+use App\Models\Supplier;
 use App\Repositories\ProductContract;
 use Illuminate\Http\Request;
 
@@ -26,7 +29,11 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('admins.products.create', [
+        $categories = Category::all();
+        $productTypes = ProductType::all();
+        $suppliers = Supplier::all();
+
+        return view('admins.products.create', compact('categories', 'productTypes', 'suppliers'), [
             'title' => 'Sản phẩm'
         ]);
     }

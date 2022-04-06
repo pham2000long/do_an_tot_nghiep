@@ -17,7 +17,6 @@ class ProductDetail extends Model
     protected $fillable = [
         'product_id',
         'color',
-        'import_quantity',
         'quantity',
         'import_price',
         'sale_price'
