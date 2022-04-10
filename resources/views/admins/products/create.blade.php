@@ -5,6 +5,15 @@
     <link href="{{ asset('backend/upload_file/css/fileinput.css') }}" media="all" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/upload_file/themes/explorer-fas/theme.css') }}" media="all" rel="stylesheet"
         type="text/css" />
+    <link href="{{ asset('backend/assets//select2/select2.min.css') }}" rel="stylesheet" />
+    <style rel="stylesheet" type="text/css">
+        .select2-selection__choice {
+            background-color: #000000 !important;
+        }
+        .select2-selection__choice__remove {
+            background-color: #000000 !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -92,6 +101,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
                                 <div class="col-6 mb-15">
                                     <input name="size" class="form-control @error('size') border border-danger @enderror"
                                         type="text" placeholder="Size">
@@ -110,23 +120,48 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="col-12 mb-15">
+                                    <h6 class="mb-15">Nhập tags sản phẩm</h6>
+                                    <select class="form-control tags_select2_choose" multiple="multiple" name="tags[]"></select>
+                                    @error('tags')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <hr>
                     <br>
                     <div class="card">
                         <div class="card-header">
-                            <button class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+                            <p class="btn btn-primary" data-toggle="collapse" data-target="#collapsePromotion"
+                                aria-expanded="false" aria-controls="collapsePromotion">
+                                Thông Tin Khuyến Mãi
+                            </p>
+                        </div>
+                        <div class="collapse" id="collapsePromotion">
+                            <div class="box-body card-body table-border-style">
+                                <div id="product-promotions"></div>
+                                <div class="text-center box-footer mt-5">
+                                    <button class="add-promotion btn btn-success">
+                                        <i class="fa fa-plus" aria-hidden="true"></i> Thêm Khuyến Mãi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
                                 aria-expanded="false" aria-controls="collapseExample">
                                 Thông tin chi tiết sản phẩm
-                            </button>
+                            </p>
                         </div>
                         <div class="collapse" id="collapseExample">
                             <div class="box-body card-body table-border-style">
                                 <div id="product_details"></div>
                                 <div class="text-center box-footer mt-5">
-                                    <button class="add btn btn-success">
+                                    <button class="add btn btn-success" type="none">
                                         <i class="fa fa-plus" aria-hidden="true"></i> Thêm Màu Sắc Sản Phẩm
                                     </button>
                                 </div>
@@ -175,6 +210,7 @@
 
 @section('js')
     <!-- Plugins & Activation JS For Only This Page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.0.15/tinymce.min.js"></script>
     <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.active.js') }}"></script>
     <script src="{{ asset('backend/upload_file/js/plugins/piexif.js') }}" type="text/javascript"></script>
@@ -188,52 +224,92 @@
     <script src="{{ asset('backend/assets/js/plugins/quill/quill.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/quill/quill.active.js') }}"></script>
     <script src="{{ asset('backend/assets/js/jquery.repeatable.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('backend/admin/product/add.js') }}"></script>
 
-    <script type="text/template" id="product-detail">
-        <div class="field-control">
-                <div class="box box-solid box-default" style="margin-bottom: 5px;">
-                    <div class="box-header">
-                        <h3 class="box-title"><span class="name"></span><span class="color"></span></h3>
-                        <div class="box-tools">
-                            <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"></button>
-                        </div>
+    <script type="text/template" id="product-promotion">
+        <div class="field-group">
+            <div class="box box-solid box-default" style="margin-bottom: 5px;">
+                <div class="box-header">
+                    <div class="box-tools float-right">
+                        <button class="btn btn-box-tool delete-promotion" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
-                    <div class="box-body card-body table-border-style">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-control">
-                                    <label for="color_{?}">Màu Sắc <span class="text-red">*</span></label>
-                                    <input type="text" name="product_details[{?}][color]" class="form-control color" id="color_{?}" placeholder="Màu sắc" required autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-control">
-                                    <label for="quantity_{?}">Số Lượng <span class="text-red">*</span></label>
-                                    <input type="number" min="1" name="product_details[{?}][quantity]" class="form-control" id="quantity_{?}" placeholder="Số lượng" required autocomplete="off">
-                                </div>
+                </div>
+                <div class="box-body card-body table-border-style">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="promotion_{?}">Khuyến Mãi <span class="text-red">*</span></label>
+                                <input type="text" name="product_promotions[{?}][content]" class="form-control promotion" id="promotion_{?}" placeholder="Khuyến Mãi" required autocomplete="off">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-control">
-                                    <label for="import_price_{?}">Giá Nhập (VNĐ) <span class="text-red">*</span></label>
-                                    <input type="number" name="product_details[{?}][import_price]" class="form-control currency" id="import_price_{?}" placeholder="Giá nhập" required autocomplete="off">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thời Gian Khuyến Mãi</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control input-date-time promotion-reservation" name="product_promotions[{?}][promotion_date]" autocomplete="off" required>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-control">
-                                    <label for="sale_price_{?}">Giá Bán (VNĐ) <span class="text-red">*</span></label>
-                                    <input type="number" name="product_details[{?}][sale_price]" class="form-control currency" id="sale_price_{?}" placeholder="Giá bán" required autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-control">
-                            <label>Hình Ảnh Chi Tiết <span class="text-red">*</span></label>
-                            <input type="file" name="product_details[{?}][images][]" class="product-detail-images" multiple data-theme="fas">
                         </div>
                     </div>
                 </div>
             </div>
-        </script>
-    <script type="text/javascript" src="{{ asset('backend/admin/product/add.js') }}"></script>
+        </div>
+    </script>
+    <script type="text/template" id="product-detail">
+        <div class="field-group">
+            <div class="box box-solid box-default" style="margin-bottom: 5px;">
+                <div class="box-header">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-tools float-right">
+                                <button class="btn btn-box-tool delete-product-detail" title="Remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body card-body table-border-style">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-control">
+                                <label for="color_{?}">Màu Sắc <span class="text-red">*</span></label>
+                                <input type="text" name="product_details[{?}][color]" class="form-control color" id="color_{?}" placeholder="Màu sắc" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-control">
+                                <label for="quantity_{?}">Số Lượng <span class="text-red">*</span></label>
+                                <input type="number" min="1" name="product_details[{?}][quantity]" class="form-control" id="quantity_{?}" placeholder="Số lượng" required autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-control">
+                                <label for="import_price_{?}">Giá Nhập (VNĐ) <span class="text-red">*</span></label>
+                                <input type="number" name="product_details[{?}][import_price]" class="form-control currency" id="import_price_{?}" placeholder="Giá nhập" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-control">
+                                <label for="sale_price_{?}">Giá Bán (VNĐ) <span class="text-red">*</span></label>
+                                <input type="number" name="product_details[{?}][sale_price]" class="form-control currency" id="sale_price_{?}" placeholder="Giá bán" required autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        <label>Hình Ảnh Chi Tiết <span class="text-red">*</span></label>
+                        <input type="file" name="product_details[{?}][images][]" class="product-detail-images" multiple data-theme="fas">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript" src="{{ asset('backend/admin/product/addProductDetail.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('backend/admin/product/select2.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/daterangepicker/daterangepicker.active.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/inputmask/bootstrap-inputmask.js') }}"></script>
+
 @endsection

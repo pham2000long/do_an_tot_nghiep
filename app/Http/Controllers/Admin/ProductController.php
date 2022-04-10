@@ -3,25 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProductIndexRequest;
 use App\Models\Category;
 use App\Models\ProductType;
 use App\Models\Supplier;
-use App\Repositories\ProductContract;
+use App\Services\ProductServiceInterface;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    protected $productRepository;
+    protected $productService;
 
     public function __construct(
-        ProductContract $productRepository
+        ProductServiceInterface $productService
     ) {
-        $this->productRepository = $productRepository;
+        $this->productService = $productService;
     }
 
-    public function index()
+    public function index(ProductIndexRequest $request)
     {
-        $products = $this->productRepository->all();
+        $products = $this->productService->getAllProducts($request->all());
+
         return view('admins.products.index', compact('products'), [
             'title' => 'Sản phẩm'
         ]);
@@ -40,6 +42,9 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        list($message, $success) = $this->productService->create($request);
+
+        return $success ? redirect()->route('products.index')->with('success', $message)
+            : back()->with('error', $message);
     }
 }

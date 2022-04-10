@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Product;
 
-class ProductRepository extends BaseRepository implements ProductContract
+class ProductDetailRepository extends BaseRepository implements ProductDetailContract
 {
     protected $model;
 
@@ -15,10 +15,5 @@ class ProductRepository extends BaseRepository implements ProductContract
     public function __construct(Product $model)
     {
         $this->model = $model;
-    }
-
-    public function getAllProducts(array $params)
-    {
-        return $this->model->get();
     }
 }
