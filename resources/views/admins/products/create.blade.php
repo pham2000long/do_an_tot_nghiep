@@ -33,10 +33,10 @@
 
                             <div class="row mbn-15">
                                 <div class="col-12 mb-15">
-                                    <input name="feture_image_path"
-                                        class="dropify @error('feture_image_path') border border-danger @enderror"
+                                    <input name="image"
+                                        class="dropify @error('image') border border-danger @enderror"
                                         type="file">
-                                    @error('feture_image_path')
+                                    @error('image')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -130,7 +130,7 @@
                             </div>
                         </div>
                     </div>
-                    <br>
+                    {{-- <br>
                     <div class="card">
                         <div class="card-header">
                             <p class="btn btn-primary" data-toggle="collapse" data-target="#collapsePromotion"
@@ -148,7 +148,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <br>
                     <div class="card">
                         <div class="card-header">
@@ -171,23 +171,23 @@
                     <br>
                     <div class="card">
                         <ul class="nav nav-tabs mb-15">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Mô tả</a>
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description">Mô tả</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#profile">Bảo
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#insurance">Bảo
                                     hành</a></li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="home">
+                            <div class="tab-pane fade show active" id="description">
                                 <textarea name="description" class="summernote form-control @error('description') border border-danger @enderror"
                                     placeholder="Product Description*"></textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="tab-pane fade" id="profile">
-                                <textarea name="description" class="summernote form-control @error('description') border border-danger @enderror"
+                            <div class="tab-pane fade" id="insurance">
+                                <textarea name="insurance" class="summernote form-control @error('insurance') border border-danger @enderror"
                                     placeholder="Product Description*"></textarea>
-                                @error('description')
+                                @error('insurance')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -198,7 +198,7 @@
                     <div class="row">
                         <div class="d-flex flex-wrap justify-content-end col mbn-10">
                             <button type="submit"
-                                class="button button-outline button-primary mb-10 ml-10 mr-0">Save</button>
+                                class="button button-outline button-primary mb-10 ml-10 mr-0">Thêm mới</button>
                         </div>
                     </div><!-- Button Group End -->
                 </div>
@@ -226,7 +226,7 @@
     <script src="{{ asset('backend/assets/js/jquery.repeatable.js') }}"></script>
     <script type="text/javascript" src="{{ asset('backend/admin/product/add.js') }}"></script>
 
-    <script type="text/template" id="product-promotion">
+    {{-- <script type="text/template" id="product-promotion">
         <div class="field-group">
             <div class="box box-solid box-default" style="margin-bottom: 5px;">
                 <div class="box-header">
@@ -237,9 +237,9 @@
                 <div class="box-body card-body table-border-style">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group" style="margin-bottom: 0;">
+                            <div class="form-group" style="margin-bottom: 20px;">
                                 <label for="promotion_{?}">Khuyến Mãi <span class="text-red">*</span></label>
-                                <input type="text" name="product_promotions[{?}][content]" class="form-control promotion" id="promotion_{?}" placeholder="Khuyến Mãi" required autocomplete="off">
+                                <input type="text" name="product_promotions[{?}][name]" class="form-control promotion" id="promotion_{?}" placeholder="Khuyến Mãi" required autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -250,11 +250,33 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label>Hình thức giảm giá <span class="text-red">*</span></label>
+                                <select class="form-control" name="promotion_method" required>
+                                    <option value="">-- Chọn hình thức giảm giá --</option>
+                                    <option value="1">Giảm theo tiền mặt</option>
+                                    <option value="2">Giảm theo phần trăm</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label>Giá Khuyến Mãi (VNĐ)</label>
+                                <input id="pay_money" disabled type="number" name="promotion_pay_money" class="form-control currency" id="promotion_price_{?}" placeholder="Giá khuyến mại" autocomplete="off">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label for="promotion_price_{?}">Phần Trăm Khuyến Mãi (%)</label>
+                                <select disabled id="pay_percent" class="form-control" name="promotion_pay_percent">
+                                    {{-- @foreach(config('my.app.promotion_pay_percent') as $key => $val)
+                                        <option value="{{ $key }}">{{ $val }} %</option>
+                                    @endforeach --}}
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </script>
+    </script> --}}
     <script type="text/template" id="product-detail">
         <div class="field-group">
             <div class="box box-solid box-default" style="margin-bottom: 5px;">

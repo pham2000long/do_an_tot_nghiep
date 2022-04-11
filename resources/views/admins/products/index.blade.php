@@ -25,7 +25,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (count($products) > 0))
+                        @if (count($products) > 0)
                             @foreach ($products as $key => $product)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
@@ -34,7 +34,7 @@
                                     <td>{{ $product->supplier->name }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>
-                                        <img src="{{ asset('storage/uploads/products/' . $product->feture_image_path) }}" height="150" width="300">
+                                        <img src="{{ asset('/images/products/' . $product->image) }}" height="150" width="300">
                                     </td>
                                     <td>{{ $product->sku_code }}</td>
                                     <td>{{ $product->size }}</td>
@@ -60,7 +60,6 @@
                 </table>
             </div>
         </div>
-
     </div>
     <!--Export Data Table End-->
 @endsection

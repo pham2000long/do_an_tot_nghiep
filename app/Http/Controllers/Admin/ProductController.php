@@ -42,7 +42,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        list($message, $success) = $this->productService->create($request);
+        list($message, $success) = $this->productService->create($request->all());
 
         return $success ? redirect()->route('products.index')->with('success', $message)
             : back()->with('error', $message);

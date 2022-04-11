@@ -15,7 +15,13 @@ class CreatePromotionsTable extends Migration
     {
         Schema::create('promotions', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('product_id');
+            $table->foreign('product_id', 'FK_promotions_1')->references('id')->on('products');
             $table->string('name');
+            $table->integer('price');
+            $table->tinyInteger('promotion_method');
+            $table->date('started_at');
+            $table->date('ended_at');
             $table->timestamps();
         });
     }

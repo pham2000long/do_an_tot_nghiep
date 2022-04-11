@@ -29,6 +29,15 @@ return [
     */
 
     'disks' => [
+        'storage_image' => [
+            'driver' => 'local',
+            'root' => public_path('images'),
+        ],
+
+        'product_images' => [
+            'driver' => 'local',
+            'root' => public_path('images/product_images'),
+        ],
 
         'local' => [
             'driver' => 'local',

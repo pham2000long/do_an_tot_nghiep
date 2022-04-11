@@ -20,7 +20,7 @@ class Product extends Model
         'product_type_id',
         'supplier_id',
         'name',
-        'feture_image_path',
+        'image',
         'sku_code',
         'slug',
         'size',
