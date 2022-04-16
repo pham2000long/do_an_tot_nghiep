@@ -71,4 +71,14 @@ class Product extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+
+    /**
+     * Relationship hasMany with productDetails
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function productDetails()
+    {
+        return $this->hasMany(ProductDetail::class);
+    }
 }

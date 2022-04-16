@@ -21,4 +21,19 @@ class ProductRepository extends BaseRepository implements ProductContract
     {
         return $this->model->get();
     }
+
+    public function findProductById(int $id)
+    {
+        return $this->model
+            ->with([
+                'category',
+                'productType',
+                'supplier',
+                'productDetails' => function ($query) {
+                    $query->with('productImages');
+                }
+            ])
+            ->where('id', $id)
+            ->first();
+    }
 }

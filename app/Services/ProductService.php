@@ -9,6 +9,7 @@ use App\Repositories\ProductTagContract;
 use App\Repositories\SnapshotContract;
 use App\Repositories\TagContract;
 use App\Support\Api\ConvertDataContent;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ProductService implements ProductServiceInterface
@@ -48,7 +49,6 @@ class ProductService implements ProductServiceInterface
 
     public function create(array $params)
     {
-        // dd($params);
         if (!empty($params['description'])) {
             $description = $this->convertDataContent->convertData(
                 $params['description'],
@@ -77,11 +77,12 @@ class ProductService implements ProductServiceInterface
             'slug' => Str::slug($params['name']),
             'size' => $params['size'],
             'status' => $params['status'],
-            'transport' => null,
-            'rate' => null,
             'description' => !empty($description) ? $description : null,
             'insurance' => !empty($insurance) ? $insurance : null,
+            'transport' => null,
+            'rate' => null,
         ];
+        DB::beginTransaction();
         try {
             $product = $this->productRepository->create($dataProduct);
             //Thêm vào tags
@@ -113,11 +114,19 @@ class ProductService implements ProductServiceInterface
                     }
                 }
             }
+            DB::commit();
         } catch (\Exception $e) {
-            dd($e);
+            DB::rollBack();
             return ['Lỗi hệ thống không thể lưu sản phẩm!', false];
         }
 
         return ['Thêm mới sản phẩm thành công', true];
+    }
+
+    public function findProductById(int $id)
+    {
+        $product = $this->productRepository->findProductById($id);
+
+        return $product;
     }
 }

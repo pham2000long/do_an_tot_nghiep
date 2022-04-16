@@ -47,4 +47,20 @@ class ProductController extends Controller
         return $success ? redirect()->route('products.index')->with('success', $message)
             : back()->with('error', $message);
     }
+
+    public function edit(int $id)
+    {
+        $product = $this->productService->findProductById($id);
+        $categories = Category::all();
+        $productTypes = ProductType::all();
+        $suppliers = Supplier::all();
+
+        if (empty($product)) {
+            return back()->with('error', 'Sản phẩm không tồn tại!');
+        }
+
+        return view('admins.products.edit', compact('product', 'categories', 'productTypes', 'suppliers'), [
+            'title' => 'Sản phẩm'
+        ]);
+    }
 }

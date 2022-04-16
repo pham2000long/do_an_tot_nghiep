@@ -31,4 +31,14 @@ class ProductDetail extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Relationship hasMany with productImages
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function productImages()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }
