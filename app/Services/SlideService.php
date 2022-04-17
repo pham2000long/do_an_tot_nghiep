@@ -3,19 +3,24 @@
 namespace App\Services;
 
 use App\Repositories\SlideContract;
+use App\Repositories\SnapshotContract;
 
 class SlideService implements SlideServiceInterface
 {
     protected $slideRepository;
+    protected $snapshotRepository;
 
     /**
      * create a new instance
      *
      * @param SlideContract $slideRepository
      */
-    public function __construct(SlideContract $slideRepository)
-    {
+    public function __construct(
+        SlideContract $slideRepository,
+        SnapshotContract $snapshotRepository
+    ) {
         $this->slideRepository = $slideRepository;
+        $this->snapshotRepository = $snapshotRepository;
     }
 
     public function paginateSlides(array $params)
@@ -27,14 +32,7 @@ class SlideService implements SlideServiceInterface
 
     public function create($request)
     {
-        if ($request->hasFile('image')) {
-            $completeFileName = $request->file('image')->getClientOriginalName();
-            $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $compPic = str_replace(' ', '_', $fileNameOnly).'-'. rand() .'_'.time().'.'.$extension;
-            $path = $request->file('image')->storeAs('public/uploads/slides', $compPic);
-            $image = $compPic;
-        }
+        $image = $this->snapshotRepository->uploadThumb($request->image, 'slides');
 
         try {
             $this->slideRepository->create([
@@ -67,13 +65,11 @@ class SlideService implements SlideServiceInterface
     {
         $slide = $this->slideRepository->findById($id);
 
-        if ($request->hasFile('image')) {
-            $completeFileName = $request->file('image')->getClientOriginalName();
-            $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $compPic = str_replace(' ', '_', $fileNameOnly).'-'. rand() .'_'.time().'.'.$extension;
-            $path = $request->file('image')->storeAs('public/uploads/slides', $compPic);
-            $image = $compPic;
+        if(!empty($request->image)) {
+            $this->snapshotRepository->deleteThumb($request->thumb_current, 'slides');
+            $image = $this->snapshotRepository->uploadThumb($request->image, 'slides');
+        } else {
+            $image = $request->thumb_current;
         }
 
         try {

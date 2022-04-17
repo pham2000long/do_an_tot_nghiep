@@ -28,7 +28,7 @@
                         <td>{{ $slide->name }}</td>
                         <td>{{ $slide->description }}</td>
                         <td>
-                            <img src="{{ asset('storage/uploads/slides/'.$slide->image) }}" height="150" width="300">
+                            <img src="{{ asset('images/slides/'.$slide->image) }}" height="150" width="300">
                         </td>
                         <td>
                             <div class="adomx-checkbox-radio-group">

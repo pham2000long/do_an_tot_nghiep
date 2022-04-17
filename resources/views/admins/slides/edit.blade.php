@@ -34,6 +34,7 @@
                     @error('image')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
+                    <input hidden type="text" name="thumb_current" value="{{ $slide->image }}">
                 </div>
                 <!--Default Uploader End-->
                 <div class="col-12 mb-30">
