@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin;
 |
 */
 
+// Admin
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', [Admin\AuthController::class, 'index'])->name('auth.login.index');
     Route::post('/login', [Admin\AuthController::class, 'login'])->name('auth.login');
@@ -31,9 +32,9 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/store', [Admin\ProductController::class, 'store'])->name('products.store');
             Route::get('/{id}', [Admin\ProductController::class, 'edit'])->name('products.edit');
             Route::post('/{id}', [Admin\ProductController::class, 'update'])->name('products.update');
+            Route::post('/productDetail/deleteImage', [Admin\ProductController::class, 'deleteProductImage'])->name('product.product_detail.delete_image');
         });
     });
 });
 
-
-
+// User

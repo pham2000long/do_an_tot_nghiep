@@ -130,7 +130,11 @@ class ProductService implements ProductServiceInterface
 
     public function update(int $id, array $params)
     {
-        dd($params);
+        $product = $this->productRepository->findById($id);
+        if (empty($product)) {
+            return ['Sản phẩm không tồn tại!', false];
+        }
+
         if (!empty($params['description'])) {
             $description = $this->convertDataContent->convertData(
                 $params['description'],
@@ -146,6 +150,7 @@ class ProductService implements ProductServiceInterface
             );
         }
         if (!empty($params['image'])) {
+            $this->snapshotRepository->deleteThumb($params['thumb_current'], 'products');
             $image = $this->snapshotRepository->uploadThumb($params['image'], 'products');
         }
 
@@ -154,7 +159,7 @@ class ProductService implements ProductServiceInterface
             'product_type_id' => $params['product_type_id'],
             'supplier_id' => $params['supplier_id'],
             'name' => $params['name'],
-            'image' => $image,
+            'image' => !empty($image) ? $image : $params['thumb_current'],
             'sku_code' => $params['sku_code'],
             'slug' => Str::slug($params['name']),
             'size' => $params['size'],
@@ -166,7 +171,7 @@ class ProductService implements ProductServiceInterface
         ];
         DB::beginTransaction();
         try {
-            $product = $this->productRepository->create($dataProduct);
+            $this->productRepository->update($product, $dataProduct);
             //Thêm vào tags
             if (!empty($params['tags'])) {
                 foreach ($params['tags'] as $key => $item) {
@@ -176,9 +181,29 @@ class ProductService implements ProductServiceInterface
                     );
                     $tagIds[] = $tag->id;
                 }
-                $product->tags()->attach($tagIds);
+                $product->tags()->sync($tagIds);
             }
-            //Thêm vào bảng product_details
+            //Update old product_details
+            if (!empty($params['old_product_details'])) {
+                foreach ($params['old_product_details'] as $key => $old_product_detail) {
+                    $productDetail = $this->productDetailRepository->findById($key);
+                    $dataProductDetail = array_merge($old_product_detail, ['product_id' => $product->id]);
+                    $this->productDetailRepository->update($productDetail, $old_product_detail);
+
+                    //Thêm vào bảng product_images
+                    if (!empty($old_product_detail['images'])) {
+                        foreach ($old_product_detail['images'] as $image) {
+                            $product_image['name'] = $this->snapshotRepository->uploadProductImages($image, 'product_images');
+                            $product_image['product_detail_id'] = $productDetail->id;
+                            $this->productImageRepository->create($product_image);
+                        }
+                    }
+                }
+            } else {
+                $this->productDetailRepository->deleteProductDetailByProductId($product->id);
+            }
+
+            //create new product_details
             if (!empty($params['product_details'])) {
                 foreach ($params['product_details'] as $key => $product_detail) {
                     $dataProductDetail = array_merge($product_detail, ['product_id' => $product->id]);

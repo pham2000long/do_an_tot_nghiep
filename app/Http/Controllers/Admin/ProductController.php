@@ -7,17 +7,21 @@ use App\Http\Requests\Admin\ProductIndexRequest;
 use App\Models\Category;
 use App\Models\ProductType;
 use App\Models\Supplier;
+use App\Services\ProductImageServiceInterface;
 use App\Services\ProductServiceInterface;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     protected $productService;
+    protected $productImageService;
 
     public function __construct(
-        ProductServiceInterface $productService
+        ProductServiceInterface $productService,
+        ProductImageServiceInterface $productImageService
     ) {
         $this->productService = $productService;
+        $this->productImageService = $productImageService;
     }
 
     public function index(ProductIndexRequest $request)
@@ -70,5 +74,12 @@ class ProductController extends Controller
 
         return $success ? redirect()->route('products.index')->with('success', $message)
             : back()->with('error', $message);
+    }
+
+    public function deleteProductImage(Request $request){
+        $this->productImageService->deleteImage($request->key);
+        return response()->json([
+            'message' => 'Xóa ảnh thành công!'
+        ]);
     }
 }

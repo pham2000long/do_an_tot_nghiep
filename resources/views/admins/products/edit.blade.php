@@ -340,10 +340,19 @@
                         maxFileSize: 1000,
                         overwriteInitial: false,
                         removeFromPreviewOnError: true,
+                        deleteUrl: "{{ route('product.product_detail.delete_image') }}",
+                        ajaxDeleteSettings: {
+                            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                        },
                         @if($product_detail->productImages->count())
                             initialPreview: [
                                 @foreach ($product_detail->productImages as $productImage)
                                     '{{ \Helper\ThumbHelper::get_image_product_url($productImage->name) }}',
+                                @endforeach
+                            ],
+                            initialPreviewConfig: [
+                                @foreach ($product_detail->productImages as $productImage)
+                                    { caption: "{{ $productImage->name }}", key: {{ $productImage->id }} },
                                 @endforeach
                             ],
                         @endif

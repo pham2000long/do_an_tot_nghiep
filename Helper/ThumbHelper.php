@@ -30,7 +30,7 @@ class ThumbHelper
 
     public static function get_image_product_url($image = null) {
         if($image != null)
-            return URL::asset('images/products/'.$image);
+            return URL::asset('images/product_images/'.$image);
         else
             return URL::asset('images/user/no_avatar.jpg');
     }

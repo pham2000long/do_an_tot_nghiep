@@ -17,7 +17,7 @@ class SnapshotRepository implements SnapshotContract
     public function uploadProductImages($thumbObj, $folderUpload)
     {
         $thumbName        = $folderUpload . '_' . Str::random(20) . '.' . $thumbObj->clientExtension();
-        $thumbObj->storeAs($folderUpload, $thumbName, "product_images");
+        $thumbObj->storeAs($folderUpload, $thumbName, "storage_image");
         return $thumbName;
     }
 
