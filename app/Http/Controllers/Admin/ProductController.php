@@ -63,4 +63,12 @@ class ProductController extends Controller
             'title' => 'Sản phẩm'
         ]);
     }
+
+    public function update(int $id, Request $request)
+    {
+        list($message, $success) = $this->productService->update($id, $request->all());
+
+        return $success ? redirect()->route('products.index')->with('success', $message)
+            : back()->with('error', $message);
+    }
 }

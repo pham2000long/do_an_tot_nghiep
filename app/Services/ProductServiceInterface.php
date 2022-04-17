@@ -9,4 +9,6 @@ interface ProductServiceInterface
     public function create(array $params);
 
     public function findProductById(int $id);
+
+    public function update(int $id, array $params);
 }

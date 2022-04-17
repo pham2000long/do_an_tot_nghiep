@@ -75,10 +75,20 @@ class Product extends Model
     /**
      * Relationship hasMany with productDetails
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function productDetails()
     {
         return $this->hasMany(ProductDetail::class);
+    }
+
+    /**
+     * Relationship belongsToMany with tags
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'product_tags', 'product_id', 'tag_id')->withTimestamps();
     }
 }

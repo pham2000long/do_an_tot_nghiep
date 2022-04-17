@@ -1,10 +1,9 @@
 @extends('admins.layouts.main')
 
 @section('css')
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
-    <link href="{{ asset('backend/upload_file/css/fileinput.css') }}" media="all" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/upload_file/themes/explorer-fas/theme.css') }}" media="all" rel="stylesheet"
-        type="text/css" />
+    {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous"> --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/css/fileinput.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/themes/explorer-fa/theme.css" rel="stylesheet">
     <link href="{{ asset('backend/assets//select2/select2.min.css') }}" rel="stylesheet" />
     <style rel="stylesheet" type="text/css">
         .select2-selection__choice {
@@ -19,7 +18,7 @@
 @section('content')
     <div class="col-12 mb-30">
         <div class="box">
-            <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="box-head">
                     <h3 class="title">Sửa sản phẩm</h3>
@@ -35,10 +34,12 @@
                                 <div class="col-12 mb-15">
                                     <input name="image"
                                         class="dropify @error('image') border border-danger @enderror"
+                                        data-default-file="{{ asset('/images/products/'. $product->image)}}"
                                         type="file">
                                     @error('image')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
+                                    <input type="hidden" name="thumb_current" value="{{ $product->image }}">
                                 </div>
                             </div>
                         </div>
@@ -55,7 +56,7 @@
                                         class="form-control select2 @error('category_id') border border-danger @enderror">
                                         <option value="">-- Chọn danh mục --</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('category_id')
@@ -67,7 +68,7 @@
                                         class="form-control select2 @error('product_type_id') border border-danger @enderror">
                                         <option value="">-- Chọn loại sản phẩm --</option>
                                         @foreach ($productTypes as $productType)
-                                            <option value="{{ $productType->id }}">{{ $productType->name }}</option>
+                                            <option value="{{ $productType->id }}" {{ $product->product_type_id == $productType->id ? 'selected' : '' }}>{{ $productType->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('product_type_id')
@@ -79,7 +80,7 @@
                                         class="form-control select2 @error('supplier_id') border border-danger @enderror">
                                         <option value="">-- Chọn nhà cung cấp --</option>
                                         @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                            <option value="{{ $supplier->id }}" {{ $product->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('supplier_id')
@@ -88,7 +89,7 @@
                                 </div>
                                 <div class="col-6 mb-15">
                                     <input name="name" class="form-control @error('name') border border-danger @enderror"
-                                        type="text" placeholder="Tên sản phẩm">
+                                        type="text" placeholder="Tên sản phẩm" value="{{ $product->name }}">
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -96,7 +97,7 @@
                                 <div class="col-6 mb-15">
                                     <input name="sku_code"
                                         class="form-control @error('sku_code') border border-danger @enderror" type="text"
-                                        placeholder="Mã sku">
+                                        placeholder="Mã sku" value="{{ $product->sku_code }}">
                                     @error('sku_code')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -104,7 +105,7 @@
 
                                 <div class="col-6 mb-15">
                                     <input name="size" class="form-control @error('size') border border-danger @enderror"
-                                        type="text" placeholder="Size">
+                                        type="text" placeholder="Size" value="{{ $product->size }}">
                                     @error('size')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -112,9 +113,8 @@
                                 <div class="col-6 mb-15">
                                     <select name="status"
                                         class="form-control select2 @error('status') border border-danger @enderror">
-                                        <option value="">-- Chọn trạng thái--</option>
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
+                                        <option value="1" {{ $product->status ? 'checked' : '' }}>Active</option>
+                                        <option value="0" {{ $product->status ? 'checked' : '' }}>Inactive</option>
                                     </select>
                                     @error('status')
                                         <div class="text-danger">{{ $message }}</div>
@@ -122,7 +122,11 @@
                                 </div>
                                 <div class="col-12 mb-15">
                                     <h6 class="mb-15">Nhập tags sản phẩm</h6>
-                                    <select class="form-control tags_select2_choose" multiple="multiple" name="tags[]"></select>
+                                    <select class="form-control tags_select2_choose" multiple="multiple" name="tags[]">
+                                        @foreach ($product->tags as $tagItem)
+                                            <option value="{{$tagItem->name}}" selected>{{$tagItem->name}}</option>
+                                        @endforeach
+                                    </select>
                                     @error('tags')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -166,7 +170,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-control">
                                                                 <label for="quantity_new0">Số Lượng <span class="text-red">*</span></label>
-                                                                <input type="number" min="1" name="old_product_details[{{ $product_detail->id }}][quantity]" class="form-control" id="quantity_{{ $product_detail->id }}" placeholder="Số lượng" required="" autocomplete="off" value="{{ $product_detail->import_quantity }}">
+                                                                <input type="number" min="1" name="old_product_details[{{ $product_detail->id }}][quantity]" class="form-control" id="quantity_{{ $product_detail->id }}" placeholder="Số lượng" required="" autocomplete="off" value="{{ $product_detail->quantity }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -186,7 +190,7 @@
                                                     </div>
                                                     <div class="form-control">
                                                         <label>Hình Ảnh Chi Tiết <span class="text-red">*</span></label>
-                                                        <input type="file" name="old_product_details[{{ $product_detail->id }}][images][]" class="product-detail-{{ $product_detail->id }}-images" multiple data-theme="fas">
+                                                        <input type="file" name="old_product_details[{{ $product_detail->id }}][images][]" class="product-detail-{{ $product_detail->id }}-images" multiple>
                                                     </div>
                                                 </div>
                                             </div>
@@ -204,22 +208,20 @@
                     <br>
                     <div class="card">
                         <ul class="nav nav-tabs mb-15">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description">Mô tả</a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#insurance">Bảo
-                                    hành</a></li>
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description">Mô tả</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#insurance">Bảo hành</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="description">
                                 <textarea name="description" class="summernote form-control @error('description') border border-danger @enderror"
-                                    placeholder="Product Description*"></textarea>
+                                    placeholder="Product Description*">{!! $product->description !!}</textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="tab-pane fade" id="insurance">
                                 <textarea name="insurance" class="summernote form-control @error('insurance') border border-danger @enderror"
-                                    placeholder="Product Description*"></textarea>
+                                    placeholder="Product Insurance*">{!! $product->insurance !!}</textarea>
                                 @error('insurance')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -231,7 +233,7 @@
                     <div class="row">
                         <div class="d-flex flex-wrap justify-content-end col mbn-10">
                             <button type="submit"
-                                class="button button-outline button-primary mb-10 ml-10 mr-0">Thêm mới</button>
+                                class="button button-outline button-primary mb-10 ml-10 mr-0">Cập nhật</button>
                         </div>
                     </div><!-- Button Group End -->
                 </div>
@@ -246,12 +248,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.0.15/tinymce.min.js"></script>
     <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.active.js') }}"></script>
-    <script src="{{ asset('backend/upload_file/js/plugins/piexif.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/js/plugins/sortable.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/js/fileinput.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/js/locales/es.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/themes/fas/theme.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/themes/explorer-fas/theme.js') }}" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/js/fileinput.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/themes/explorer-fa/theme.js"></script>
     <script src="{{ asset('backend/assets/js/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/summernote/summernote.active.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/quill/quill.min.js') }}"></script>
@@ -302,7 +300,7 @@
                     </div>
                     <div class="form-control">
                         <label>Hình Ảnh Chi Tiết <span class="text-red">*</span></label>
-                        <input type="file" name="product_details[{?}][images][]" class="product-detail-images" multiple data-theme="fas">
+                        <input type="file" name="product_details[{?}][images][]" class="product-detail-images" multiple>
                     </div>
                 </div>
             </div>
@@ -313,11 +311,10 @@
             $("#product_details").repeatable({
                 addTrigger: 'button.add',
                 deleteTrigger: 'button.delete-product-detail',
-                min: {{ $product->productDetails->count() }},
                 template: "#product-detail",
                 afterAdd:function () {
                     $(".product-detail-images").fileinput({
-                        required: true,
+                        theme: "explorer-fa",
                         showUpload: false,
                         showCaption: false,
                         showClose: false,
@@ -330,26 +327,29 @@
                     });
                 }
             });
-            @foreach ($product->productDetails as $productDetail)
-                $(".product-detail-{{ $productDetail->id }}-images").fileinput({
-                    required: true,
-                    showUpload: false,
-                    showCaption: false,
-                    showClose: false,
-                    maxFileCount: 8,
-                    allowedFileExtensions: ['jpg', 'png', 'gif'],
-                    initialPreviewAsData: true,
-                    maxFileSize: 1000,
-                    overwriteInitial: false,
-                    removeFromPreviewOnError: true,
-                    initialPreviewAsData: true,
-                    initialPreview: [
-                        @foreach ($product_detail->productImages as $productImage)
-                            "{{ \Helper\ThumbHelper::get_image_product_url($productImage->name) }}"
-                        @endforeach
-                    ]
-                });
-            @endforeach
+            @if ($product->productDetails->count())
+                @foreach ($product->productDetails as $productDetail)
+                    $(".product-detail-{{ $productDetail->id }}-images").fileinput({
+                        theme: "explorer-fa",
+                        showUpload: false,
+                        showCaption: false,
+                        showClose: false,
+                        maxFileCount: 8,
+                        allowedFileExtensions: ['jpg', 'png', 'gif'],
+                        initialPreviewAsData: true,
+                        maxFileSize: 1000,
+                        overwriteInitial: false,
+                        removeFromPreviewOnError: true,
+                        @if($product_detail->productImages->count())
+                            initialPreview: [
+                                @foreach ($product_detail->productImages as $productImage)
+                                    '{{ \Helper\ThumbHelper::get_image_product_url($productImage->name) }}',
+                                @endforeach
+                            ],
+                        @endif
+                    });
+                @endforeach
+            @endif
         });
     </script>
     <script src="{{ asset('backend/assets/js/select2/select2.min.js') }}"></script>
@@ -358,5 +358,4 @@
     <script src="{{ asset('backend/assets/js/plugins/daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/daterangepicker/daterangepicker.active.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/inputmask/bootstrap-inputmask.js') }}">
-
 @endsection

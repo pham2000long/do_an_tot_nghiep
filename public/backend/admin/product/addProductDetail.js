@@ -6,6 +6,7 @@ $(function() {
         template: "#product-detail",
         afterAdd:function () {
             $(".product-detail-images").fileinput({
+                theme: "explorer-fa",
                 required: true,
                 showUpload: false,
                 showCaption: false,

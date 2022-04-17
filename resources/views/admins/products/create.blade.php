@@ -2,9 +2,8 @@
 
 @section('css')
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
-    <link href="{{ asset('backend/upload_file/css/fileinput.css') }}" media="all" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/upload_file/themes/explorer-fas/theme.css') }}" media="all" rel="stylesheet"
-        type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/css/fileinput.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/themes/explorer-fa/theme.css" rel="stylesheet">
     <link href="{{ asset('backend/assets//select2/select2.min.css') }}" rel="stylesheet" />
     <style rel="stylesheet" type="text/css">
         .select2-selection__choice {
@@ -213,18 +212,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.0.15/tinymce.min.js"></script>
     <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.active.js') }}"></script>
-    <script src="{{ asset('backend/upload_file/js/plugins/piexif.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/js/plugins/sortable.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/js/fileinput.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/js/locales/es.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/themes/fas/theme.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('backend/upload_file/themes/explorer-fas/theme.js') }}" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/js/fileinput.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/themes/explorer-fa/theme.js"></script>
     <script src="{{ asset('backend/assets/js/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/summernote/summernote.active.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/quill/quill.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugins/quill/quill.active.js') }}"></script>
     <script src="{{ asset('backend/assets/js/jquery.repeatable.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('backend/admin/product/add.js') }}"></script>
 
     {{-- <script type="text/template" id="product-promotion">
         <div class="field-group">
@@ -320,7 +314,7 @@
                     </div>
                     <div class="form-control">
                         <label>Hình Ảnh Chi Tiết <span class="text-red">*</span></label>
-                        <input type="file" name="product_details[{?}][images][]" class="product-detail-images" multiple data-theme="fas">
+                        <input type="file" name="product_details[{?}][images][]" class="product-detail-images" multiple>
                     </div>
                 </div>
             </div>

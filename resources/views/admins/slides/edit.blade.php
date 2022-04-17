@@ -30,7 +30,7 @@
                 <div class="col-12 mb-30">
                     <h6 class="mb-15">Image</h6>
                     <input class="dropify @error('image') border border-danger @enderror" type="file" name="image"
-                        data-default-file="{{ asset('/storage/uploads/slides/'. $slide->image)}}">
+                        data-default-file="{{ asset('/images/slides/'. $slide->image)}}">
                     @error('image')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
