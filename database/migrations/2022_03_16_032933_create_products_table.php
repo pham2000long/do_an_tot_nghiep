@@ -22,13 +22,15 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('supplier_id');
             $table->foreign('supplier_id', 'FK_products_3')->references('id')->on('suppliers');
             $table->string('name');
-            $table->string('feture_image_path')->nullable();
+            $table->string('image')->nullable();
             $table->string('sku_code');
             $table->string('slug')->nullable();
             $table->string('size')->nullable();
+            $table->boolean('status')->default(true);
+            $table->integer('import_price');
+            $table->integer('sale_price');
             $table->text('description')->nullable();
             $table->string('insurance')->nullable();
-            $table->string('transport')->nullable();
             $table->double('rate')->nullable();
             $table->timestamps();
             $table->softDeletes();

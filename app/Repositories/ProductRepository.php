@@ -36,4 +36,12 @@ class ProductRepository extends BaseRepository implements ProductContract
             ->where('id', $id)
             ->first();
     }
+
+    public function getLimitProducts(int $limit)
+    {
+        return $this->model
+            ->orderBy('id', 'desc')
+            ->limit($limit)
+            ->get();
+    }
 }

@@ -18,10 +18,7 @@ class CreateProductDetailsTable extends Migration
             $table->unsignedInteger('product_id');
             $table->foreign('product_id', 'FK_product_details_1')->references('id')->on('products');
             $table->string('color')->nullable();
-            $table->integer('import_quantity');
             $table->integer('quantity');
-            $table->integer('import_price');
-            $table->integer('sale_price');
             $table->timestamps();
         });
     }

@@ -120,6 +120,20 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="col-6 mb-15">
+                                    <input name="import_price" class="form-control @error('import_price') border border-danger @enderror"
+                                        type="text" placeholder="Giá nhập" value="{{ $product->import_price }}">
+                                    @error('import_price')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-6 mb-15">
+                                    <input name="sale_price" class="form-control @error('sale_price') border border-danger @enderror"
+                                        type="text" placeholder="Giá bán" value="{{ $product->sale_price }}">
+                                    @error('sale_price')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <div class="col-12 mb-15">
                                     <h6 class="mb-15">Nhập tags sản phẩm</h6>
                                     <select class="form-control tags_select2_choose" multiple="multiple" name="tags[]">
@@ -171,20 +185,6 @@
                                                             <div class="form-control">
                                                                 <label for="quantity_new0">Số Lượng <span class="text-red">*</span></label>
                                                                 <input type="number" min="1" name="old_product_details[{{ $product_detail->id }}][quantity]" class="form-control" id="quantity_{{ $product_detail->id }}" placeholder="Số lượng" required="" autocomplete="off" value="{{ $product_detail->quantity }}">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-control">
-                                                                <label for="import_price_new0">Giá Nhập (VNĐ) <span class="text-red">*</span></label>
-                                                                <input type="number" name="old_product_details[{{ $product_detail->id }}][import_price]" class="form-control currency" id="import_price_{{ $product_detail->id }}" placeholder="Giá nhập" required="" autocomplete="off" value="{{ $product_detail->import_price }}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-control">
-                                                                <label for="sale_price_new0">Giá Bán (VNĐ) <span class="text-red">*</span></label>
-                                                                <input type="number" name="old_product_details[{{ $product_detail->id }}][sale_price]" class="form-control currency" id="sale_price_{{ $product_detail->id }}" placeholder="Giá bán" required="" autocomplete="off" value="{{ $product_detail->sale_price }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -281,20 +281,6 @@
                             <div class="form-control">
                                 <label for="quantity_{?}">Số Lượng <span class="text-red">*</span></label>
                                 <input type="number" min="1" name="product_details[{?}][quantity]" class="form-control" id="quantity_{?}" placeholder="Số lượng" required autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-control">
-                                <label for="import_price_{?}">Giá Nhập (VNĐ) <span class="text-red">*</span></label>
-                                <input type="number" name="product_details[{?}][import_price]" class="form-control currency" id="import_price_{?}" placeholder="Giá nhập" required autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-control">
-                                <label for="sale_price_{?}">Giá Bán (VNĐ) <span class="text-red">*</span></label>
-                                <input type="number" name="product_details[{?}][sale_price]" class="form-control currency" id="sale_price_{?}" placeholder="Giá bán" required autocomplete="off">
                             </div>
                         </div>
                     </div>

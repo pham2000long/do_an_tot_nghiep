@@ -25,9 +25,10 @@ class Product extends Model
         'slug',
         'size',
         'status',
+        'import_price',
+        'sale_price',
         'description',
         'insurance',
-        'transport',
         'rate'
     ];
 
@@ -90,5 +91,15 @@ class Product extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'product_tags', 'product_id', 'tag_id')->withTimestamps();
+    }
+
+    /**
+     * Relationship hasMany with productImages
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function productImages()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }

@@ -72,14 +72,15 @@ class ProductService implements ProductServiceInterface
             'product_type_id' => $params['product_type_id'],
             'supplier_id' => $params['supplier_id'],
             'name' => $params['name'],
-            'image' => $image,
+            'image' => !empty($image) ? $image : $params['thumb_current'],
             'sku_code' => $params['sku_code'],
             'slug' => Str::slug($params['name']),
-            'size' => $params['size'],
-            'status' => $params['status'],
+            'size' => $params['size'] ? $params['size'] : null,
+            'status' => $params['status'] ? $params['status'] : false,
+            'import_price' => $params['import_price'] ? $params['import_price'] : null,
+            'sale_price' => $params['sale_price'] ? $params['sale_price'] : null,
             'description' => !empty($description) ? $description : null,
             'insurance' => !empty($insurance) ? $insurance : null,
-            'transport' => null,
             'rate' => null,
         ];
         DB::beginTransaction();
@@ -106,6 +107,7 @@ class ProductService implements ProductServiceInterface
                     if (!empty($product_detail['images'])) {
                         foreach ($product_detail['images'] as $image) {
                             $product_image['name'] = $this->snapshotRepository->uploadProductImages($image, 'product_images');
+                            $product_image['product_id'] = $product->id;
                             $product_image['product_detail_id'] = $productDetail->id;
                             $this->productImageRepository->create($product_image);
                         }
@@ -162,11 +164,12 @@ class ProductService implements ProductServiceInterface
             'image' => !empty($image) ? $image : $params['thumb_current'],
             'sku_code' => $params['sku_code'],
             'slug' => Str::slug($params['name']),
-            'size' => $params['size'],
-            'status' => $params['status'],
+            'size' => $params['size'] ? $params['size'] : null,
+            'status' => $params['status'] ? $params['status'] : false,
+            'import_price' => $params['import_price'] ? $params['import_price'] : null,
+            'sale_price' => $params['sale_price'] ? $params['sale_price'] : null,
             'description' => !empty($description) ? $description : null,
             'insurance' => !empty($insurance) ? $insurance : null,
-            'transport' => null,
             'rate' => null,
         ];
         DB::beginTransaction();
@@ -194,6 +197,7 @@ class ProductService implements ProductServiceInterface
                     if (!empty($old_product_detail['images'])) {
                         foreach ($old_product_detail['images'] as $image) {
                             $product_image['name'] = $this->snapshotRepository->uploadProductImages($image, 'product_images');
+                            $product_image['product_id'] = $product->id;
                             $product_image['product_detail_id'] = $productDetail->id;
                             $this->productImageRepository->create($product_image);
                         }
@@ -213,6 +217,7 @@ class ProductService implements ProductServiceInterface
                     if (!empty($product_detail['images'])) {
                         foreach ($product_detail['images'] as $image) {
                             $product_image['name'] = $this->snapshotRepository->uploadProductImages($image, 'product_images');
+                            $product_image['product_id'] = $product->id;
                             $product_image['product_detail_id'] = $productDetail->id;
                             $this->productImageRepository->create($product_image);
                         }
@@ -226,5 +231,12 @@ class ProductService implements ProductServiceInterface
         }
 
         return ['Sửa sản phẩm thành công', true];
+    }
+
+    public function getLimitProducts(int $limit)
+    {
+        $products = $this->productRepository->getLimitProducts($limit);
+
+        return $products;
     }
 }

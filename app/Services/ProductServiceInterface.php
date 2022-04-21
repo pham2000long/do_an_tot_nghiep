@@ -11,4 +11,6 @@ interface ProductServiceInterface
     public function findProductById(int $id);
 
     public function update(int $id, array $params);
+
+    public function getLimitProducts(int $limit);
 }

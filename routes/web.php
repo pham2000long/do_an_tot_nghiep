@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Page;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +39,6 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 // User
+Route::group(['prefix' => '/'], function () {
+    Route::get('/', [Page\HomeController::class, 'index'])->name('home.index');
+});
