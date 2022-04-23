@@ -42,7 +42,7 @@ class ConvertDataContent
 
                 $this->snapshotRepository->putThumb($imageName, $data, $link);
 
-                $url = '/public/images/' . $link . '/' . $imageName;
+                $url = asset('images') . '/' . $link . '/' . $imageName;
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $url);
             }
