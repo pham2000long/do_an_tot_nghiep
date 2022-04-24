@@ -239,4 +239,46 @@ class ProductService implements ProductServiceInterface
 
         return $products;
     }
+
+    public function updateStatus(array $params)
+    {
+        $product = $this->productRepository->findById($params['id']);
+
+        if (empty($product)) {
+            return ['Sản phẩm không tồn tại!', false];
+        }
+
+        try {
+            $product->status = $params['status'];
+            $product->save();
+        } catch (\Exception $exception) {
+            \Log::error($exception);
+            return ['Đã xảy ra lỗi hệ thống không thể sửa trạng thái sản phẩm!', false];
+        }
+
+        return ['Sửa trạng thái thành công', true];
+    }
+
+    public function delete(int $id)
+    {
+        $product = $this->productRepository->findById($id);
+
+        if (empty($product)) {
+            return ['Sản phẩm không tồn tại!', false];
+        }
+
+        DB::beginTransaction();
+        try {
+            if ($product->productDetails->count()) {
+                $this->productDetailRepository->deleteProductDetailByProductId($id);
+            }
+            $this->productRepository->destroy($id);
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return ['Đã xảy ra lỗi hệ thống không thể xóa sản phẩm', false];
+        }
+
+        return ['Xóa sản phẩm thành công!', true];
+    }
 }

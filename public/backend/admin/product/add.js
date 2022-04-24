@@ -5,6 +5,7 @@ $(function() {
         template: "#product-promotion",
         afterAdd:function () {
             $('.promotion-reservation').daterangepicker({
+                opens: 'left',
                 autoApply: true,
                 minDate: moment(),
                 "locale": {

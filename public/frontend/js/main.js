@@ -211,7 +211,7 @@
             stopOnHover: false
         });
 
-        animatetCaptions(); 
+        animatetCaptions();
 
         function animatetCaptions(event) {
             "use strict";
@@ -412,7 +412,7 @@
         if ($(this).is(':checked')) {
             var $labelText = $(this).parent().find('label').text(),
                 $title = $(this).closest('.filter-box').find('.title');
-            
+
             $title.find('span').text($labelText);
         }
     });
@@ -461,7 +461,7 @@
         }
     });
 
-    // Coupon code 
+    // Coupon code
     // ----------------------------------------------------------------
 
     $(".form-coupon").hide();
@@ -558,10 +558,11 @@
         $("#range-price-slider").ionRangeSlider({
             type: "double",
             min: 0,
-            max: 4000,
-            from: 150,
-            to: 3800,
-            prefix: "$",
+            max: 100000000,
+            from: 1500000,
+            to: 80000000,
+            // prefix: "$",
+            postfix: "₫",
             onChange: function (data) {
 
                 $(".item").each(function () {

@@ -44,4 +44,20 @@ class ProductRepository extends BaseRepository implements ProductContract
             ->limit($limit)
             ->get();
     }
+
+    public function updateProductByPromotion(int $promotionId, array $categoryIds)
+    {
+        return $this->model
+            ->whereHas('category', function ($query) use ($categoryIds) {
+                $query->whereIn('id', $categoryIds);
+            })
+            ->update(['promotion_id' => $promotionId]);
+    }
+
+    public function updateProductNotPromotion(int $promotionId)
+    {
+        return $this->model
+            ->where('promotion_id', $promotionId)
+            ->update(['promotion_id' => null]);
+    }
 }

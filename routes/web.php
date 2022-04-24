@@ -31,14 +31,21 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [Admin\ProductController::class, 'index'])->name('products.index');
             Route::get('/create', [Admin\ProductController::class, 'create'])->name('products.create');
             Route::post('/store', [Admin\ProductController::class, 'store'])->name('products.store');
-            Route::get('/{id}', [Admin\ProductController::class, 'edit'])->name('products.edit');
-            Route::post('/{id}', [Admin\ProductController::class, 'update'])->name('products.update');
-            Route::post('/productDetail/deleteImage', [Admin\ProductController::class, 'deleteProductImage'])->name('product.product_detail.delete_image');
+            Route::get('/edit/{id}', [Admin\ProductController::class, 'edit'])->name('products.edit');
+            Route::post('/update/{id}', [Admin\ProductController::class, 'update'])->name('products.update');
+            Route::post('/productDetail/deleteImage', [Admin\ProductController::class, 'deleteProductImage'])
+                ->name('product.product_detail.delete_image');
+            Route::delete('/{id}', [Admin\ProductController::class, 'delete'])->name('products.delete');
+            Route::post('/updateStatus', [Admin\ProductController::class, 'updateStatus'])->name('products.updateStatus');
         });
+        Route::resource('promotions', Admin\PromotionController::class);
+        Route::post('/promotions/updateStatus', [Admin\PromotionController::class, 'updateStatus'])->name('promotion.updateStatus');
     });
 });
 
 // User
 Route::group(['prefix' => '/'], function () {
     Route::get('/', [Page\HomeController::class, 'index'])->name('home.index');
+    Route::get('/products/{id}', [Page\ProductDetailController::class, 'findProductDetail'])->name('pages.product_detail');
+    Route::get('/shop', [Page\ShopController::class, 'index'])->name('pages.shop');
 });

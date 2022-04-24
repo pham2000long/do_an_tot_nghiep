@@ -41,7 +41,7 @@
                                     <td>
                                         <div class="adomx-checkbox-radio-group">
                                             <label class="adomx-switch">
-                                                <input data-url="" data-id="" class="switch-status"  type="checkbox" {{ $product->status ? 'checked' : '' }}>
+                                                <input data-url="{{ route('products.updateStatus') }}" data-id="{{ $product->id }}" class="switch-status"  type="checkbox" {{ $product->status ? 'checked' : '' }}>
                                                 <i class="lever"></i>
                                             </label>
                                         </div>
@@ -50,7 +50,7 @@
                                         <div class="table-action-buttons">
                                             {{-- <a class="view button button-box button-xs button-primary" href=""><i class="zmdi zmdi-more"></i></a> --}}
                                             <a class="edit button button-box button-xs button-info" href="{{ route('products.edit', $product->id) }}"><i class="zmdi zmdi-edit"></i></a>
-                                            <button data-url="" class="delete button button-box button-xs button-danger sweetalert sweetalert-delete"><i class="zmdi zmdi-delete"></i></button>
+                                            <button data-url="{{ route('products.delete', $product->id) }}" class="delete button button-box button-xs button-danger sweetalert sweetalert-delete"><i class="zmdi zmdi-delete"></i></button>
                                         </div>
                                     </td>
                                 </tr>

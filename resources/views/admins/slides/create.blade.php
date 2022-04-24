@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-lg-6 col-12 mb-30">
                     <input name="link" class="form-control @error('link') border border-danger @enderror" type="text" placeholder="Slide Link">
-                    @error('name')
+                    @error('link')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>

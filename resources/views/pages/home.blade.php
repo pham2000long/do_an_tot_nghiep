@@ -97,12 +97,13 @@
                                 <div class="figure-grid">
                                     <div class="image">
                                         <a href="#productid{{ $product->id }}" class="mfp-open">
-                                            <img src="{{ asset('images/products/' . $product->image) }}" alt="" width="360" height="300"/>
+                                            <img src="{{ asset('images/products/' . $product->image) }}" alt="" width="360" height="360"/>
                                         </a>
                                     </div>
                                     <div class="text">
-                                        <h2 class="title h4"><a href="product.html">{{ $product->name }}</a></h2>
+                                        <h2 class="title h4"><a href="{{ route('pages.product_detail', $product->id) }}">{{ $product->name }}</a></h2>
                                         <sub>{{ $product->import_price }}</sub>
+                                        {{-- style="font-weight: bold;font-size: 20px;color: #cc9600" --}}
                                         <sup>{{ $product->sale_price }}</sup>
                                     </div>
                                 </div>
@@ -114,7 +115,7 @@
             <!-- === button more === -->
 
             <div class="wrapper-more">
-                <a href="products-grid.html" class="btn btn-main">View store</a>
+                <a href="{{ route('pages.shop') }}" class="btn btn-main">View store</a>
             </div>
 
             <!-- ========================  Product info popup - quick view ======================== -->
@@ -184,15 +185,6 @@
                                                     <span class="color-btn color-btn-biege"></span>
                                                 </div>
                                             </div>
-                                            <div class="info-box">
-                                                <strong>Chọn kích thước</strong>
-                                                <div class="product-colors clearfix">
-                                                    <span class="color-btn color-btn-biege">S</span>
-                                                    <span class="color-btn color-btn-biege checked">M</span>
-                                                    <span class="color-btn color-btn-biege">XL</span>
-                                                    <span class="color-btn color-btn-biege">XXL</span>
-                                                </div>
-                                            </div>
                                         </div>
 
                                     </div> <!--/row-->
@@ -208,7 +200,7 @@
                                 </div>
                                 <div class="popup-cell">
                                     <div class="popup-buttons">
-                                        <a href="product.html"><span class="icon icon-eye"></span> <span class="hidden-xs">View more</span></a>
+                                        <a href="{{ route('pages.product_detail', $product->id) }}"><span class="icon icon-eye"></span> <span class="hidden-xs">View more</span></a>
                                         <a href="javascript:void(0);"><span class="icon icon-cart"></span> <span class="hidden-xs">Buy</span></a>
                                     </div>
                                 </div>
@@ -350,7 +342,7 @@
                     <div class="col-md-offset-2 col-md-8 text-center">
                         <h1 class="h2 title">Blog</h1>
                         <div class="text">
-                            <p>Latest news from the blog</p>
+                            <p>Tin tức mới nhất từ blog</p>
                         </div>
                     </div>
                 </div>
@@ -376,60 +368,6 @@
                                 </div>
                                 <div class="title">
                                     <h2 class="h5">The 3 Tricks that Quickly Became Rules</h2>
-                                </div>
-                            </div>
-                            <div class="show-more">
-                                <span class="btn btn-main btn-block">Read more</span>
-                            </div>
-                        </a>
-                    </article>
-                </div>
-
-                <!-- === blog item === -->
-
-                <div class="col-sm-4">
-                    <article>
-                        <a href="article.html">
-                            <div class="image" style="background-image:url(assets/images/blog-2.jpg)">
-                                <img src="assets/images/blog-1.jpg" alt="" />
-                            </div>
-                            <div class="entry entry-table">
-                                <div class="date-wrapper">
-                                    <div class="date">
-                                        <span>MAR</span>
-                                        <strong>03</strong>
-                                        <span>2017</span>
-                                    </div>
-                                </div>
-                                <div class="title">
-                                    <h2 class="h5">Decorating When You're Starting Out or Starting Over</h2>
-                                </div>
-                            </div>
-                            <div class="show-more">
-                                <span class="btn btn-main btn-block">Read more</span>
-                            </div>
-                        </a>
-                    </article>
-                </div>
-
-                <!-- === blog item === -->
-
-                <div class="col-sm-4">
-                    <article>
-                        <a href="article.html">
-                            <div class="image" style="background-image:url(assets/images/blog-8.jpg)">
-                                <img src="assets/images/blog-8.jpg" alt="" />
-                            </div>
-                            <div class="entry entry-table">
-                                <div class="date-wrapper">
-                                    <div class="date">
-                                        <span>MAR</span>
-                                        <strong>01</strong>
-                                        <span>2017</span>
-                                    </div>
-                                </div>
-                                <div class="title">
-                                    <h2 class="h5">What does your favorite dining chair say about you?</h2>
                                 </div>
                             </div>
                             <div class="show-more">

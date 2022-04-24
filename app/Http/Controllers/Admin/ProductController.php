@@ -82,4 +82,23 @@ class ProductController extends Controller
             'message' => 'Xóa ảnh thành công!'
         ]);
     }
+
+    public function updateStatus(Request $request)
+    {
+        list($message, $success) = $this->productService->updateStatus($request->all());
+
+        return $success ? response()->json([
+            'success' => $message
+        ]) : response()->json([
+            'error' => $message
+        ]);
+    }
+
+    public function delete($id)
+    {
+        list($message, $success) = $this->productService->delete($id);
+
+        return $success ? redirect()->route('products.index')->with('success', $message)
+            : back()->with('error', $message);
+    }
 }
