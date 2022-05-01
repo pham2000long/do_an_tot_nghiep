@@ -5,18 +5,21 @@
  <div class="add-edit-product-wrap col-12">
 
     <div class="add-edit-product-form">
-        <form method="POST" action="{{ route('promotions.store') }}" enctype="multipart/form-data">
-            <h4 class="title">Thêm khuyến mãi</h4>
+        <form method="POST" action="{{ route('promotions.update', $promotion->id) }}" enctype="multipart/form-data">
+            <h4 class="title">Sửa khuyến mãi</h4>
             @csrf
+            @method('PUT')
             <div class="row">
                 <div class="col-lg-6 col-12 mb-30">
-                    <input name="name" class="form-control @error('name') border border-danger @enderror" type="text" placeholder="Tên khuyến mãi">
+                    <input name="name" class="form-control @error('name') border border-danger @enderror" type="text"
+                        placeholder="Tên khuyến mãi" value="{{ $promotion->name }}">
                     @error('name')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col-lg-6 col-12 mb-30">
-                    <input name="price" class="form-control @error('price') border border-danger @enderror" type="text" placeholder="Giảm giá">
+                    <input name="price" class="form-control @error('price') border border-danger @enderror"
+                        type="text" placeholder="Giảm giá" value="{{ $promotion->price }}">
                     @error('price')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -24,8 +27,8 @@
                 <div class="col-lg-6 col-12 mb-30">
                     <h6 class="mb-15">Loại khuyến mại</h6>
                     <select name="promotion_method" class="form-control select2 @error('promotion_method') border border-danger @enderror">
-                        <option value="1">Theo phần trăm</option>
-                        <option value="0">Theo giá tiền</option>
+                        <option value="1" {{ $promotion->promotion_method ? 'checked' : '' }}>Theo phần trăm</option>
+                        <option value="0" {{ !$promotion->promotion_method ? 'checked' : '' }}>Theo giá tiền</option>
                     </select>
                     @error('promotion_method')
                         <div class="text-danger">{{ $message }}</div>
@@ -34,7 +37,9 @@
                 <div class="col-lg-6 col-12 mb-30">
                     <h6 class="mb-15">Thời gian khuyến mãi</h6>
                     <div class="input-group">
-                        <input type="text" class="form-control input-date-time promotion-reservation" name="promotion_date">
+                        <input type="text" class="form-control input-date-time promotion-reservation"
+                        value="{{ old('promotion_date') ?: date_format(date_create($promotion->started_at), 'm/d/Y').' - '.date_format(date_create($promotion->ended_at), 'm/d/Y') }}"
+                        name="promotion_date" >
                     </div>
                 </div>
                  <!--Multiple Select-->
@@ -62,7 +67,7 @@
             <!-- Button Group Start -->
             <div class="row">
                 <div class="d-flex flex-wrap justify-content-end col mbn-10">
-                    <button type="submit" class="button button-outline button-primary mb-10 ml-10 mr-0" >Thêm mới</button>
+                    <button type="submit" class="button button-outline button-primary mb-10 ml-10 mr-0" >Sửa</button>
                 </div>
             </div><!-- Button Group End -->
 

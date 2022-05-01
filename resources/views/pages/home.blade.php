@@ -91,9 +91,9 @@
                                         <a href="#productid{{ $product->id }}" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
                                     </span>
                                 </div>
-                                <div class="btn btn-add">
-                                    <i class="icon icon-cart"></i>
-                                </div>
+                                    <div class="btn btn-add" data-url="{{ route('carts.addCart') }}" data-product="{{ $product }}">
+                                        <i class="icon icon-cart"></i>
+                                    </div>
                                 <div class="figure-grid">
                                     <div class="image">
                                         <a href="#productid{{ $product->id }}" class="mfp-open">
@@ -102,9 +102,19 @@
                                     </div>
                                     <div class="text">
                                         <h2 class="title h4"><a href="{{ route('pages.product_detail', $product->id) }}">{{ $product->name }}</a></h2>
-                                        <sub>{{ $product->import_price }}</sub>
+                                        @if (isset($product->promotion) && now()->gte($product->promotion->started_at) && now()->lte($product->promotion->ended_at) && $product->promotion->status)
+                                            <sub>{{ $product->sale_price }}</sub>
+                                            @if ($product->promotion->promotion_method)
+                                                <sup>{{ $product->sale_price - ($product->sale_price * $product->promotion->price) / 100 }}</sup>
+                                            @else
+                                                <sup>{{ ($product->sale_price - $product->promotion->price) }}</sup>
+                                            @endif
+                                        @else
+                                            <sup>{{ $product->sale_price }}</sup>
+                                        @endif
+
                                         {{-- style="font-weight: bold;font-size: 20px;color: #cc9600" --}}
-                                        <sup>{{ $product->sale_price }}</sup>
+
                                     </div>
                                 </div>
                             </article>
@@ -177,13 +187,18 @@
                                         <div class="col-sm-6">
                                             <div class="info-box">
                                                 <strong>Màu sắc</strong>
-                                                <div class="product-colors clearfix">
-                                                    <span class="color-btn color-btn-red"></span>
-                                                    <span class="color-btn color-btn-blue checked"></span>
-                                                    <span class="color-btn color-btn-green"></span>
-                                                    <span class="color-btn color-btn-gray"></span>
-                                                    <span class="color-btn color-btn-biege"></span>
-                                                </div>
+                                                @if ($product->productDetails->count())
+                                                        <div class="clearfix">
+                                                            @foreach ($product->productDetails as $productDetail)
+                                                            <span class="checkbox checkbox-inline">
+                                                                <input type="radio" id="product_detail_{{ $productDetail->id }}" name="product_detail" value="{{ $productDetail->id }}" checked="checked">
+                                                                <label for="product_detail_{{ $productDetail->id }}">
+                                                                    <strong>{{ $productDetail->color }}</strong>
+                                                                </label>
+                                                            </span>
+                                                            @endforeach
+                                                        </div>
+                                                @endif
                                             </div>
                                         </div>
 
@@ -195,7 +210,17 @@
                             <div class="popup-table">
                                 <div class="popup-cell">
                                     <div class="price">
-                                        <span class="h3">{{ $product->sale_price }} <small>{{ $product->import_price }}</small></span>
+                                        {{-- <span class="h3">{{ $product->sale_price }} <small>{{ $product->import_price }}</small></span> --}}
+
+                                        @if (isset($product->promotion) && now()->gte($product->promotion->started_at) && now()->lte($product->promotion->ended_at) && $product->promotion->status)
+                                            @if ($product->promotion->promotion_method)
+                                                <span class="h3">{{ $product->sale_price - ($product->sale_price * $product->promotion->price) / 100 }} <small>{{ $product->sale_price }}</small></span>
+                                            @else
+                                            <span class="h3">{{ $product->sale_price - $product->promotion->price }} <small>{{ $product->sale_price }}</small></span>
+                                            @endif
+                                        @else
+                                            <span>{{ $product->sale_price }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="popup-cell">

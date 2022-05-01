@@ -19,6 +19,7 @@
                 <li><a href="{{ route('suppliers.index') }}"><i class="ti-truck"></i> <span>Nhà cung cấp</span></a></li>
                 <li><a href="{{ route('products.index') }}"><i class="fa fa-archive"></i> <span>Sản phẩm</span></a></li>
                 <li><a href="{{ route('promotions.index') }}"><i class="fa fa-bullhorn"></i> <span>Khuyến mãi</span></a></li>
+                <li><a href="{{ route('users.index') }}"><i class="fa fa-user-o"></i> <span>Quản lý tài khoản</span></a></li>
                 {{-- <li class="has-sub-menu"><a href="#"><i class="ti-home"></i> <span>Dashboard</span></a>
                     <ul class="side-header-sub-menu">
                         <li><a href="index.html"><span>E-commerce (Default)</span></a></li>

@@ -135,6 +135,25 @@
         }
     });
 
+    $('.btn-add').on('click', function () {
+        var data = $(this).data('product');
+        var urlRequest = $(this).data('url')
+        console.log(typeof data);
+        console.log(urlRequest);
+        data._token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: urlRequest,
+            type: "POST",
+            data: data,
+            success: function(data) {
+                alert(data.message)
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        })
+    });
+
     // Tooltip
     // ----------------------------------------------------------------
 

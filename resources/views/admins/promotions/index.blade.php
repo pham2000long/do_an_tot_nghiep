@@ -47,8 +47,8 @@
                         <td>
                             <div class="table-action-buttons">
                                 {{-- <a class="view button button-box button-xs button-primary" href="invoice-details.html"><i class="zmdi zmdi-more"></i></a> --}}
-                                <a class="edit button button-box button-xs button-info" href=""><i class="zmdi zmdi-edit"></i></a>
-                                <button data-url="" class="delete button button-box button-xs button-danger sweetalert sweetalert-delete"><i class="zmdi zmdi-delete"></i></button>
+                                <a class="edit button button-box button-xs button-info" href="{{ route('promotions.edit', $promotion->id) }}"><i class="zmdi zmdi-edit"></i></a>
+                                <button data-url="{{ route('promotions.destroy', $promotion->id) }}" class="delete button button-box button-xs button-danger sweetalert sweetalert-delete"><i class="zmdi zmdi-delete"></i></button>
                             </div>
                         </td>
                     </tr>

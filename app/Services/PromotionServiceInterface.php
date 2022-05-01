@@ -8,6 +8,8 @@ interface PromotionServiceInterface
 
     public function create(array $params);
 
+    public function findPromotionById(int $id);
+
     public function update(array $params, int $id);
 
     public function delete(int $id);

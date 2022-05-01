@@ -74,6 +74,16 @@ class Product extends Model
     }
 
     /**
+     * Relationship belongsTo with Promotion
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function promotion()
+    {
+        return $this->belongsTo(Promotion::class);
+    }
+
+    /**
      * Relationship hasMany with productDetails
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany

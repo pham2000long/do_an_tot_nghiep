@@ -78,6 +78,13 @@ class PromotionService implements PromotionServiceInterface
         return ['Sửa trạng thái thành công', true];
     }
 
+    public function findPromotionById(int $id)
+    {
+        $promotion = $this->promotionRepository->findById($id);
+
+        return $promotion;
+    }
+
     public function update($params, $id)
     {
         $promotion = $this->promotionRepository->findById($id);

@@ -40,6 +40,13 @@ Route::group(['prefix' => 'admin'], function () {
         });
         Route::resource('promotions', Admin\PromotionController::class);
         Route::post('/promotions/updateStatus', [Admin\PromotionController::class, 'updateStatus'])->name('promotion.updateStatus');
+        Route::prefix('users')->group(function() {
+            Route::get('/', [Admin\UserController::class, 'index'])->name('users.index');
+            Route::get('/create', [Admin\UserController::class, 'create'])->name('users.create');
+            Route::post('/store', [Admin\UserController::class, 'store'])->name('users.store');
+            Route::get('/profile', [Admin\UserController::class, 'profile'])->name('users.profile');
+            Route::post('/update/{id}', [Admin\UserController::class, 'update'])->name('users.update');
+        });
     });
 });
 
@@ -48,4 +55,6 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/', [Page\HomeController::class, 'index'])->name('home.index');
     Route::get('/products/{id}', [Page\ProductDetailController::class, 'findProductDetail'])->name('pages.product_detail');
     Route::get('/shop', [Page\ShopController::class, 'index'])->name('pages.shop');
+    Route::post('/addToCart', [Page\CartController::class, 'addCart'])->name('carts.addCart');
+    
 });

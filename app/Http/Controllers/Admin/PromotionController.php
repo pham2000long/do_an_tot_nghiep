@@ -74,14 +74,15 @@ class PromotionController extends Controller
      */
     public function edit($id)
     {
-        $promotion = $this->promotionService->findById($id);
+        $promotion = $this->promotionService->findPromotionById($id);
+        $categories = Category::all();
 
         if (!$promotion) {
             return back()->with('error', 'Không tồn tại slide');
         }
-        return view('admins.promotions.edit', compact('promotion'), [
+        return view('admins.promotions.edit', compact('promotion', 'categories'), [
             'title' => 'Khuyến mại'
-        ]);
+        ]);;
     }
 
     /**

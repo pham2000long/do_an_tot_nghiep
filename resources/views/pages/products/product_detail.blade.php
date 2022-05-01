@@ -21,144 +21,116 @@
 
 <section class="product">
     <div class="main">
-        <div class="container">
-            <div class="row product-flex">
+        <form method="POST" action="{{ route('products.update', $product->id) }}">
+            @csrf
+            <div class="container">
+                <div class="row product-flex">
 
-                <!-- product flex is used only for mobile order -->
-                <!-- on mobile 'product-flex-info' goes bellow gallery 'product-flex-gallery' -->
+                    <!-- product flex is used only for mobile order -->
+                    <!-- on mobile 'product-flex-info' goes bellow gallery 'product-flex-gallery' -->
 
-                <div class="col-md-4 col-sm-12 product-flex-info">
-                    <div class="clearfix">
-
-                        <!-- === product-title === -->
-
-                        <h1 class="title" data-title="{{ $product->productType->name }}">{{ $product->name }}</h1>
-
+                    <div class="col-md-4 col-sm-12 product-flex-info">
                         <div class="clearfix">
 
-                            <!-- === price wrapper === -->
+                            <!-- === product-title === -->
 
-                            <div class="price">
-                                <span class="h3">
-                                    {{ $product->sale_price }}
-                                    <small>{{ $product->import_price }}</small>
-                                </span>
-                            </div>
-                            <hr />
+                            <h1 class="title" data-title="{{ $product->productType->name }}">{{ $product->name }}</h1>
 
-                            <!-- === info-box === -->
+                            <div class="clearfix">
 
-                            <div class="info-box">
-                                <span><strong>Thương hiệu</strong></span>
-                                <span>{{ $product->supplier->name }}</span>
-                            </div>
+                                <!-- === price wrapper === -->
 
-                            {{-- <!-- === info-box === -->
-
-                            <div class="info-box">
-                                <span><strong>Materials</strong></span>
-                                <span>Wood, Leather, Acrylic</span>
-                            </div> --}}
-
-                            <!-- === info-box === -->
-
-                            <div class="info-box">
-                                <span><strong>Tình trạng</strong></span>
-                                {{-- <span><i class="fa fa-check-square-o"></i> In stock</span>
-                                <span class="hidden"><i class="fa fa-truck"></i> Out of stock</span> --}}
-                                <span>
-                                    {{
-                                        $product->productDetails->filter(function ($productDetail) {
-                                            return $productDetail->quantity > 0;
-                                        }) ? 'Còn hàng' : 'Hết hàng'
-                                    }}
-                                </span>
-                            </div>
-
-                            <hr />
-
-                            <div class="info-box info-box-addto added">
-                                <span><strong>Favourites</strong></span>
-                                <span>
-                                    <i class="add"><i class="fa fa-heart-o"></i> Add to favorites</i>
-                                    <i class="added"><i class="fa fa-heart"></i> Remove from favorites</i>
-                                </span>
-                            </div>
-{{--
-                            <div class="info-box info-box-addto">
-                                <span><strong>Wishlist</strong></span>
-                                <span>
-                                    <i class="add"><i class="fa fa-eye-slash"></i> Add to Watch list</i>
-                                    <i class="added"><i class="fa fa-eye"></i> Remove from Watch list</i>
-                                </span>
-                            </div>
-
-                            <div class="info-box info-box-addto">
-                                <span><strong>Collection</strong></span>
-                                <span>
-                                    <i class="add"><i class="fa fa-star-o"></i> Add to Collection</i>
-                                    <i class="added"><i class="fa fa-star"></i> Remove from Collection</i>
-                                </span>
-                            </div> --}}
-
-                            <hr />
-
-                            <!-- === info-box === -->
-
-                            <div class="info-box">
-                                <span><strong>Màu sắc</strong></span>
-                                <div class="product-colors clearfix">
-                                    <a href="" class="btn btn-default">Vàng</a>
-                                    <a href="" class="btn btn-default">Vàng</a>
-                                    <a href="" class="btn btn-default">Vàng</a>
-                                    {{-- <span class="color-btn color-btn-red"></span>
-                                    <span class="color-btn color-btn-blue"></span>
-                                    <span class="color-btn color-btn-green"></span>
-                                    <span class="color-btn color-btn-gray"></span>
-                                    <span class="color-btn color-btn-biege"></span> --}}
+                                <div class="price">
+                                    @if (isset($product->promotion) && now()->gte($product->promotion->started_at) && now()->lte($product->promotion->ended_at) && $product->promotion->status)
+                                        @if ($product->promotion->promotion_method)
+                                            <span class="h3">{{ $product->sale_price - ($product->sale_price * $product->promotion->price) / 100 }} <small>{{ $product->sale_price }}</small></span>
+                                            <input type="hidden" name="price" value="{{ $product->sale_price - ($product->sale_price * $product->promotion->price) / 100 }}">
+                                        @else
+                                            <span class="h3">{{ $product->sale_price - $product->promotion->price }} <small>{{ $product->sale_price }}</small></span>
+                                            <input type="hidden" name="price" value="{{ $product->sale_price - $product->promotion->price }}">
+                                        @endif
+                                    @else
+                                        <span>{{ $product->sale_price }}</span>
+                                        <input type="hidden" name="price" value="{{ $product->sale_price }}">
+                                    @endif
                                 </div>
-                            </div>
+                                <hr />
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <!-- === info-box === -->
 
-                            <!-- === info-box === -->
+                                <div class="info-box">
+                                    <span><strong>Thương hiệu</strong></span>
+                                    <span>{{ $product->supplier->name }}</span>
+                                </div>
 
-                            {{-- <div class="info-box">
-                                <span><strong>Choose size</strong></span>
-                                <div class="product-colors clearfix">
-                                    <span class="color-btn color-btn-biege">
-                                        <span class="product-size" data-text="">S</span>
+                                <div class="info-box">
+                                    <span><strong>Tình trạng</strong></span>
+                                    <span>
+                                        {{
+                                            $product->productDetails->filter(function ($productDetail) {
+                                                return $productDetail->quantity > 0;
+                                            }) ? 'Còn hàng' : 'Hết hàng'
+                                        }}
                                     </span>
-                                    <span class="color-btn color-btn-biege checked">M</span>
-                                    <span class="color-btn color-btn-biege">XL</span>
-                                    <span class="color-btn color-btn-biege">XXL</span>
                                 </div>
-                            </div> --}}
 
-                        </div> <!--/clearfix-->
-                    </div> <!--/product-info-wrapper-->
-                </div> <!--/col-md-4-->
-                <!-- === product item gallery === -->
+                                <hr />
 
-                <div class="col-md-8 col-sm-12 product-flex-gallery">
+                                <div class="info-box info-box-addto added">
+                                    <span><strong>Favourites</strong></span>
+                                    <span>
+                                        <i class="add"><i class="fa fa-heart-o"></i> Add to favorites</i>
+                                        <i class="added"><i class="fa fa-heart"></i> Remove from favorites</i>
+                                    </span>
+                                </div>
 
-                    <!-- === add to cart === -->
+                                <hr />
 
-                    <button type="submit" class="btn btn-buy" data-text="Buy"></button>
+                                <!-- === info-box === -->
+
+                                <div class="info-box">
+                                    <span><strong>Màu sắc</strong></span>
+                                    @if ($product->productDetails->count())
+                                        <div class="clearfix">
+                                            @foreach ($product->productDetails as $productDetail)
+                                            <span class="checkbox checkbox-inline">
+                                                <input type="radio" id="product_detail_{{ $productDetail->id }}" name="product_detail" value="{{ $productDetail->id }}" checked="checked">
+                                                <label for="product_detail_{{ $productDetail->id }}">
+                                                    <strong>{{ $productDetail->color }}</strong>
+                                                </label>
+                                            </span>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            </div> <!--/clearfix-->
+                        </div> <!--/product-info-wrapper-->
+                    </div> <!--/col-md-4-->
+                    <!-- === product item gallery === -->
+
+                    <div class="col-md-8 col-sm-12 product-flex-gallery">
+
+                        <!-- === add to cart === -->
+
+                        <button type="submit" class="btn btn-buy" data-text="Buy"></button>
 
 
-                    <!-- === product gallery === -->
+                        <!-- === product gallery === -->
 
-                    <div class="owl-product-gallery open-popup-gallery">
-                        @if ($product->productImages->count())
-                            @foreach ($product->productImages as $image)
-                                {{-- <img src="{{ asset('images/product_images/' . $image->name) }}" alt="" width="640" /> --}}
-                                <a href="{{ asset('images/product_images/' . $image->name) }}"><img src="{{ asset('images/product_images/' . $image->name) }}" alt="" height="500" /></a>
-                            @endforeach
-                        @endif
+                        <div class="owl-product-gallery open-popup-gallery">
+                            @if ($product->productImages->count())
+                                @foreach ($product->productImages as $image)
+                                    {{-- <img src="{{ asset('images/product_images/' . $image->name) }}" alt="" width="640" /> --}}
+                                    <a href="{{ asset('images/product_images/' . $image->name) }}"><img src="{{ asset('images/product_images/' . $image->name) }}" alt="" width="640" height="500" /></a>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <!-- === product-info === -->

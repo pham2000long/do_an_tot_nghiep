@@ -70,6 +70,7 @@ class ProductController extends Controller
 
     public function update(int $id, Request $request)
     {
+        dd($request->all());
         list($message, $success) = $this->productService->update($id, $request->all());
 
         return $success ? redirect()->route('products.index')->with('success', $message)
