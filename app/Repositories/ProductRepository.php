@@ -40,7 +40,18 @@ class ProductRepository extends BaseRepository implements ProductContract
     public function getLimitProducts(int $limit)
     {
         return $this->model
-            ->orderBy('id', 'desc')
+            ->select(
+                'id',
+                'category_id',
+                'product_type_id',
+                'supplier_id',
+                'promotion_id',
+                'name',
+                'image',
+                'slug',
+                'status',
+                'sale_price'
+            )->orderBy('id', 'desc')
             ->limit($limit)
             ->get();
     }

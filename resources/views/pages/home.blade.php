@@ -103,17 +103,15 @@
                                     <div class="text">
                                         <h2 class="title h4"><a href="{{ route('pages.product_detail', $product->id) }}">{{ $product->name }}</a></h2>
                                         @if (isset($product->promotion) && now()->gte($product->promotion->started_at) && now()->lte($product->promotion->ended_at) && $product->promotion->status)
-                                            <sub>{{ $product->sale_price }}</sub>
+                                            <sub>{{ number_format($product->sale_price) }} VND</sub>
                                             @if ($product->promotion->promotion_method)
-                                                <sup>{{ $product->sale_price - ($product->sale_price * $product->promotion->price) / 100 }}</sup>
+                                                <sup>{{ number_format($product->sale_price - ($product->sale_price * $product->promotion->price) / 100) }} VND</sup>
                                             @else
-                                                <sup>{{ ($product->sale_price - $product->promotion->price) }}</sup>
+                                                <sup>{{ number_format(($product->sale_price - $product->promotion->price)) }} VND</sup>
                                             @endif
                                         @else
-                                            <sup>{{ $product->sale_price }}</sup>
+                                            <sup>{{ number_format($product->sale_price) }} VND</sup>
                                         @endif
-
-                                        {{-- style="font-weight: bold;font-size: 20px;color: #cc9600" --}}
 
                                     </div>
                                 </div>

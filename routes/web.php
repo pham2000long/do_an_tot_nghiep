@@ -56,5 +56,5 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/products/{id}', [Page\ProductDetailController::class, 'findProductDetail'])->name('pages.product_detail');
     Route::get('/shop', [Page\ShopController::class, 'index'])->name('pages.shop');
     Route::post('/addToCart', [Page\CartController::class, 'addCart'])->name('carts.addCart');
-    
+    Route::get('/showCart', [Page\CartController::class, 'showCart'])->name('carts.show');
 });

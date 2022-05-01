@@ -431,71 +431,17 @@
 
                             <!--cart item-->
 
-                            <div class="row">
-
-                                <div class="cart-block cart-block-item clearfix">
-                                    <div class="image">
-                                        <a href="product.html"><img src="assets/images/product-1.png" alt="" /></a>
-                                    </div>
-                                    <div class="title">
-                                        <div><a href="product.html">Green corner</a></div>
-                                        <small>Green corner</small>
-                                    </div>
-                                    <div class="quantity">
-                                        <input type="number" value="2" class="form-control form-quantity" />
-                                    </div>
-                                    <div class="price">
-                                        <span class="final">$ 1.998</span>
-                                        <span class="discount">$ 2.666</span>
-                                    </div>
-                                    <!--delete-this-item-->
-                                    <span class="icon icon-cross icon-delete"></span>
-                                </div>
-
+                            <div class="row cart-items">
+                                <?php
+                                    $contents = Cart::content();
+                                    echo "<pre>";
+                                    print_r($contents);
+                                    echo "</pre>";
+                                ?>
                                 <!--cart item-->
-
-                                <div class="cart-block cart-block-item clearfix">
-                                    <div class="image">
-                                        <a href="product.html"><img src="assets/images/product-2.png" alt="" /></a>
-                                    </div>
-                                    <div class="title">
-                                        <div><a href="product.html">Green corner</a></div>
-                                        <small>Green corner</small>
-                                    </div>
-                                    <div class="quantity">
-                                        <input type="number" value="2" class="form-control form-quantity" />
-                                    </div>
-                                    <div class="price">
-                                        <span class="final">$ 1.998</span>
-                                        <span class="discount">$ 2.666</span>
-                                    </div>
-                                    <!--delete-this-item-->
-                                    <span class="icon icon-cross icon-delete"></span>
-                                </div>
-
-                                <!--cart item-->
-
-                                <div class="cart-block cart-block-item clearfix">
-                                    <div class="image">
-                                        <a href="product.html"><img src="assets/images/product-3.png" alt="" /></a>
-                                    </div>
-                                    <div class="title">
-                                        <div><a href="product.html">Green corner</a></div>
-                                        <small>Green corner</small>
-                                    </div>
-                                    <div class="quantity">
-                                        <input type="number" value="2" class="form-control form-quantity" />
-                                    </div>
-                                    <div class="price">
-                                        <span class="final">$ 1.998</span>
-                                        <span class="discount">$ 2.666</span>
-                                    </div>
-                                    <!--delete-this-item-->
-                                    <span class="icon icon-cross icon-delete"></span>
-                                </div>
-
-                                <!--cart item-->
-
+                                @if ($contents->count())
+                                    hhhhhhhhhhhhhhhhhhhhhh
+                                @endif
                                 <div class="cart-block cart-block-item clearfix">
                                     <div class="image">
                                         <a href="product.html"><img src="assets/images/product-4.png" alt="" /></a>
