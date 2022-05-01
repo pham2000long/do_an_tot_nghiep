@@ -98,7 +98,7 @@
                                             </div>
                                             <div class="body">
                                                 <ul>
-                                                    <li><a href="{{ route('users.profile') }}"><i class="zmdi zmdi-account"></i>Profile</a></li>
+                                                    <li><a href="{{ route('users.profile', Auth::user()->id) }}"><i class="zmdi zmdi-account"></i>Profile</a></li>
                                                 </ul>
                                                 <ul>
                                                     <li><a href="{{ route('auth.logout') }}"><i class="zmdi zmdi-lock-open"></i>Sing out</a></li>

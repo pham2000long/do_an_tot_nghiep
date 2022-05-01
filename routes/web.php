@@ -44,8 +44,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [Admin\UserController::class, 'index'])->name('users.index');
             Route::get('/create', [Admin\UserController::class, 'create'])->name('users.create');
             Route::post('/store', [Admin\UserController::class, 'store'])->name('users.store');
-            Route::get('/profile', [Admin\UserController::class, 'profile'])->name('users.profile');
-            Route::post('/update/{id}', [Admin\UserController::class, 'update'])->name('users.update');
+            Route::get('/profile/{id}', [Admin\UserController::class, 'profile'])->name('users.profile');
+            Route::post('/destroy/{id}', [Admin\UserController::class, 'destroy'])->name('users.destroy');
         });
     });
 });
