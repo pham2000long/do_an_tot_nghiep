@@ -16,4 +16,9 @@ class SupplierRepository extends BaseRepository implements SupplierContract
     {
         $this->model = $model;
     }
+
+    public function getSupplierStatistic()
+    {
+        return $this->model->select('name')->has('products')->get();
+    }
 }

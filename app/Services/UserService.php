@@ -3,18 +3,23 @@
 namespace App\Services;
 
 use App\Repositories\UserContract;
+use App\Repositories\OrderContract;
 
 class UserService implements UserServiceInterface
 {
     protected $userRepository;
+    protected $orderRepository;
 
     /**
+     * @param OrderContract $orderRepository
      * @param UserContract $userRepository
      */
     public function __construct(
+        OrderContract $orderRepository,
         UserContract $userRepository
     ) {
         $this->userRepository = $userRepository;
+        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -37,8 +42,11 @@ class UserService implements UserServiceInterface
             return ['Người dùng không tồn tại!', false];
         }
 
+        $purchaseHistory = $this->orderRepository->getListPurchaseHistory($id);
+
         return [
-          'user' => $user
+            'user' => $user,
+            'purchaseHistory' => $purchaseHistory
         ];
     }
 

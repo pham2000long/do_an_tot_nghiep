@@ -54,4 +54,11 @@ class Order extends Model
     {
         return $this->belongsTo(Payment::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orderDetails() {
+        return $this->hasMany(OrderDetail::class);
+    }
 }
