@@ -28,17 +28,18 @@ class CartController extends Controller
     {
         $productId = $request->id;
         $product = $this->productRepository->findById($productId);
-        $price = $product->sale_price;
+        $productDetail = $product->productDetails->first();
+        $priceFinal = $product->sale_price;
         if (isset($product->promotion)) {
             if (
                 $product->promotion->status
                 && now()->gte($product->promotion->started_at)
-                && now()->lte($product->promotion->endted_at)
+                && now()->lte($product->promotion->ended_at)
             ) {
-                if ($product->promotion->promoion_method) {
-                    $price = $product->sale_price - ($product->sale_price * $product->promotion->price / 100);
+                if ($product->promotion->promotion_method) {
+                    $priceFinal = $product->sale_price - ($product->sale_price * $product->promotion->price / 100);
                 } else {
-                    $price = $product->sale_price - $product->promotion->price;
+                    $priceFinal = $product->sale_price - $product->promotion->price;
                 }
             }
         }
@@ -58,24 +59,46 @@ class CartController extends Controller
                 'id' => $product->id,
                 'name' => $product->name,
                 'qty' => 1,
-                'price' => $price,
+                'price' => $priceFinal,
                 'weight' => 550,
                 'options' => [
                     'image' => $product->image,
-                    'sale_price' => $product->sale_price
+                    'sale_price' => $product->sale_price,
+                    'final_price' => $priceFinal,
+                    'product_detail_id' => $request->product_detail_id ? $request->product_detail_id : $productDetail->id
                 ],
             ]);
         }
-
-        return response()->json([
-            'message' => 'Thêm giỏ hàng thành công'
-        ], 200);
+        $carts = Cart::content();
+        // Cart::destroy();
+        return view('pages.cart', compact('carts'));
     }
 
-    public function showCart()
+    public function delete($id)
     {
-        $data = Cart::content();
+        $carts = Cart::content();
+        $oldCart = $carts->first(function ($cart) use ($id) {
+            return $cart->id == $id;
+        });
+        if (isset($oldCart)) {
+            $rowId = $oldCart->rowId;
+            Cart::remove($rowId);
+        }
+        $carts = Cart::content();
+        // Cart::destroy();
+        return view('pages.cart', compact('carts'));
+    }
 
-        return response()->json($data, 200);
+    public function updateQuantity(Request $request)
+    {
+        $cart = Cart::get($request->rowId);
+        Cart::update($request->rowId, [
+            'qty' => $request->quantity,
+            'price' => ($cart->price / $cart->qty) * $request->quantity
+        ]);
+
+        $carts = Cart::content();
+        // Cart::destroy();
+        return view('pages.cart', compact('carts'));
     }
 }

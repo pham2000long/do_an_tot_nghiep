@@ -62,5 +62,17 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/products/{id}', [Page\ProductDetailController::class, 'findProductDetail'])->name('pages.product_detail');
     Route::get('/shop', [Page\ShopController::class, 'index'])->name('pages.shop');
     Route::post('/addToCart', [Page\CartController::class, 'addCart'])->name('carts.addCart');
-    Route::get('/showCart', [Page\CartController::class, 'showCart'])->name('carts.show');
+    Route::get('/delete-cart-item/{id}', [Page\CartController::class, 'delete'])->name('carts.delete_cart_item');
+    Route::get('/updateQuantity', [Page\CartController::class, 'updateQuantity'])->name('carts.update_quantity');
+    Route::get('/delete-checkout-item/{id}', [Page\CheckoutController::class, 'delete'])->name('checkouts.delete_checkout_item');
+    Route::get('/updateCheckoutQuantity', [Page\CheckoutController::class, 'updateQuantity'])->name('checkouts.update_checkout_quantity');
+    Route::get('/cart-items', [Page\CheckoutController::class, 'listCart'])->name('checkouts.cart_items');
+    Route::get('/delivery', [Page\CheckoutController::class, 'delivery'])->name('checkouts.delivery');
+    Route::post('/order', [Page\CheckoutController::class, 'order'])->name('checkouts.order');
+    Route::prefix('users')->group(function() {
+        Route::get('/login', [Page\AuthController::class, 'index'])->name('users.login_index');
+        Route::post('/register', [Page\AuthController::class, 'register'])->name('users.register');
+        Route::post('/login', [Page\AuthController::class, 'login'])->name('users.login');
+        Route::get('/logout', [Page\AuthController::class, 'logout'])->name('users.logout');
+    });
 });

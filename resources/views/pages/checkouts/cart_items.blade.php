@@ -9,10 +9,9 @@
             <h2 class="h2 title">Checkout</h2>
             <ol class="breadcrumb breadcrumb-inverted">
                 <li><a href="{{ route('home.index') }}"><span class="icon icon-home"></span></a></li>
-                <li><a class="active" href="checkout-1.html">Cart items</a></li>
-                <li><a href="checkout-2.html">Delivery</a></li>
-                <li><a href="checkout-3.html">Payment</a></li>
-                <li><a href="checkout-4.html">Receipt</a></li>
+                <li><a class="active" href="{{ route('checkouts.cart_items') }}">Cart items</a></li>
+                <li><a href="">Delivery</a></li>
+                <li><a href="">Receipt</a></li>
             </ol>
         </div>
     </header>
@@ -25,16 +24,13 @@
 
         <div class="stepper">
             <ul class="row">
-                <li class="col-md-3 active">
+                <li class="col-md-4 active">
                     <span data-text="Cart items"></span>
                 </li>
-                <li class="col-md-3">
+                <li class="col-md-4">
                     <span data-text="Delivery"></span>
                 </li>
-                <li class="col-md-3">
-                    <span data-text="Payment"></span>
-                </li>
-                <li class="col-md-3">
+                <li class="col-md-4">
                     <span data-text="Receipt"></span>
                 </li>
             </ul>
@@ -70,133 +66,54 @@
                     <span>Price</span>
                 </div>
             </div>
-
             <!--cart items-->
-
-            <div class="clearfix">
-                <div class="cart-block cart-block-item clearfix">
-                    <div class="image">
-                        <a href="product.html"><img src="assets/images/product-1.png" alt="" /></a>
+            <div id="change-cart">
+                @if($carts->isNotEmpty())
+                    <!--cart item-->
+                    @foreach ($carts as $cart)
+                    <div class="cart-block cart-block-item clearfix">
+                        <div class="image">
+                            <a href="{{ route('pages.product_detail', $cart->id) }}"><img
+                                    src="{{ asset('images/products/' . $cart->options->image) }}"
+                                    alt="" /></a>
+                        </div>
+                        <div class="title">
+                            <div><a href="{{ route('pages.product_detail', $cart->id) }}">{{ $cart->name }}</a></div>
+                            <small>Green corner</small>
+                        </div>
+                        <div class="quantity">
+                            <input type="number" data-url="{{ route('carts.update_quantity') }}" data-id="{{ $cart->rowId }}" value="{{ $cart->qty }}" class="form-control form-quantity item-quantity" min="1"/>
+                        </div>
+                        <div class="price">
+                            <span class="final">{{ number_format($cart->options->final_price) }} ₫</span>
+                            <span class="discount">{{ number_format($cart->options->sale_price) }} ₫</span>
+                        </div>
+                        <!--delete-this-item-->
+                        <span class="icon icon-cross icon-delete delete-cart-item"
+                            data-url="{{ route('carts.delete_cart_item', $cart->id) }}"></span>
                     </div>
-                    <div class="title">
-                        <div class="h4"><a href="product.html">Green corner</a></div>
-                        <div>Green corner</div>
-                    </div>
-                    <div class="quantity">
-                        <input type="number" value="2" class="form-control form-quantity" />
-                    </div>
-                    <div class="price">
-                        <span class="final h3">$ 1.998</span>
-                        <span class="discount">$ 2.666</span>
-                    </div>
-                    <!--delete-this-item-->
-                    <span class="icon icon-cross icon-delete"></span>
-                </div>
-
-                <div class="cart-block cart-block-item clearfix">
-                    <div class="image">
-                        <a href="product.html"><img src="assets/images/product-2.png" alt="" /></a>
-                    </div>
-                    <div class="title">
-                        <div class="h4"><a href="product.html">Green corner</a></div>
-                        <div>Green corner</div>
-                    </div>
-                    <div class="quantity">
-                        <input type="number" value="2" class="form-control form-quantity" />
-                    </div>
-                    <div class="price">
-                        <span class="final h3">$ 1.998</span>
-                        <span class="discount">$ 2.666</span>
-                    </div>
-                    <!--delete-this-item-->
-                    <span class="icon icon-cross icon-delete"></span>
-                </div>
-
-                <div class="cart-block cart-block-item clearfix">
-                    <div class="image">
-                        <a href="product.html"><img src="assets/images/product-3.png" alt="" /></a>
-                    </div>
-                    <div class="title">
-                        <div class="h4"><a href="product.html">Green corner</a></div>
-                        <div>Green corner</div>
-                    </div>
-                    <div class="quantity">
-                        <input type="number" value="2" class="form-control form-quantity" />
-                    </div>
-                    <div class="price">
-                        <span class="final h3">$ 1.998</span>
-                        <span class="discount">$ 2.666</span>
-                    </div>
-                    <!--delete-this-item-->
-                    <span class="icon icon-cross icon-delete"></span>
-                </div>
-
-                <div class="cart-block cart-block-item clearfix">
-                    <div class="image">
-                        <a href="product.html"><img src="assets/images/product-3.png" alt="" /></a>
-                    </div>
-                    <div class="title">
-                        <div class="h4"><a href="product.html">Green corner</a></div>
-                        <div>Green corner</div>
-                    </div>
-                    <div class="quantity">
-                        <input type="number" value="2" class="form-control form-quantity" />
-                    </div>
-                    <div class="price">
-                        <span class="final h3">$ 1.998</span>
-                        <span class="discount">$ 2.666</span>
-                    </div>
-                    <!--delete-this-item-->
-                    <span class="icon icon-cross icon-delete"></span>
-                </div>
-            </div>
-
-            <!--cart prices -->
-
-            <div class="clearfix">
-                <div class="cart-block cart-block-footer clearfix">
-                    <div>
-                        <strong>Discount 15%</strong>
-                    </div>
-                    <div>
-                        <span>$ 159,00</span>
+                    @endforeach
+                <!--cart final price -->
+                <?php
+                    $total = 0;
+                    foreach($carts as $cart) {
+                        $total += $cart->price;
+                    }
+                ?>
+                <div class="clearfix">
+                    <div class="cart-block cart-block-footer clearfix">
+                        <div>
+                            <strong>Total</strong>
+                        </div>
+                        <div>
+                            <div class="h4 title">{{ number_format($total) }} ₫</div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="cart-block cart-block-footer clearfix">
-                    <div>
-                        <strong>Shipping</strong>
-                    </div>
-                    <div>
-                        <span>$ 30,00</span>
-                    </div>
-                </div>
-
-                <div class="cart-block cart-block-footer clearfix">
-                    <div>
-                        <strong>VAT</strong>
-                    </div>
-                    <div>
-                        <span>$ 59,00</span>
-                    </div>
-                </div>
-            </div>
-
-            <!--cart final price -->
-
-            <div class="clearfix">
-                <div class="cart-block cart-block-footer cart-block-footer-price clearfix">
-                    <div>
-                        <span class="checkbox">
-                            <input type="checkbox" id="couponCodeID">
-                            <label for="couponCodeID">Promo code</label>
-                            <input type="text" class="form-control form-coupon" value="" placeholder="Enter your coupon code" />
-                        </span>
-                    </div>
-                    <div>
-                        <div class="h2 title">$ 1259,00</div>
-                    </div>
-                </div>
+                @else
+                    Không có sản phẩm nào trong giỏ hàng!
+                    <hr>
+                @endif
             </div>
         </div>
 
@@ -205,10 +122,10 @@
         <div class="clearfix">
             <div class="row">
                 <div class="col-xs-6">
-                    <a href="#" class="btn btn-clean-dark"><span class="icon icon-chevron-left"></span> Shop more</a>
+                    <a href="{{ route('home.index') }}" class="btn btn-clean-dark"><span class="icon icon-chevron-left"></span> Shop more</a>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <a href="checkout-2.html" class="btn btn-main"><span class="icon icon-cart"></span> Proceed to delivery</a>
+                    <a href="{{ route('checkouts.delivery') }}" class="btn btn-main"><span class="icon icon-cart"></span> Proceed to delivery</a>
                 </div>
             </div>
         </div>

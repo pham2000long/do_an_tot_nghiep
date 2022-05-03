@@ -142,13 +142,75 @@
         $.ajax({
             url: urlRequest,
             type: "POST",
-            data: data,
-            success: function(data) {
-                alert(data.message)
-            },
-            error: function(data) {
-                console.log(data);
+            data: data
+            // success: function(data) {
+            //     alert(data.message)
+            // },
+            // error: function(data) {
+            //     console.log(data);
+            // }
+        }).done(function (response) {
+            LoadCart(response);
+            alertify.success('Thêm vào giỏ hàng thành công!');
+        })
+    });
+
+    $('.delete-cart-item').on('click', function () {
+        var urlRequest = $(this).data('url');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+        $.ajax({
+            url: urlRequest,
+            type: "GET",
+            // success: function(data) {
+            //     alert(data.message)
+            // },
+            // error: function(data) {
+            //     console.log(data);
+            // }
+        }).done(function (response) {
+            LoadCart(response);
+            alertify.success('Xóa thành công!');
+        })
+    });
+
+    // Load cart
+    function LoadCart(response)
+    {
+        $('#change-item-cart').empty();
+        $('#change-cart').empty();
+        $('#change-item-cart').html(response);
+        $('#change-cart').html(response);
+        $('#total-quantity-show').text($('#quantity-cart').val());
+    }
+
+    $('.item-quantity').on('change', function () {
+        var urlRequest = $(this).data('url');
+        var rowId = $(this).data('id');
+        console.log(rowId);
+        var quantity = $(this).val();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: urlRequest,
+            type: "GET",
+            data: {
+                'rowId': rowId,
+                'quantity': quantity
+            }
+        }).done(function (response) {
+            $('#change-item-cart').empty();
+            $('#change-cart').empty();
+            $('#change-item-cart').html(response);
+            $('#change-cart').html(response);
+            $('#total-quantity-show').text($('#quantity-cart').val());
+            alertify.success('Cập nhật thành công!');
         })
     });
 
