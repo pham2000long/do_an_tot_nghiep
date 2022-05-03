@@ -246,7 +246,7 @@
                         var profit = 0;
 
                         $.each(data.order_details, function(key,value){
-console.log('value = ', value);
+
                             price = price + value.price * value.quantity;
                             profit = profit + value.quantity * (value.price - value.product_detail.product.import_price);
 
