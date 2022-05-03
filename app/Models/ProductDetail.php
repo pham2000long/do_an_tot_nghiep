@@ -31,6 +31,13 @@ class ProductDetail extends Model
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
+
+    /**
      * Relationship hasMany with productImages
      *
      * @return \Illuminate\Database\Eloquent\Relations\belongsTo
@@ -38,5 +45,12 @@ class ProductDetail extends Model
     public function productImages()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function order_details() {
+        return $this->hasMany(OrderDetail::class, 'product_detail_id', 'id');
     }
 }

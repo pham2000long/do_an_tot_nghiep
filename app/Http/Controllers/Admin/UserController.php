@@ -11,19 +11,44 @@ class UserController extends Controller
 {
     protected $userService;
 
+    /**
+     * @param UserServiceInterface $userService
+     */
     public function __construct(UserServiceInterface $userService)
     {
         $this->userService = $userService;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index(Request $request)
     {
-        return view('admins.users.index');
+        $users = $this->userService->paginateUsers($request->all());
+
+        return view('admins.users.index', compact('users'));
     }
 
-    public function profile()
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function profile(int $id)
     {
-        $user = Auth::user();
-        return view('admins.users.profile', compact('user'));
+        $data = $this->userService->show($id);
+
+        return view('admins.users.profile', $data);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(int $id)
+    {
+        list($message, $success) = $this->userService->delete($id);
+        return $success ? redirect()->route('users.index')->with('success', $message)
+            : back()->with('error', $message);
     }
 }
