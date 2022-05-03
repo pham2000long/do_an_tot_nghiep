@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\StatisticServiceInterface;
+use Illuminate\Http\Request;
 
 class StatisticController extends Controller
 {
@@ -23,8 +24,10 @@ class StatisticController extends Controller
 
         return view('admins.statistic.index', compact('statistic'));
     }
-    public function edit()
+    public function edit(Request $request)
     {
+        $data = $this->statisticService->getDataByMonthYear($request->all());
 
+        return response()->json($data, 200);
     }
 }

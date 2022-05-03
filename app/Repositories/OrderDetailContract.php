@@ -7,4 +7,6 @@ interface OrderDetailContract extends BaseContract
     public function getPricesOrderDetailStatistic(array $param);
 
     public function getOrderDetailStatistic(array $param);
+
+    public function getPricesOrderDetailStatisticByMonth(int $month);
 }

@@ -56,4 +56,42 @@ class OrderDetailRepository extends BaseRepository implements OrderDetailContrac
                 }
             ])->latest()->get();
     }
+
+    public function getPricesOrderDetailStatisticByMonth(int $month)
+    {
+        return $this->model
+            ->whereMonth('created_at', $month)
+            ->whereHas('order', function (Builder $query) {
+                $query->where('status', '>', 0);
+            })
+            ->with([
+                'productDetail' => function($query) {
+                    $query->with(['product']);
+                }]
+            )->get();
+    }
+
+    public function getOrderDetailStatisticByYear($year)
+    {
+        return $this->model->whereYear('created_at', $year)
+            ->whereMonth('created_at', $year)
+            ->whereHas('order', function (Builder $query) {
+                $query->where('status', '>', 0);
+            })->with([
+                'order' => function($query) {
+                    $query->select('id', 'order_code');
+                },
+                'productDetail' =>function($query) {
+                    $query->select('id', 'product_id', 'color')->with([
+                        'product' => function($query) {
+                            $query->select('id', 'producer_id', 'name', 'sku_code', 'import_price')->with([
+                                'supplier' => function($query) {
+                                    $query->select('id', 'name');
+                                }
+                            ]);
+                        }
+                    ]);
+                }
+            ])->latest()->get();
+    }
 }
