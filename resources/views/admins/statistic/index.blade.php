@@ -246,22 +246,22 @@
                         var profit = 0;
 
                         $.each(data.order_details, function(key,value){
-
+console.log('value = ', value);
                             price = price + value.price * value.quantity;
-                            profit = profit + value.quantity * (value.price - value.productDetail.product.import_price);
+                            profit = profit + value.quantity * (value.price - value.product_detail.product.import_price);
 
                             $('.box-table table tbody').append(
                                 '<tr>' +
                                 '<td style="text-align: center; vertical-align: middle;">' + (key + 1) +'</td>' +
-                                '<td style="vertical-align: middle;"> #' + value.productDetail.product.sku_code + '</td>' +
-                                '<td style="vertical-align: middle;">' + value.productDetail.product.name + '</td>' +
-                                '<td style="vertical-align: middle;">' + value.productDetail.color + '</td>' +
+                                '<td style="vertical-align: middle;"> #' + value.product_detail.product.sku_code + '</td>' +
+                                '<td style="vertical-align: middle;">' + value.product_detail.product.name + '</td>' +
+                                '<td style="vertical-align: middle;">' + value.product_detail.color + '</td>' +
                                 '<td style="vertical-align: middle;"> #' + value.order.order_code + '</td>' +
                                 '<td style="vertical-align: middle;">' + formatDate(value.created_at) + '</td>' +
                                 '<td style="text-align: center; vertical-align: middle;">' + value.quantity + '</td>' +
                                 '<td style="vertical-align: middle;">' +
                                 '<span style="color: #f30;">' +
-                                formatMoney(value.productDetail.product.import_price) +
+                                formatMoney(value.product_detail.product.import_price) +
                                 '</span>' +
                                 '</td>' +
                                 '<td style="vertical-align: middle;">' +
@@ -276,7 +276,7 @@
                                 '</td>' +
                                 '<td style="vertical-align: middle;">' +
                                 '<span style="color: #f30;">' +
-                                formatMoney(value.quantity * (value.price - value.productDetail.product.import_price)) +
+                                formatMoney(value.quantity * (value.price - value.product_detail.product.import_price)) +
                                 '</span>' +
                                 '</td>' +
                                 '</tr>'
