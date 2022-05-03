@@ -18,7 +18,7 @@
                 <h2 class="h2 title">Trang người dùng</h2>
                 <ol class="breadcrumb breadcrumb-inverted">
                     <li><a href="{{ route('home.index') }}"><span class="icon icon-home"></span></a></li>
-                    <li><a class="active" href="login.html">Login & Register</a></li>
+                    <li><a class="active" href="{{ route('users.login_index') }}">Login & Register</a></li>
                 </ol>
             </div>
         </header>
@@ -28,13 +28,24 @@
 
     <section class="login-wrapper login-wrapper-page">
         <div class="container">
-
             <header class="hidden">
                 <h3 class="h3 title">Sign in</h3>
             </header>
 
             <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
 
+                    @if (session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                </div>
                 <!-- === left content === -->
 
                 <div class="col-md-6 col-md-offset-3">
@@ -118,45 +129,35 @@
 
                                         <div class="col-md-12">
                                             <div class="clearfix">
-                                                <p>Radio button line</p>
+                                                <p>Giới tính</p>
                                                 <span class="checkbox checkbox-inline">
-                                                    <input type="radio" id="radioIDb1" name="radioName2" checked="checked">
+                                                    <input type="radio" id="radioIDb1" name="gender" checked="checked" value="male">
                                                     <label for="radioIDb1">
-                                                        <strong>Radio option 1</strong>
+                                                        <strong>Nam</strong>
                                                     </label>
                                                 </span>
 
                                                 <span class="checkbox checkbox-inline">
-                                                    <input type="radio" id="radioIDb2" name="radioName2">
+                                                    <input type="radio" id="radioIDb2" name="gender" value="female">
                                                     <label for="radioIDb2">
-                                                        <strong>Radio option 2</strong>
+                                                        <strong>Nữ</strong>
+                                                    </label>
+                                                </span>
+
+                                                <span class="checkbox checkbox-inline">
+                                                    <input type="radio" id="radioIDb3" name="gender" value="other">
+                                                    <label for="radioIDb3">
+                                                        <strong>Khác</strong>
                                                     </label>
                                                 </span>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <input type="text" value="" class="form-control" placeholder="City: *">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" value="" class="form-control" placeholder="Email: *">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" value="" class="form-control" placeholder="Phone: *">
-                                            </div>
-                                        </div>
+                                        <input type="text" name="role" value="user" hidden>
                                         <div class="col-md-12">
                                             <hr>
                                         </div>
                                         <div class="col-md-12">
-                                            <a href="#" class="btn btn-main btn-block">Create account</a>
+                                            <button type="submit" class="btn btn-main btn-block">Đăng ký</button>
                                         </div>
 
                                     </div>

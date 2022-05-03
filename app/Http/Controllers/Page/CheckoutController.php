@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Cart;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
@@ -62,6 +63,7 @@ class CheckoutController extends Controller
 
         $str = date('dmHis', strtotime(now()));
 
+        DB::beginTransaction();
         try {
             $order = $this->orderRepository->create([
                 'user_id' => $request->user_id,
@@ -81,14 +83,16 @@ class CheckoutController extends Controller
 
                 $productDetail = $this->productDetailRepository->findById($orderDetail->product_detail_id);
 
-                $productDetail->quantity = $productDetail->quantity - $orderDetail->quantity;
-                $productDetail->save();
+                // Trừ khi update Order hoàn thành
+                // $productDetail->quantity = $productDetail->quantity - $orderDetail->quantity;
+                // $productDetail->save();
             }
 
             // send mail order to user
             Mail::send(new Order($user, $carts, $order));
-
+            DB::commit();
         } catch (\Exception $exception) {
+            DB::rollBack();
             \Log::error($exception);
             return back()->with('error', 'Đã xảy ra lỗi hệ thống!');
         }

@@ -27,10 +27,10 @@
                 <li class="col-md-4 active">
                     <span data-text="Cart items"></span>
                 </li>
-                <li class="col-md-4">
+                <li class="col-md-4 active">
                     <span data-text="Delivery"></span>
                 </li>
-                <li class="col-md-4">
+                <li class="col-md-4 active">
                     <span data-text="Receipt"></span>
                 </li>
             </ul>

@@ -9,6 +9,20 @@ class Order extends Model
 {
     use HasFactory;
 
+    const STATUS_WAIT_CONFIRM = 0; // Chờ xác nhận
+    const STATUS_DELIVERY = 1; // Chờ lấy hàng
+    const STATUS_DELIVERING = 2; // Đang giao
+    const STATUS_DELIVERED = 3; // Đã giao
+    const STATUS_CANCELLED = 4; // Đã hủy
+
+    public static $status = [
+        self::STATUS_WAIT_CONFIRM => 'Chờ xác nhận',
+        self::STATUS_DELIVERY => 'Chờ lấy hàng',
+        self::STATUS_DELIVERING => 'Đang giao',
+        self::STATUS_DELIVERED => 'Đã giao',
+        self::STATUS_CANCELLED => 'Đã hủy'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

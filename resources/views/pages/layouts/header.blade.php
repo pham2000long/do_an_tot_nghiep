@@ -86,7 +86,7 @@
 
                     <!-- Setup your logo here-->
 
-                    <a href="index.html" class="logo"><img src="{{ asset('frontend/assets/images/logo.png') }}"
+                    <a href="{{ route('home.index') }}" class="logo"><img src="{{ asset('frontend/assets/images/logo.png') }}"
                             alt="" /></a>
 
                     <!-- Mobile toggle menu -->
@@ -104,12 +104,12 @@
                         </div>
 
                         <ul>
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="{{ route('home.index') }}">Home</a></li>
 
                             <!-- Single dropdown-->
 
-                            <li>
-                                <a href="#">Shop <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
+                            {{-- <li>
+                                <a href="#">Mega menu <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
                                 <div class="navbar-dropdown navbar-dropdown-single">
                                     <div class="navbar-box">
 
@@ -133,11 +133,13 @@
                                     <!--/navbar-box-->
                                 </div>
                                 <!--/navbar-dropdown-->
-                            </li>
+                            </li> --}}
 
                             <!-- Simple menu link-->
 
-                            <li><a href="shortcodes.html">Shortcodes</a></li>
+                            <li><a href="{{ route('pages.shop') }}">Shop</a></li>
+                            <li><a href="{{ route('pages.shop') }}">Blog</a></li>
+                            <li><a href="{{ route('pages.shop') }}">Contact</a></li>
                         </ul>
                     </div>
                     <!--/floating-menu-->

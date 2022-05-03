@@ -27,7 +27,7 @@
                 <li class="col-md-4 active">
                     <span data-text="Cart items"></span>
                 </li>
-                <li class="col-md-4">
+                <li class="col-md-4 active">
                     <span data-text="Delivery"></span>
                 </li>
                 <li class="col-md-4">
@@ -90,13 +90,13 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" name="email" value="" class="form-control" placeholder="Email:">
+                                        <input type="text" name="email" value="{{ $user->email }}" class="form-control" placeholder="Email:">
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" name="address" value="" class="form-control" placeholder="Địa chỉ: *">
+                                        <input type="text" name="address" value="{{ $user->address }}" class="form-control" placeholder="Địa chỉ: *">
                                     </div>
                                 </div>
 

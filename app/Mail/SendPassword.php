@@ -7,24 +7,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Order extends Mailable
+class SendPassword extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $user;
-    public $carts;
-    public $order;
+    public $password;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user, $carts, $order)
+    public function __construct($user, $password)
     {
         $this->user = $user;
-        $this->carts = $carts;
-        $this->order = $order;
+        $this->password = $password;
     }
 
     /**
@@ -35,9 +33,9 @@ class Order extends Mailable
     public function build()
     {
         return $this->to($this->user->email)
-            ->view('pages.mails.order')->with([
-                'carts' => $this->carts,
-                'order' => $this->order
+            ->view('pages.mails.send_password')->with([
+                'password' => $this->password,
+                'user' => $this->user
             ]);
     }
 }
