@@ -14,28 +14,15 @@
                         </div>
                     @endif
                     <div class="content">
-                        <h1>Login</h1>
-                        <p>Welcome to admin LDShop</p>
+                        <h1>Forgot password</h1>
                     </div>
                     @include('admins.layouts.auth.alert')
                     <div class="login-register-form">
-                        <form method="POST" action="{{ route('auth.login') }}">
+                        <form method="POST" action="{{ route('auth.send_link_reset') }}">
                             @csrf
                             <div class="row">
                                 <div class="col-12 mb-20"><input name="email" class="form-control" type="text" placeholder="Email"></div>
-                                <div class="col-12 mb-20"><input name="password" class="form-control" type="password" placeholder="Password"></div>
-                                <div class="col-12 mb-20">
-                                    <label for="remember" class="adomx-checkbox-2">
-                                        <input name="remember" id="remember" type="checkbox"><i class="icon"></i>Remember.
-                                    </label>
-                                </div>
-                                <div class="col-12">
-                                    <div class="row justify-content-between">
-                                        <div class="col-auto mb-15"><a href="{{ route('auth.forgot_pass') }}">Forgot Password?</a></div>
-                                        {{-- <div class="col-auto mb-15">Dont have account? <a href="register.html">Create Now.</a></div> --}}
-                                    </div>
-                                </div>
-                                <div class="col-12 mt-10"><button class="button button-primary button-outline">sign in</button></div>
+                                <div class="col-12 mt-10"><button class="button button-primary button-outline">Send</button></div>
                             </div>
                         </form>
                     </div>
@@ -44,7 +31,7 @@
 
             <div class="login-register-bg order-1 order-lg-2 col-lg-7 col-12">
                 <div class="content">
-                    <h1>Sign in</h1>
+                    <h1>Send</h1>
                 </div>
             </div>
 

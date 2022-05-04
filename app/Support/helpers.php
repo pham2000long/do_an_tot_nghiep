@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 function getDateTo($date)
 {
@@ -14,4 +15,13 @@ function getDateTo($date)
         'started_at' => $start_date,
         'ended_at' => $end_date
     ];
+}
+
+/**
+ * generate token func
+ */
+function generateHashToken()
+{
+    $newAppKey = base64_decode(substr(config('app.key'), 7));
+    return hash_hmac('sha256', Str::random(40), $newAppKey);
 }

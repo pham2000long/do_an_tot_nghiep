@@ -19,7 +19,11 @@ use App\Http\Controllers\Page;
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', [Admin\AuthController::class, 'index'])->name('auth.login.index');
     Route::post('/login', [Admin\AuthController::class, 'login'])->name('auth.login');
-    Route::middleware(['auth'])->group(function() {
+    Route::get('/forgot-password', [Admin\AuthController::class, 'forgotPass'])->name('auth.forgot_pass');
+    Route::post('/send-link-reset', [Admin\AuthController::class, 'sendLink'])->name('auth.send_link_reset');
+    Route::get('reset-password/{token}', [Admin\AuthController::class, 'resetPass'])->name('auth.reset_pass');
+    Route::post('reset-password', [Admin\AuthController::class, 'updatePass'])->name('auth.update_pass');
+    Route::middleware(['auth', 'admin'])->group(function() {
         Route::get('/logout', [Admin\AuthController::class, 'logout'])->name('auth.logout');
         Route::get('/index', [Admin\DashboardController::class, 'index'])->name('admin.dashboard');
         Route::resource('slides', Admin\SlideController::class);
