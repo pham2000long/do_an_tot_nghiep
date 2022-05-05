@@ -68,7 +68,7 @@ class SlideController extends Controller
     {
         $slide = $this->slideService->findSlideById($id);
 
-        if (!$slide) {
+        if (empty($slide)) {
             return back()->with('error', 'Không tồn tại slide');
         }
         return view('admins.slides.edit', compact('slide'), [

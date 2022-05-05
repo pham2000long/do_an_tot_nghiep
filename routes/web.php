@@ -51,6 +51,12 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/profile/{id}', [Admin\UserController::class, 'profile'])->name('users.profile');
             Route::post('/destroy/{id}', [Admin\UserController::class, 'destroy'])->name('users.destroy');
         });
+        Route::prefix('orders')->group(function() {
+            Route::get('/', [Admin\OrderController::class, 'index'])->name('orders.index');
+            Route::get('/order-detail/{id}', [Admin\OrderController::class, 'show'])->name('orders.detail');
+            Route::get('/order/{id}', [Admin\OrderController::class, 'edit'])->name('orders.edit');
+            Route::post('/order/{id}', [Admin\OrderController::class, 'update'])->name('orders.update');
+        });
 
         // ========================= Báo Cáo Thống Kê ======================================
         Route::group(['prefix' => 'statistic', 'namespace' => 'Statistic'], function () {

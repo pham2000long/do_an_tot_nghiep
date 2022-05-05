@@ -34,8 +34,22 @@ class OrderRepository extends BaseRepository implements OrderContract
 
     public function getInfoOrderStatistic(array $param)
     {
-        return $this->model->where('status', '>', 0)
-            ->whereYear('created_at', $param['carbon_year'])
-            ->whereMonth('created_at', $param['carbon_month'])->count();
+        $query = $this->model->where('status', 3);
+        if ($param['carbon_year']) {
+            $query->whereYear('created_at', $param['carbon_year']);
+        }
+
+        if ($param['carbon_year']) {
+            $query->whereMonth('created_at', $param['carbon_month']);
+        }
+        return $query->count();
+    }
+
+    public function getAllOrders(array $params)
+    {
+        return $this->model
+            ->orderByDesc('created_at')
+            ->orderBy('id')
+            ->get();
     }
 }

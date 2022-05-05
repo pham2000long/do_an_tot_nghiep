@@ -82,10 +82,6 @@ class CheckoutController extends Controller
                 ]);
 
                 $productDetail = $this->productDetailRepository->findById($orderDetail->product_detail_id);
-
-                // Trừ khi update Order hoàn thành
-                // $productDetail->quantity = $productDetail->quantity - $orderDetail->quantity;
-                // $productDetail->save();
             }
 
             // send mail order to user

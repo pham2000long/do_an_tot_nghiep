@@ -1,8 +1,8 @@
 @extends('admins.layouts.main')
 
 @section('content')
- <!-- Add or Edit Product Start -->
- <div class="add-edit-product-wrap col-12">
+<!-- Add or Edit Product Start -->
+<div class="add-edit-product-wrap col-12">
 
     <div class="add-edit-product-form">
         <form method="POST" action="{{ route('slides.update', $slide->id) }}" enctype="multipart/form-data">

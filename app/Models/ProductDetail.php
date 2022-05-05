@@ -48,6 +48,16 @@ class ProductDetail extends Model
     }
 
     /**
+     * Relationship hasMany with productImages
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function productImage()
+    {
+        return $this->hasOne(ProductImage::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function order_details() {
