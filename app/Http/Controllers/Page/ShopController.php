@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Page;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Repositories\ProductContract;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
@@ -19,8 +20,9 @@ class ShopController extends Controller
 
     public function index(Request $request)
     {
-        // $products = $this->productRepository->getAllProduct($request->all());
+        $categories = Category::all();
+        $products = $this->productRepository->getAllProducts($request->all());
 
-        return view('pages.shop');
+        return view('pages.shop', compact('categories', 'products'));
     }
 }

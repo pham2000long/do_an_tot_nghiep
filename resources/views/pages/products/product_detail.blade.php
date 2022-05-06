@@ -3,7 +3,7 @@
 @section('content')
  <!-- ========================  Main header ======================== -->
 
- <section class="main-header" style="background-image:url(assets/images/gallery-2.jpg)">
+ <section class="main-header" style="background-image:url({{ asset('images/slides/slides_hwkHRZOeAYll8Di9bxG0.jpg') }})">
     <header>
         <div class="container">
             <h1 class="h2 title">{{ $product->name }}</h1>

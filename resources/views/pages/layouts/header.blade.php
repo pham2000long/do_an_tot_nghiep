@@ -17,7 +17,7 @@
     <link rel="icon" href="favicon.ico">
 
     <!--Title-->
-    <title>Mobel - Furniture Website Template</title>
+    <title>Chung Hiệp Shop</title>
 
     <!--CSS styles-->
     <link rel="stylesheet" media="all" href="{{ asset('frontend/css/bootstrap.css') }}" />
@@ -216,8 +216,10 @@
                                             <input type="number" data-url="{{ route('carts.update_quantity') }}" data-id="{{ $cart->rowId }}" value="{{ $cart->qty }}" class="form-control form-quantity item-quantity" min="1"/>
                                         </div>
                                         <div class="price">
+                                            @if ($cart->options->sale_price != $cart->options->final_price)
+                                                <span class="discount">{{ number_format($cart->options->sale_price) }} ₫</span>
+                                            @endif
                                             <span class="final">{{ number_format($cart->options->final_price) }} ₫</span>
-                                            <span class="discount">{{ number_format($cart->options->sale_price) }} ₫</span>
                                         </div>
                                         <!--delete-this-item-->
                                         <span class="icon icon-cross icon-delete delete-cart-item"

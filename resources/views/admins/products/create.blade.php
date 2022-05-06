@@ -92,14 +92,6 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-6 mb-15">
-                                    <input name="sku_code"
-                                        class="form-control @error('sku_code') border border-danger @enderror" type="text"
-                                        placeholder="Mã sku">
-                                    @error('sku_code')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
 
                                 <div class="col-6 mb-15">
                                     <input name="size" class="form-control @error('size') border border-danger @enderror"

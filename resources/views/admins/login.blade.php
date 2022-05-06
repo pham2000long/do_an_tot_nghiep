@@ -15,7 +15,7 @@
                     @endif
                     <div class="content">
                         <h1>Login</h1>
-                        <p>Welcome to admin LDShop</p>
+                        <p>Welcome to admin ChungHiep</p>
                     </div>
                     @include('admins.layouts.auth.alert')
                     <div class="login-register-form">

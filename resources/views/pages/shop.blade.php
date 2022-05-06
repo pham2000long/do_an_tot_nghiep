@@ -3,14 +3,13 @@
 @section('content')
         <!-- ======================== Main header ======================== -->
 
-        <section class="main-header" style="background-image:url(assets/images/gallery-3.jpg)">
+        <section class="main-header" style="background-image:url({{ asset('images/slides/slides_hwkHRZOeAYll8Di9bxG0ss.jpg') }})">
             <header>
                 <div class="container">
                     <h1 class="h2 title">Shop</h1>
                     <ol class="breadcrumb breadcrumb-inverted">
-                        <li><a href="index.html"><span class="icon icon-home"></span></a></li>
-                        <li><a href="category.html">Product Category</a></li>
-                        <li><a class="active" href="products-grid.html">Product Sub-category</a></li>
+                        <li><a href="{{ route('home.index') }}"><span class="icon icon-home"></span></a></li>
+                        <li><a href="{{ route('pages.shop') }}">Tất cả sản phẩm</a></li>
                     </ol>
                 </div>
             </header>
@@ -29,178 +28,17 @@
             <div class="container">
 
                 <div class="owl-icons">
-
                     <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-sofa"></i>
-                            <figcaption>Sofa</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-armchair"></i>
-                            <figcaption>Armchairs</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-chair"></i>
-                            <figcaption>Chairs</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-dining-table"></i>
-                            <figcaption>Dining tables</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-media-cabinet"></i>
-                            <figcaption>Media storage</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-table"></i>
-                            <figcaption>Tables</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-bookcase"></i>
-                            <figcaption>Bookcase</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-bedroom"></i>
-                            <figcaption>Bedroom</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-nightstand"></i>
-                            <figcaption>Nightstand</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-children-room"></i>
-                            <figcaption>Children room</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-kitchen"></i>
-                            <figcaption>Kitchen</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-bathroom"></i>
-                            <figcaption>Bathroom</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-wardrobe"></i>
-                            <figcaption>Wardrobe</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-shoe-cabinet"></i>
-                            <figcaption>Shoe cabinet</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-office"></i>
-                            <figcaption>Office</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-bar-set"></i>
-                            <figcaption>Bar sets</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-lightning"></i>
-                            <figcaption>Lightning</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-carpet"></i>
-                            <figcaption>Varpet</figcaption>
-                        </figure>
-                    </a>
-
-                    <!-- === icon item === -->
-
-                    <a href="#">
-                        <figure>
-                            <i class="f-icon f-icon-accessories"></i>
-                            <figcaption>Accessories</figcaption>
-                        </figure>
-                    </a>
-
+                    @if($categories->isNotEmpty())
+                        @foreach ($categories as $category)
+                            <a href="#">
+                                <figure>
+                                    <i class="{{ $category->icon }}"></i>
+                                    <figcaption>{{ $category->name }}</figcaption>
+                                </figure>
+                            </a>
+                        @endforeach
+                    @endif
                 </div> <!--/owl-icons-->
             </div> <!--/container-->
         </section>
@@ -310,221 +148,50 @@
 
                     <div class="col-md-9 col-xs-12">
 
-                        <div class="sort-bar clearfix">
-                            <div class="sort-results pull-left">
-                                <!--Showing result per page-->
-                                <select>
-                                    <option value="1">10</option>
-                                    <option value="2">50</option>
-                                    <option value="3">100</option>
-                                    <option value="4">All</option>
-                                </select>
-                                <!--Items counter-->
-                                <span>Showing all <strong>50</strong> of <strong>3,250</strong> items</span>
-                            </div>
-                            <!--Sort options-->
-                            <div class="sort-options pull-right">
-                                <span class="hidden-xs">Sort by</span>
-                                <select id="sort-price">
-                                    <option data-option-value="asc">Price: lowest</option>
-                                    <option data-option-value="desc">Price: highest</option>
-                                </select>
-                                <!--Grid-list view-->
-                                <span class="grid-list">
-                                    <a href="products-grid.html"><i class="fa fa-th-large"></i></a>
-                                    <a href="products-list.html"><i class="fa fa-align-justify"></i></a>
-                                    <a href="javascript:void(0);" class="toggle-filters-mobile"><i class="fa fa-search"></i></a>
-                                </span>
-                            </div>
-                        </div>
-
                         <div id="products" class="row">
 
                             <!-- === product-item === -->
 
-                            <div class="col-md-6 col-xs-6 item price-discount category-sofa material-leather">
-                                <article>
-                                    <div class="info">
-                                        <span class="add-favorite">
-                                            <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
-                                        </span>
-                                        <span>
-                                            <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
-                                        </span>
-                                    </div>
-                                    <div class="btn btn-add">
+                            @if($products->count())
+                    @foreach ($products as $product)
+                        <div class="col-md-4 col-xs-6">
+                            <article>
+                                <div class="info">
+                                    <span class="add-favorite added">
+                                        <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
+                                    </span>
+                                    <span>
+                                        <a href="#productid{{ $product->id }}" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
+                                    </span>
+                                </div>
+                                    <div class="btn btn-add" data-url="{{ route('carts.addCart') }}" data-product="{{ $product }}">
                                         <i class="icon icon-cart"></i>
                                     </div>
-                                    <div class="figure-grid">
-                                        <span class="label">-50%</span>
-                                        <div class="image">
-                                            <a href="#productid1" class="mfp-open">
-                                                <img src="assets/images/product-1.png" alt="" width="360" />
-                                            </a>
-                                        </div>
-                                        <div class="text">
-                                            <h2 class="title h4"><a href="product.html">Green corner <small>Sofa</small></a></h2>
-                                            <sub>$ 1499,-</sub>
-                                            <sup>$ <span class="price">1099</span>,-</sup>
-                                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                                        </div>
+                                <div class="figure-grid">
+                                    <div class="image">
+                                        <a href="#productid{{ $product->id }}" class="mfp-open">
+                                            <img src="{{ asset('images/products/' . $product->image) }}" alt="" width="360" height="360"/>
+                                        </a>
                                     </div>
-                                </article>
-                            </div>
+                                    <div class="text">
+                                        <h2 class="title h4"><a href="{{ route('pages.product_detail', $product->id) }}">{{ $product->name }}</a></h2>
+                                        @if (isset($product->promotion) && now()->gte($product->promotion->started_at) && now()->lte($product->promotion->ended_at) && $product->promotion->status)
+                                            <sub>{{ number_format($product->sale_price) }} VND</sub>
+                                            @if ($product->promotion->promotion_method)
+                                                <sup>{{ number_format($product->sale_price - ($product->sale_price * $product->promotion->price) / 100) }} VND</sup>
+                                            @else
+                                                <sup>{{ number_format(($product->sale_price - $product->promotion->price)) }} VND</sup>
+                                            @endif
+                                        @else
+                                            <sup>{{ number_format($product->sale_price) }} VND</sup>
+                                        @endif
 
-                            <!-- === product-item === -->
-
-                            <div class="col-md-6 col-xs-6 item price-discount category-armchair material-wood">
-                                <article>
-                                    <div class="info">
-                                        <span class="add-favorite">
-                                            <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
-                                        </span>
-                                        <span>
-                                            <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
-                                        </span>
                                     </div>
-                                    <div class="btn btn-add">
-                                        <i class="icon icon-cart"></i>
-                                    </div>
-                                    <div class="figure-grid">
-                                        <div class="image">
-                                            <a href="#productid1" class="mfp-open">
-                                                <img src="assets/images/product-2.png" alt="" width="360" />
-                                            </a>
-                                        </div>
-                                        <div class="text">
-                                            <h2 class="title h4"><a href="product.html">Laura <small>Armchair</small></a></h2>
-                                            <sub>$ 3999,-</sub>
-                                            <sup>$ <span class="price">3499</span>,-</sup>
-                                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-
-                            <!-- === product-item === -->
-
-                            <div class="col-md-6 col-xs-6 item price-regular category-armchair material-leather">
-                                <article>
-                                    <div class="info">
-                                        <span class="add-favorite">
-                                            <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
-                                        </span>
-                                        <span>
-                                            <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
-                                        </span>
-                                    </div>
-                                    <div class="btn btn-add">
-                                        <i class="icon icon-cart"></i>
-                                    </div>
-                                    <div class="figure-grid">
-                                        <div class="image">
-                                            <a href="#productid1" class="mfp-open">
-                                                <img src="assets/images/product-3.png" alt="" width="360" />
-                                            </a>
-                                        </div>
-                                        <div class="text">
-                                            <h2 class="title h4"><a href="product.html">Nude <small>Armchair</small></a></h2>
-                                            <sup>$ <span class="price">2999</span>,-</sup>
-                                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-
-                            <!-- === product-item === -->
-
-                            <div class="col-md-6 col-xs-6 item price-regular category-armchair material-wood">
-                                <article>
-                                    <div class="info">
-                                        <span class="add-favorite">
-                                            <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
-                                        </span>
-                                        <span>
-                                            <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
-                                        </span>
-                                    </div>
-                                    <div class="btn btn-add">
-                                        <i class="icon icon-cart"></i>
-                                    </div>
-                                    <div class="figure-grid">
-                                        <span class="label label-warning">New</span>
-                                        <div class="image">
-                                            <a href="#productid1" class="mfp-open">
-                                                <img src="assets/images/product-4.png" alt="" width="360" />
-                                            </a>
-                                        </div>
-                                        <div class="text">
-                                            <h2 class="title h4"><a href="product.html">Aurora <small>Armchair</small></a></h2>
-                                            <sup>$ <span class="price">299</span>,-</sup>
-                                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-
-                            <!-- === product-item === -->
-
-                            <div class="col-md-6 col-xs-6 item price-discount category-armchair material-metal">
-                                <article>
-                                    <div class="info">
-                                        <span class="add-favorite">
-                                            <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
-                                        </span>
-                                        <span>
-                                            <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
-                                        </span>
-                                    </div>
-                                    <div class="btn btn-add">
-                                        <i class="icon icon-cart"></i>
-                                    </div>
-                                    <div class="figure-grid">
-                                        <span class="label label-warning">New</span>
-                                        <div class="image">
-                                            <a href="#productid1" class="mfp-open">
-                                                <img src="assets/images/product-5.png" alt="" width="360" />
-                                            </a>
-                                        </div>
-                                        <div class="text">
-                                            <h2 class="title h4"><a href="product.html">Dining set <small>Armchair</small></a></h2>
-                                            <sub>$ 1999,-</sub>
-                                            <sup>$ <span class="price">1499</span>,-</sup>
-                                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-
-                            <!-- === product-item === -->
-
-                            <div class="col-md-6 col-xs-6 item price-regular category-sofa material-wood">
-                                <article>
-                                    <div class="info">
-                                        <span class="add-favorite">
-                                            <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
-                                        </span>
-                                        <span>
-                                            <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
-                                        </span>
-                                    </div>
-                                    <div class="btn btn-add">
-                                        <i class="icon icon-cart"></i>
-                                    </div>
-                                    <div class="figure-grid">
-                                        <div class="image">
-                                            <a href="#productid1" class="mfp-open">
-                                                <img src="assets/images/product-6.png" alt="" width="360" />
-                                            </a>
-                                        </div>
-                                        <div class="text">
-                                            <h2 class="title h4"><a href="product.html">Seat chair <small>Sofa</small></a></h2>
-                                            <sup>$ <span class="price">896</span>,-</sup>
-                                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                @endif
 
 
 

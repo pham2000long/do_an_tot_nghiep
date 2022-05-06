@@ -66,7 +66,7 @@ class ProductService implements ProductServiceInterface
         if (!empty($params['image'])) {
             $image = $this->snapshotRepository->uploadThumb($params['image'], 'products');
         }
-
+        $params['sku_code'] = date('dmHis', strtotime(now()));
         $dataProduct = [
             'category_id' => $params['category_id'],
             'product_type_id' => $params['product_type_id'],
@@ -100,7 +100,10 @@ class ProductService implements ProductServiceInterface
             //Thêm vào bảng product_details
             if (!empty($params['product_details'])) {
                 foreach ($params['product_details'] as $key => $product_detail) {
-                    $dataProductDetail = array_merge($product_detail, ['product_id' => $product->id]);
+                    $dataProductDetail = array_merge(
+                        $product_detail,
+                        ['product_id' => $product->id, 'import_quantity' => $product_detail['quantity']]
+                    );
                     $productDetail = $this->productDetailRepository->create($dataProductDetail);
 
                     //Thêm vào bảng product_images
@@ -117,6 +120,7 @@ class ProductService implements ProductServiceInterface
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
             return ['Lỗi hệ thống không thể lưu sản phẩm!', false];
         }
 
@@ -132,6 +136,7 @@ class ProductService implements ProductServiceInterface
 
     public function update(int $id, array $params)
     {
+        dd($params);
         $product = $this->productRepository->findById($id);
         if (empty($product)) {
             return ['Sản phẩm không tồn tại!', false];
