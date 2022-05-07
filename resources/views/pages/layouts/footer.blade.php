@@ -87,6 +87,8 @@
     <script src="{{ asset('frontend/js/jquery.ion.rangeSlider.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.isotope.pkgd.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     @yield('js')
 </body>
 

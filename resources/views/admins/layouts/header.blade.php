@@ -80,7 +80,7 @@
                                             <span class="user">
                                         <span class="avatar">
                                             @if (Auth::user()->avatar)
-                                                <img src="{{ asset('images/avatar/' . Auth::user()->avatar) }}" alt="">
+                                                <img src="{{ asset('images/avatars/' . Auth::user()->avatar) }}" alt="">
                                             @else
                                                 <img src="{{ asset('images/avatars/user.jpg') }}" alt="">
                                             @endif

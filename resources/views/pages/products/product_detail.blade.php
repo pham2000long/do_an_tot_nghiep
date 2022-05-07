@@ -21,8 +21,6 @@
 
 <section class="product">
     <div class="main">
-        <form method="POST" action="{{ route('products.update', $product->id) }}">
-            @csrf
             <div class="container">
                 <div class="row product-flex">
 
@@ -113,7 +111,7 @@
 
                         <!-- === add to cart === -->
 
-                        <button type="submit" class="btn btn-buy" data-text="Buy"></button>
+                        <button type="submit" class="btn btn-buy btn-add" data-text="Buy" data-url="{{ route('carts.addCart') }}" data-product="{{ $product }}"></button>
 
 
                         <!-- === product gallery === -->
@@ -130,7 +128,6 @@
 
                 </div>
             </div>
-        </form>
     </div>
 
     <!-- === product-info === -->
@@ -159,9 +156,6 @@
                                 </p> --}}
                             </div> <!--/name-->
                         </div> <!--/box-->
-                        <div class="btn btn-add">
-                            <i class="icon icon-phone-handset"></i>
-                        </div>
                     </div> <!--/designer-->
                 </div> <!--/col-md-4-->
                 <!-- === nav-tabs === -->

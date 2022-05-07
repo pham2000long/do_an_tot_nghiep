@@ -18,7 +18,7 @@
                         <th>#STT</th>
                         <th>Tên danh mục</th>
                         <th>Loại sản phẩm</th>
-                        <th>Mô tả</th>
+                        <th>Hình ảnh</th>
                         <th>Hành động</th>
                     </tr>
                 </thead><!-- Table Head End -->
@@ -30,7 +30,9 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $productType->category->name }}</td>
                         <td>{{ $productType->name }}</td>
-                        <td>{{ $productType->description }}</td>
+                        <td>
+                            <img src="{{ asset('images/product_types/'.$productType->image) }}" height="150" width="300">
+                        </td>
                         <td>
                             <div class="table-action-buttons">
                                 {{-- <a class="view button button-box button-xs button-primary" href="invoice-details.html"><i class="zmdi zmdi-more"></i></a> --}}

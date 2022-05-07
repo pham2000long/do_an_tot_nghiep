@@ -5,7 +5,7 @@
  <div class="add-edit-product-wrap col-12">
 
     <div class="add-edit-product-form">
-        <form method="POST" action="{{ route('productTypes.store') }}">
+        <form method="POST" action="{{ route('productTypes.store') }}" enctype="multipart/form-data">
             <h4 class="title">Thêm mới loại sản phẩm</h4>
             @csrf
             <div class="row">
@@ -24,6 +24,14 @@
                         @endforeach
                     </select>
                     @error('category_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <!--Default Uploader Start-->
+                <div class="col-12 mb-30">
+                    <h6 class="mb-15">Hình ảnh</h6>
+                    <input class="dropify @error('image') border border-danger @enderror" type="file" name="image">
+                    @error('image')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
@@ -51,4 +59,13 @@
 </div><!-- Add or Edit Product End -->
 
 
+@endsection
+@section('js')
+    <!-- Plugins & Activation JS For Only This Page -->
+    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond.min.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond-plugin-image-exif-orientation.min.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond-plugin-image-preview.min.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond.active.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.min.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.active.js')}}"></script>
 @endsection

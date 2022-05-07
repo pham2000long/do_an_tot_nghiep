@@ -136,8 +136,10 @@
     });
 
     $('.btn-add').on('click', function () {
-        var data = $(this).data('product');
-        var urlRequest = $(this).data('url')
+        var product = $(this).data('product');
+        var urlRequest = $(this).data('url');
+        var product_detail_id = $('input[name=product_detail]:checked').val();
+        var data = {'product' : product, 'product_detail_id' : product_detail_id} ;
         data._token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             url: urlRequest,

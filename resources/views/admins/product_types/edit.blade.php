@@ -5,7 +5,7 @@
  <div class="add-edit-product-wrap col-12">
 
     <div class="add-edit-product-form">
-        <form method="POST" action="{{ route('productTypes.update', $productType->id) }}">
+        <form method="POST" action="{{ route('productTypes.update', $productType->id) }}" enctype="multipart/form-data">
             <h4 class="title">Sửa loại sản phẩm</h4>
             @csrf
             @method('PUT')
@@ -33,6 +33,16 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
+                 <!--Default Uploader Start-->
+                 <div class="col-12 mb-30">
+                    <h6 class="mb-15">Hình ảnh</h6>
+                    <input class="dropify @error('image') border border-danger @enderror" type="file" name="image"
+                        data-default-file="{{ asset('/images/product_types/'. $productType->image)}}">
+                    @error('image')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    <input hidden type="text" name="thumb_current" value="{{ $productType->image }}">
+                </div>
                 <!--Default Uploader End-->
                 <div class="col-12 mb-30">
                     <h6 class="mb-15">Mô tả</h6>
@@ -58,4 +68,13 @@
 </div><!-- Add or Edit Product End -->
 
 
+@endsection
+@section('js')
+    <!-- Plugins & Activation JS For Only This Page -->
+    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond.min.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond-plugin-image-exif-orientation.min.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond-plugin-image-preview.min.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/filepond/filepond.active.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.min.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/plugins/dropify/dropify.active.js')}}"></script>
 @endsection

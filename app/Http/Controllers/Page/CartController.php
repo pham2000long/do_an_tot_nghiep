@@ -26,7 +26,7 @@ class CartController extends Controller
      */
     public function addCart(Request $request)
     {
-        $productId = $request->id;
+        $productId = $request->product['id'];
         $product = $this->productRepository->findById($productId);
         $productDetail = $product->productDetails->first();
         $priceFinal = $product->sale_price;

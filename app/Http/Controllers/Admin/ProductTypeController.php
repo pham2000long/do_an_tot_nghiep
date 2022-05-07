@@ -7,19 +7,23 @@ use App\Http\Requests\Admin\ProductTypeCreateRequest;
 use App\Http\Requests\Admin\ProductTypeUpdateRequest;
 use App\Repositories\CategoryContract;
 use App\Repositories\ProductTypeContract;
+use App\Repositories\SnapshotContract;
 use Illuminate\Http\Request;
 
 class ProductTypeController extends Controller
 {
     protected $productTypeRepository;
     protected $categoryRepository;
+    protected $snapshotRepository;
 
     public function __construct(
         ProductTypeContract $productTypeRepository,
-        CategoryContract $categoryRepository
+        CategoryContract $categoryRepository,
+        SnapshotContract $snapshotRepository
     ) {
         $this->productTypeRepository = $productTypeRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->snapshotRepository = $snapshotRepository;
     }
     /**
      * Display a listing of the resource.
@@ -56,8 +60,15 @@ class ProductTypeController extends Controller
     public function store(ProductTypeCreateRequest $request)
     {
         try {
-            $this->productTypeRepository->create($request->validated());
+            $image = $this->snapshotRepository->uploadThumb($request->image, 'product_types');
+            $this->productTypeRepository->create([
+                'category_id' => $request->category_id,
+                'name' => $request->name,
+                'image' => $image,
+                'description' => $request->description
+            ]);
         } catch (\Exception $exception) {
+            dd($exception);
             \Log::error($exception);
             return redirect()->route('productTypes.create')->with('error', 'Đã xảy ra lỗi hệ thống không thể tạo loại sản phẩm');
         }
@@ -102,11 +113,19 @@ class ProductTypeController extends Controller
     {
         $productType = $this->productTypeRepository->findById($id);
 
+        if(!empty($request->image)) {
+            $this->snapshotRepository->deleteThumb($request->thumb_current, 'product_types');
+            $image = $this->snapshotRepository->uploadThumb($request->image, 'product_types');
+        } else {
+            $image = $request->thumb_current;
+        }
+
         try {
             $this->productTypeRepository->update($productType, [
                 'category_id' => $request->category_id,
                 'name' => $request->name,
-                'description' => $request->description,
+                'image' => isset($image) ? $image : $productType->image,
+                'description' => $request->description
             ]);
         } catch (\Exception $exception) {
             \Log::error($exception);

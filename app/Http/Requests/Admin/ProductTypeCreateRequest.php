@@ -26,6 +26,7 @@ class ProductTypeCreateRequest extends FormRequest
         return [
             'category_id' => 'required',
             'name' => 'required',
+            'image' => 'required',
             'description' => 'nullable',
         ];
     }

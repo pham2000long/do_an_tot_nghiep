@@ -1,14 +1,4 @@
 @extends('pages.layouts.main')
-@section('css')
-<!-- CSS -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-<!-- Default theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
-<!-- Semantic UI theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
-<!-- Bootstrap theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
-@endsection
 @section('content')
     <!-- ========================  Header content ======================== -->
 
@@ -197,7 +187,7 @@
                                                 @if ($product->productDetails->count())
                                                         <div class="clearfix">
                                                             @foreach ($product->productDetails as $productDetail)
-                                                            <span class="checkbox checkbox-inline">
+                                                            <span class="checkbox checkbox-inline checkbox-color">
                                                                 <input type="radio" id="product_detail_{{ $productDetail->id }}" name="product_detail" value="{{ $productDetail->id }}" checked="checked">
                                                                 <label for="product_detail_{{ $productDetail->id }}">
                                                                     <strong>{{ $productDetail->color }}</strong>
@@ -221,19 +211,19 @@
 
                                         @if (isset($product->promotion) && now()->gte($product->promotion->started_at) && now()->lte($product->promotion->ended_at) && $product->promotion->status)
                                             @if ($product->promotion->promotion_method)
-                                                <span class="h3">{{ $product->sale_price - ($product->sale_price * $product->promotion->price) / 100 }} <small>{{ $product->sale_price }}</small></span>
+                                                <span class="h3">{{ number_format($product->sale_price - ($product->sale_price * $product->promotion->price) / 100) }} VND<small>{{ number_format($product->sale_price) }} VND</small></span>
                                             @else
-                                            <span class="h3">{{ $product->sale_price - $product->promotion->price }} <small>{{ $product->sale_price }}</small></span>
+                                            <span class="h3">{{ number_format($product->sale_price - $product->promotion->price) }} VND<small>{{ number_format($product->sale_price) }} VND</small></span>
                                             @endif
                                         @else
-                                            <span>{{ $product->sale_price }}</span>
+                                            <span>{{ number_format($product->sale_price) }} VND</span>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="popup-cell">
                                     <div class="popup-buttons">
                                         <a href="{{ route('pages.product_detail', $product->id) }}"><span class="icon icon-eye"></span> <span class="hidden-xs">View more</span></a>
-                                        <a href="javascript:void(0);"><span class="icon icon-cart"></span> <span class="hidden-xs">Buy</span></a>
+                                        <a href="javascript:void(0);" class="btn-add" data-url="{{ route('carts.addCart') }}" data-product="{{ $product }}"><span class="icon icon-cart"></span> <span class="hidden-xs">Buy</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -418,8 +408,4 @@
 
         </div> <!--/container-->
     </section>
-@endsection
-@section('js')
-<!-- JavaScript -->
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 @endsection

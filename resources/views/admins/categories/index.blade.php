@@ -43,8 +43,10 @@
                     </tr>
                     @endforeach
                 </tbody><!-- Table Body End -->
-
             </table>
+            <div class="card-footer">
+                {{ $categories->links() }}
+            </div>
         </div>
     </div><!-- Invoice List End -->
 @endsection
