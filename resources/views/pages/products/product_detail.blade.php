@@ -9,8 +9,8 @@
             <h1 class="h2 title">{{ $product->name }}</h1>
             <ol class="breadcrumb breadcrumb-inverted">
                 <li><a href="{{ route('home.index') }}"><span class="icon icon-home"></span></a></li>
-                <li><a href="category.html">{{ $product->category->name }}</a></li>
-                <li><a href="products-grid.html">{{ $product->productType->name }}</a></li>
+                <li><a href="{{ route('categories.detail', $product->category->id) }}">{{ $product->category->name }}</a></li>
+                <li><a href="{{ route('product_types.detail', $product->productType->id) }}">{{ $product->productType->name }}</a></li>
                 <li><a class="active" href="{{ route('pages.product_detail', $product->id) }}">{{ $product->name }}</a></li>
             </ol>
         </div>
@@ -41,14 +41,14 @@
                                 <div class="price">
                                     @if (isset($product->promotion) && now()->gte($product->promotion->started_at) && now()->lte($product->promotion->ended_at) && $product->promotion->status)
                                         @if ($product->promotion->promotion_method)
-                                            <span class="h3">{{ $product->sale_price - ($product->sale_price * $product->promotion->price) / 100 }} <small>{{ $product->sale_price }}</small></span>
+                                            <span class="h3">{{ number_format($product->sale_price - ($product->sale_price * $product->promotion->price) / 100) }} VND<small>{{ number_format($product->sale_price) }} VND</small></span>
                                             <input type="hidden" name="price" value="{{ $product->sale_price - ($product->sale_price * $product->promotion->price) / 100 }}">
                                         @else
-                                            <span class="h3">{{ $product->sale_price - $product->promotion->price }} <small>{{ $product->sale_price }}</small></span>
+                                            <span class="h3">{{ number_format($product->sale_price - $product->promotion->price) }} VND<small>{{ number_format($product->sale_price) }} VND</small></span>
                                             <input type="hidden" name="price" value="{{ $product->sale_price - $product->promotion->price }}">
                                         @endif
                                     @else
-                                        <span>{{ $product->sale_price }}</span>
+                                        <span>{{ number_format($product->sale_price) }} VND</span>
                                         <input type="hidden" name="price" value="{{ $product->sale_price }}">
                                     @endif
                                 </div>

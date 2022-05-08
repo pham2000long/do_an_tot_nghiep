@@ -52,4 +52,13 @@ class OrderRepository extends BaseRepository implements OrderContract
             ->orderBy('id')
             ->get();
     }
+
+    public function getAllOrdersByUserId(int $userId)
+    {
+        return $this->model
+            ->where('user_id', $userId)
+            ->orderByDesc('created_at')
+            ->orderBy('id')
+            ->get();
+    }
 }

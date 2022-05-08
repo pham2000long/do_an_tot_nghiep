@@ -101,4 +101,25 @@ class ProductController extends Controller
         return $success ? redirect()->route('products.index')->with('success', $message)
             : back()->with('error', $message);
     }
+
+    public function inventory()
+    {
+        $products = $this->productService->getAllProductsInventory();
+
+        return view('admins.products.inventory', compact('products'), [
+            'title' => 'Sản phẩm tồn kho'
+        ]);
+    }
+
+    public function detail($id)
+    {
+        $product = $this->productService->findProductById($id);
+
+        if (empty($product)) {
+            return back()->with('error', 'Sản phẩm không tồn tại!');
+        }
+        return view('admins.products.detail', compact('product'), [
+            'title' => 'Chi tiết sản phẩm'
+        ]);
+    }
 }

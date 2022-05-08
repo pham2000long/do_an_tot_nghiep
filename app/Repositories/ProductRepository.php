@@ -71,4 +71,14 @@ class ProductRepository extends BaseRepository implements ProductContract
             ->where('promotion_id', $promotionId)
             ->update(['promotion_id' => null]);
     }
+
+    public function getAllProductsInventory()
+    {
+        return $this->model
+            ->whereHas('productDetails', function ($query) {
+                $query->where('quantity', '>', 0);
+            })
+            ->where('created_at', '<=', now()->subYears(1))
+            ->get();
+    }
 }

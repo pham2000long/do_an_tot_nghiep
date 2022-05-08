@@ -13,4 +13,6 @@ interface ProductContract extends BaseContract
     public function updateProductByPromotion(int $promotionId, array $categoryIds);
 
     public function updateProductNotPromotion(int $promotionId);
+
+    public function getAllProductsInventory();
 }

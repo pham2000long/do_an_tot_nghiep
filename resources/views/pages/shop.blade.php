@@ -26,12 +26,12 @@
             </header>
 
             <div class="container">
-
                 <div class="owl-icons">
+
                     <!-- === icon item === -->
                     @if($categories->isNotEmpty())
                         @foreach ($categories as $category)
-                            <a href="#">
+                            <a href="{{ route('categories.detail', $category->id) }}">
                                 <figure>
                                     <i class="{{ $category->icon }}"></i>
                                     <figcaption>{{ $category->name }}</figcaption>
@@ -39,6 +39,7 @@
                             </a>
                         @endforeach
                     @endif
+
                 </div> <!--/owl-icons-->
             </div> <!--/container-->
         </section>
@@ -201,8 +202,9 @@
 
                 </div><!--/row-->
                 <!-- ========================  Product info popup - quick view ======================== -->
-
-                <div class="popup-main mfp-hide" id="productid1">
+            @if($products->count())
+            @foreach ($products as $product)
+                <div class="popup-main mfp-hide" id="productid{{ $product->id }}">
 
                     <!-- === product popup === -->
 
@@ -211,16 +213,17 @@
                         <!-- === popup-title === -->
 
                         <div class="popup-title">
-                            <div class="h1 title">Laura <small>product category</small></div>
+                            <div class="h1 title">{{ $product->name }} <small>{{ $product->category->name }}</small></div>
                         </div>
 
                         <!-- === product gallery === -->
 
                         <div class="owl-product-gallery">
-                            <img src="assets/images/product-1.png" alt="" width="640" />
-                            <img src="assets/images/product-2.png" alt="" width="640" />
-                            <img src="assets/images/product-3.png" alt="" width="640" />
-                            <img src="assets/images/product-4.png" alt="" width="640" />
+                            @if ($product->productImages->count())
+                                @foreach ($product->productImages as $image)
+                                    <img src="{{ asset('images/product_images/' . $image->name) }}" alt="" width="640" />
+                                @endforeach
+                            @endif
                         </div>
 
                         <!-- === product-popup-info === -->
@@ -233,16 +236,22 @@
 
                                     <div class="col-sm-6">
                                         <div class="info-box">
-                                            <strong>Maifacturer</strong>
-                                            <span>Brand name</span>
+                                            <strong>Thương hiệu</strong>
+                                            <span>{{ $product->supplier->name }}</span>
                                         </div>
-                                        <div class="info-box">
+                                        {{-- <div class="info-box">
                                             <strong>Materials</strong>
                                             <span>Wood, Leather, Acrylic</span>
-                                        </div>
+                                        </div> --}}
                                         <div class="info-box">
-                                            <strong>Availability</strong>
-                                            <span><i class="fa fa-check-square-o"></i> in stock</span>
+                                            <strong>Tình trạng</strong>
+                                            <span>
+                                                {{
+                                                    $product->productDetails->filter(function ($productDetail) {
+                                                        return $productDetail->quantity > 0;
+                                                    }) ? 'Còn hàng' : 'Hết hàng'
+                                                }}
+                                            </span>
                                         </div>
                                     </div>
 
@@ -250,47 +259,55 @@
 
                                     <div class="col-sm-6">
                                         <div class="info-box">
-                                            <strong>Available Colors</strong>
-                                            <div class="product-colors clearfix">
-                                                <span class="color-btn color-btn-red"></span>
-                                                <span class="color-btn color-btn-blue checked"></span>
-                                                <span class="color-btn color-btn-green"></span>
-                                                <span class="color-btn color-btn-gray"></span>
-                                                <span class="color-btn color-btn-biege"></span>
-                                            </div>
-                                        </div>
-                                        <div class="info-box">
-                                            <strong>Choose size</strong>
-                                            <div class="product-colors clearfix">
-                                                <span class="color-btn color-btn-biege">S</span>
-                                                <span class="color-btn color-btn-biege checked">M</span>
-                                                <span class="color-btn color-btn-biege">XL</span>
-                                                <span class="color-btn color-btn-biege">XXL</span>
-                                            </div>
+                                            <strong>Màu sắc</strong>
+                                            @if ($product->productDetails->count())
+                                                    <div class="clearfix">
+                                                        @foreach ($product->productDetails as $productDetail)
+                                                        <span class="checkbox checkbox-inline checkbox-color">
+                                                            <input type="radio" id="product_detail_{{ $productDetail->id }}" name="product_detail" value="{{ $productDetail->id }}" checked="checked">
+                                                            <label for="product_detail_{{ $productDetail->id }}">
+                                                                <strong>{{ $productDetail->color }}</strong>
+                                                            </label>
+                                                        </span>
+                                                        @endforeach
+                                                    </div>
+                                            @endif
                                         </div>
                                     </div>
 
-                                </div><!--/row-->
+                                </div> <!--/row-->
                             </div> <!--/product-info-wrapper-->
-                        </div><!--/popup-content-->
+                        </div> <!--/popup-content-->
                         <!-- === product-popup-footer === -->
 
                         <div class="popup-table">
                             <div class="popup-cell">
                                 <div class="price">
-                                    <span class="h3">$ 1999,00 <small>$ 2999,00</small></span>
+                                    {{-- <span class="h3">{{ $product->sale_price }} <small>{{ $product->import_price }}</small></span> --}}
+
+                                    @if (isset($product->promotion) && now()->gte($product->promotion->started_at) && now()->lte($product->promotion->ended_at) && $product->promotion->status)
+                                        @if ($product->promotion->promotion_method)
+                                            <span class="h3">{{ number_format($product->sale_price - ($product->sale_price * $product->promotion->price) / 100) }} VND<small>{{ number_format($product->sale_price) }} VND</small></span>
+                                        @else
+                                        <span class="h3">{{ number_format($product->sale_price - $product->promotion->price) }} VND<small>{{ number_format($product->sale_price) }} VND</small></span>
+                                        @endif
+                                    @else
+                                        <span>{{ number_format($product->sale_price) }} VND</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="popup-cell">
                                 <div class="popup-buttons">
-                                    <a href="product.html"><span class="icon icon-eye"></span> <span class="hidden-xs">View more</span></a>
-                                    <a href="javascript:void(0);"><span class="icon icon-cart"></span> <span class="hidden-xs">Buy</span></a>
+                                    <a href="{{ route('pages.product_detail', $product->id) }}"><span class="icon icon-eye"></span> <span class="hidden-xs">View more</span></a>
+                                    <a href="javascript:void(0);" class="btn-add" data-url="{{ route('carts.addCart') }}" data-product="{{ $product }}"><span class="icon icon-cart"></span> <span class="hidden-xs">Buy</span></a>
                                 </div>
                             </div>
                         </div>
 
                     </div> <!--/product-->
                 </div> <!--popup-main-->
+            @endforeach
+        @endif
             </div><!--/container-->
         </section>
 @endsection

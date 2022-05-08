@@ -170,7 +170,7 @@
                     @if (!Auth::check())
                         <form action="{{ route('users.login') }}" method="POST">
                             @csrf
-                            <div class="h4">Sign in</div>
+                            <div class="h4">Đăng nhập</div>
                             <div class="form-group">
                                 <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
                             </div>
@@ -179,17 +179,17 @@
                                     placeholder="Password">
                             </div>
                             <div class="form-group">
-                                <a href="" class="open-popup">Forgot password?</a>
-                                <a href="{{ route('users.login_index') }}" class="open-popup">Don't have an account?</a>
+                                <a href="" class="open-popup">Quên mật khẩu?</a>
+                                <a href="{{ route('users.login_index') }}" class="open-popup">Bạn chưa có tài khoản?</a>
                             </div>
-                            <button type="submit" class="btn btn-block btn-main">Submit</button>
+                            <button type="submit" class="btn btn-block btn-main">Đăng nhập</button>
                         </form>
                     @else
                         <div class="form-group">
                             <div class="box">
-                                <a href="" class="open-popup" style="font-size: 20px">Profile</a>
+                                <a href="{{ route('pages.users.profile', Auth::user()->id) }}" class="open-popup" style="font-size: 20px">Trang cá nhân</a>
                                 <hr>
-                                <a href="{{ route('users.logout') }}" class="open-popup" style="font-size: 20px">Sing out</a>
+                                <a href="{{ route('users.logout') }}" class="open-popup" style="font-size: 20px">Đăng xuất</a>
                             </div>
                         </div>
                     @endif

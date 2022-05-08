@@ -62,4 +62,11 @@ class OrderService implements OrderServiceInterface
 
         return ['Sửa đơn hàng thành công!', true];
     }
+
+    public function getAllOrdersByUserId(int $userId)
+    {
+        $orders = $this->orderRepository->getAllOrdersByUserId($userId);
+
+        return $orders;
+    }
 }

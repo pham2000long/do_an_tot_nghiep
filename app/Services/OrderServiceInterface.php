@@ -9,4 +9,6 @@ interface OrderServiceInterface
     public function getOrderById(int $id);
 
     public function update(array $params, $id);
+
+    public function getAllOrdersByUserId(int $userId);
 }

@@ -9,4 +9,6 @@ interface OrderContract extends BaseContract
     public function getInfoOrderStatistic(array $param);
 
     public function getAllOrders(array $params);
+
+    public function getAllOrdersByUserId(int $userId);
 }

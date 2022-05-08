@@ -17,4 +17,6 @@ interface ProductServiceInterface
     public function updateStatus(array $params);
 
     public function delete(int $id);
+
+    public function getAllProductsInventory();
 }

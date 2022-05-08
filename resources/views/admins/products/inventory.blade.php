@@ -6,7 +6,6 @@
         <div class="box">
             <div class="box-head d-flex justify-content-between">
                 <h3 class="title">Xuất dữ liệu</h3>
-                <a href="{{ route('products.create') }}" class="btn btn-success">Thêm mới</a>
             </div>
             <div class="box-body">
                 <table class="table table-bordered data-table data-table-export">

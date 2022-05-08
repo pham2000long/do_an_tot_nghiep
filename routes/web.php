@@ -36,7 +36,9 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/create', [Admin\ProductController::class, 'create'])->name('products.create');
             Route::post('/store', [Admin\ProductController::class, 'store'])->name('products.store');
             Route::get('/edit/{id}', [Admin\ProductController::class, 'edit'])->name('products.edit');
+            Route::get('/detail/{id}', [Admin\ProductController::class, 'detail'])->name('products.detail');
             Route::post('/update/{id}', [Admin\ProductController::class, 'update'])->name('products.update');
+            Route::get('/inventory', [Admin\ProductController::class, 'inventory'])->name('products.inventory');
             Route::post('/productDetail/deleteImage', [Admin\ProductController::class, 'deleteProductImage'])
                 ->name('product.product_detail.delete_image');
             Route::delete('/{id}', [Admin\ProductController::class, 'delete'])->name('products.delete');
@@ -85,4 +87,18 @@ Route::group(['prefix' => '/'], function () {
         Route::post('/login', [Page\AuthController::class, 'login'])->name('users.login');
         Route::get('/logout', [Page\AuthController::class, 'logout'])->name('users.logout');
     });
+
+    Route::middleware('auth')->group(function() {
+        Route::prefix('')->group(function() {
+            Route::get('/profile/{id}', [Page\UserController::class, 'profile'])->name('pages.users.profile');
+            Route::prefix('orders')->group(function() {
+                Route::get('/', [Page\OrderController::class, 'index'])->name('users.orders.index');
+                Route::get('/order-detail/{id}', [Page\OrderController::class, 'show'])->name('users.orders.detail');
+                Route::get('/order/{id}', [Page\OrderController::class, 'edit'])->name('users.orders.edit');
+                Route::post('/order/{id}', [Page\OrderController::class, 'update'])->name('users.orders.update');
+            });
+        });
+    });
+    Route::get('/category/{id}', [Page\CategoryController::class, 'getCategory'])->name('categories.detail');
+    Route::get('/product-type/{id}', [Page\ProductTypeController::class, 'getProductType'])->name('product_types.detail');
 });

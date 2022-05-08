@@ -286,4 +286,11 @@ class ProductService implements ProductServiceInterface
 
         return ['Xóa sản phẩm thành công!', true];
     }
+
+    public function getAllProductsInventory()
+    {
+        $products = $this->productRepository->getAllProductsInventory();
+
+        return $products;
+    }
 }
