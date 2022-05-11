@@ -112,7 +112,7 @@
                         </div>
 
                         <ul>
-                            <li><a href="{{ route('home.index') }}">Home</a></li>
+                            <li><a href="{{ route('home.index') }}">Trang chủ</a></li>
 
                             <!-- Single dropdown-->
 
@@ -145,9 +145,12 @@
 
                             <!-- Simple menu link-->
 
-                            <li><a href="{{ route('pages.shop') }}">Shop</a></li>
+                            <li><a href="{{ route('pages.shop') }}">Cửa hàng</a></li>
+                            @if (Auth::user())
+                            <li><a href="{{ route('product.favorite') }}">Sản phẩm yêu thích</a></li>
+                            @endif
                             <li><a href="{{ route('pages.shop') }}">Blog</a></li>
-                            <li><a href="{{ route('pages.shop') }}">Contact</a></li>
+                            <li><a href="{{ route('pages.shop') }}">Liên hệ</a></li>
                         </ul>
                     </div>
                     <!--/floating-menu-->

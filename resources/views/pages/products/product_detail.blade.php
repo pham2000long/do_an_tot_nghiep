@@ -74,15 +74,15 @@
                                 </div>
 
                                 <hr />
-
-                                <div class="info-box info-box-addto added">
+                                @if(Auth::user())
+                                <div class="info-box info-box-addto {{ $product->favorite ? 'added' : '' }}" data-url="{{ route('product.update_favorite') }}" data-id="{{ $product->id }}">
                                     <span><strong>Favourites</strong></span>
                                     <span>
                                         <i class="add"><i class="fa fa-heart-o"></i> Add to favorites</i>
                                         <i class="added"><i class="fa fa-heart"></i> Remove from favorites</i>
                                     </span>
                                 </div>
-
+                                @endif
                                 <hr />
 
                                 <!-- === info-box === -->
@@ -180,12 +180,6 @@
                                 <span>Bảo hành</span>
                             </a>
                         </li>
-                        <li role="presentation">
-                            <a href="#rating" aria-controls="rating" role="tab" data-toggle="tab">
-                                <i class="icon icon-thumbs-up"></i>
-                                <span>Rating</span>
-                            </a>
-                        </li>
                     </ul>
 
                     <!-- === tab-panes === -->
@@ -197,29 +191,33 @@
 
                                 <!-- === designer collection title === -->
 
-                                <h3>Designers collection</h3>
+                                <h3></h3>
 
                                 <div class="products">
                                     <div class="row">
 
                                         <!-- === product-item === -->
+                                        @if ($productCategories->count())
+                                            @foreach ($productCategories as $product)
+                                            <div class="col-md-6 col-xs-6">
+                                                <article>
+                                                    <div class="figure-grid">
+                                                        <div class="image">
+                                                            <a href="{{ route('pages.product_detail', $product->id) }}" class="mfp-open">
+                                                                <img src="{{ asset('images/products/' . $product->image) }}" alt="" width="360" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="text">
+                                                            <h4 class="title"><a href="{{ route('pages.product_detail', $product->id) }}">{{ $product->name }}</a></h4>
+                                                            <sup>{{ $product->supplier->name }}</sup>
+                                                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                            @endforeach
+                                        @endif
 
-                                        <div class="col-md-6 col-xs-6">
-                                            <article>
-                                                <div class="figure-grid">
-                                                    <div class="image">
-                                                        <a href="#productid1" class="mfp-open">
-                                                            <img src="{{ asset('frontend/assets/images/product-1.png') }}" alt="" width="360" />
-                                                        </a>
-                                                    </div>
-                                                    <div class="text">
-                                                        <h4 class="title"><a href="product.html">Green corner</a></h4>
-                                                        <sup>Designer collection</sup>
-                                                        <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        </div>
 
                                     </div> <!--/row-->
                                 </div> <!--/products-->
@@ -243,287 +241,6 @@
                                     <div class="col-md-12">
                                         {!! $product->insurance !!}
                                     </div>
-                                </div> <!--/row-->
-                            </div> <!--/content-->
-                        </div> <!--/tab-pane-->
-                        <!-- ============ tab #3 ============ -->
-
-                        <div role="tabpanel" class="tab-pane" id="rating">
-
-                            <!-- ============ ratings ============ -->
-
-                            <div class="content">
-                                <h3>Rating</h3>
-
-                                <div class="row">
-
-                                    <!-- === comments === -->
-
-                                    <div class="col-md-12">
-                                        <div class="comments">
-
-                                            <!-- === rating === -->
-
-                                            <div class="rating clearfix">
-                                                <div class="rate-box">
-                                                    <strong>Quality</strong>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>3</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>5</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>0</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>2</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>1</span>
-                                                    </div>
-                                                </div>
-
-                                                <!-- rate -->
-                                                <div class="rate-box">
-                                                    <strong>Design</strong>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <span>3</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <span>5</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <span>0</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>2</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star active"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>1</span>
-                                                    </div>
-                                                </div>
-
-                                                <!-- rate -->
-                                                <div class="rate-box">
-                                                    <strong>General</strong>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>3</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>5</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>0</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>2</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <span>1</span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="comment-wrapper">
-
-                                                <!-- === comment === -->
-
-                                                <div class="comment-block">
-                                                    <div class="comment-user">
-                                                        <div><img src="assets/images/user-2.jpg" alt="Alternate Text" width="70" /></div>
-                                                        <div>
-                                                            <h5>
-                                                                <span>John Doe</span>
-                                                                <span class="pull-right">
-                                                                    <i class="fa fa-star active"></i>
-                                                                    <i class="fa fa-star active"></i>
-                                                                    <i class="fa fa-star active"></i>
-                                                                    <i class="fa fa-star active"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                </span>
-                                                                <small>03.05.2017</small>
-                                                            </h5>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- comment description -->
-
-                                                    <div class="comment-desc">
-                                                        <p>
-                                                            In vestibulum tellus ut nunc accumsan eleifend. Donec mattis cursus ligula, id
-                                                            iaculis dui feugiat nec. Etiam ut ante sed neque lacinia volutpat. Maecenas
-                                                            ultricies tempus nibh, sit amet facilisis mauris vulputate in. Phasellus
-                                                            tempor justo et mollis facilisis. Donec placerat at nulla sed suscipit. Praesent
-                                                            accumsan, sem sit amet euismod ullamcorper, justo sapien cursus nisl, nec
-                                                            gravida
-                                                        </p>
-                                                    </div>
-
-                                                    <!-- comment reply -->
-
-                                                    <div class="comment-block">
-                                                        <div class="comment-user">
-                                                            <div><img src="assets/images/user-2.jpg" alt="Alternate Text" width="70" /></div>
-                                                            <div>
-                                                                <h5>Administrator<small>08.05.2017</small></h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="comment-desc">
-                                                            <p>
-                                                                Curabitur sit amet elit quis tellus tincidunt efficitur. Cras lobortis id
-                                                                elit eu vehicula. Sed porttitor nulla vitae nisl varius luctus. Quisque
-                                                                a enim nisl. Maecenas facilisis, felis sed blandit scelerisque, sapien
-                                                                nisl egestas diam, nec blandit diam ipsum eget dolor. Maecenas ultricies
-                                                                tempus nibh, sit amet facilisis mauris vulputate in.
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <!--/reply-->
-                                                </div>
-
-                                                <!-- === comment === -->
-
-                                                <div class="comment-block">
-                                                    <div class="comment-user">
-                                                        <div><img src="assets/images/user-2.jpg" alt="Alternate Text" width="70" /></div>
-                                                        <div>
-                                                            <h5>
-                                                                <span>John Doe</span>
-                                                                <span class="pull-right">
-                                                                    <i class="fa fa-star active"></i>
-                                                                    <i class="fa fa-star active"></i>
-                                                                    <i class="fa fa-star active"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                </span>
-                                                                <small>03.05.2017</small>
-                                                            </h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment-desc">
-                                                        <p>
-                                                            Cras lobortis id elit eu vehicula. Sed porttitor nulla vitae nisl varius luctus.
-                                                            Quisque a enim nisl. Maecenas facilisis, felis sed blandit scelerisque, sapien
-                                                            nisl egestas diam, nec blandit diam ipsum eget dolor. In vestibulum tellus
-                                                            ut nunc accumsan eleifend. Donec mattis cursus ligula, id iaculis dui feugiat
-                                                            nec. Etiam ut ante sed neque lacinia volutpat. Maecenas ultricies tempus
-                                                            nibh, sit amet facilisis mauris vulputate in. Phasellus tempor justo et mollis
-                                                            facilisis. Donec placerat at nulla sed suscipit. Praesent accumsan, sem sit
-                                                            amet euismod ullamcorper, justo sapien cursus nisl, nec gravida
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                            </div><!--/comment-wrapper-->
-
-                                            <div class="comment-header">
-                                                <a href="#" class="btn btn-clean-dark">12 comments</a>
-                                            </div> <!--/comment-header-->
-                                            <!-- === add comment === -->
-
-                                            <div class="comment-add">
-
-                                                <div class="comment-reply-message">
-                                                    <div class="h3 title">Leave a Reply </div>
-                                                    <p>Your email address will not be published.</p>
-                                                </div>
-
-                                                <form action="#" method="post">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control" name="name" value="" placeholder="Your Name" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control" name="name" value="" placeholder="Your Email" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <textarea rows="10" class="form-control" placeholder="Your comment"></textarea>
-                                                    </div>
-                                                    <div class="clearfix text-center">
-                                                        <a href="#" class="btn btn-main">Add comment</a>
-                                                    </div>
-                                                </form>
-
-                                            </div><!--/comment-add-->
-                                        </div> <!--/comments-->
-                                    </div>
-
-
                                 </div> <!--/row-->
                             </div> <!--/content-->
                         </div> <!--/tab-pane-->

@@ -101,4 +101,6 @@ Route::group(['prefix' => '/'], function () {
     });
     Route::get('/category/{id}', [Page\CategoryController::class, 'getCategory'])->name('categories.detail');
     Route::get('/product-type/{id}', [Page\ProductTypeController::class, 'getProductType'])->name('product_types.detail');
+    Route::get('/product-favorite', [Page\FavoriteController::class, 'updateFavorite'])->name('product.update_favorite');
+    Route::get('/all-product-favorite', [Page\FavoriteController::class, 'index'])->name('product.favorite');
 });

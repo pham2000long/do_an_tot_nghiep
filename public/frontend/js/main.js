@@ -438,13 +438,57 @@
 
     // Add to favorites list / product list
     // ----------------------------------------------------------------
-
     $('.add-favorite').on('click', function () {
         $(this).toggleClass("added");
+        console.log($(this).hasClass("added"));
+        var productId = $(this).data('id');
+        var urlRequest = $(this).data('url');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: urlRequest,
+            type: "GET",
+            data: {
+                'favorite': $(this).hasClass("added"),
+                'productId': productId
+            }
+            // success: function(data) {
+            //     alert(data.message)
+            // },
+            // error: function(data) {
+            //     console.log(data);
+            // }
+        })
     });
 
     $('.info-box-addto').on('click', function () {
         $(this).toggleClass('added');
+
+        console.log($(this).hasClass("added"));
+        var productId = $(this).data('id');
+        var urlRequest = $(this).data('url');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: urlRequest,
+            type: "GET",
+            data: {
+                'favorite': $(this).hasClass("added"),
+                'productId': productId
+            }
+            // success: function(data) {
+            //     alert(data.message)
+            // },
+            // error: function(data) {
+            //     console.log(data);
+            // }
+        })
     });
 
     // Filters toggle functions
@@ -640,12 +684,11 @@
             type: "double",
             min: 0,
             max: 100000000,
-            from: 1500000,
+            from: 0,
             to: 80000000,
             // prefix: "$",
             postfix: "₫",
             onChange: function (data) {
-
                 $(".item").each(function () {
 
                     price = parseInt($(this).find(".price").text(), 10);

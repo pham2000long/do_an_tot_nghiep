@@ -20,10 +20,11 @@ class ProductDetailController extends Controller
     public function findProductDetail($id)
     {
         $product = $this->productRepository->findById($id);
+        $productCategories = $this->productRepository->getByCategoryId($product->category->id);
         if (empty($product)) {
             return back()->with('error', 'Sản phẩm này không tồn tại');
         }
 
-        return view('pages.products.product_detail', compact('product'));
+        return view('pages.products.product_detail', compact('product', 'productCategories'));
     }
 }

@@ -83,9 +83,11 @@
                         <div class="col-md-4 col-xs-6">
                             <article>
                                 <div class="info">
-                                    <span class="add-favorite added">
-                                        <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
-                                    </span>
+                                    @if(Auth::user())
+                                        <span class="add-favorite {{ $product->favorite ? 'added' : '' }}" data-url="{{ route('product.update_favorite') }}" data-id="{{ $product->id }}">
+                                            <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
+                                        </span>
+                                    @endif
                                     <span>
                                         <a href="#productid{{ $product->id }}" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
                                     </span>

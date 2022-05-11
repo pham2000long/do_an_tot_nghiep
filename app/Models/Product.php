@@ -112,4 +112,24 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+
+    /**
+     * Relationship hasMany with Favorites
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    /**
+     * Relationship hasMany with Favorite
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function favorite()
+    {
+        return $this->hasOne(Favorite::class);
+    }
 }
